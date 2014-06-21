@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1"
+	xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="TaskManagement"
+		transaction-type="JTA">
+		<class>hust.arrowtech.taskmanagement.entity.Project</class>
+		<class>hust.arrowtech.taskmanagement.entity.ProjectSkill</class>
+		<class>hust.arrowtech.taskmanagement.entity.ProjectSkillPK</class>
+		<class>hust.arrowtech.taskmanagement.entity.Skill</class>
+		<class>hust.arrowtech.taskmanagement.entity.SkillCategory</class>
+		<class>hust.arrowtech.taskmanagement.entity.User</class>
+		<!-- Difference between JTA and RESOURCE_LOCAL (non-jta): http://tomee.apache.org/jpa-concepts.html -->
+		<!-- <non-jta-data-source>myNonJtaDataSource</non-jta-data-source> -->
+		<!-- <jta-data-source>java:jboss/datasources/testDb</jta-data-source> -->
+		<properties>
+			<property name="hibernate.hbm2ddl.auto" value="create-drop" />  
+			<property name="hibernate.show_sql" value="true" />
+		</properties>
+	</persistence-unit>
+</persistence>

@@ -1,0 +1,36 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:form id="viewProjectForm">
+		<h:panelGrid columns="2" cellpadding="10" cellspacing="50">
+			<p:outputLabel for="username" value="#{viewUserBean.labelUsername}" />
+			<p:inputText id="username" value="#{viewUserBean.user.username}"
+				readonly="true" />
+
+			<p:outputLabel for="fullname" value="#{viewUserBean.labelFullname}" />
+			<p:inputText id="fullname" value="#{viewUserBean.user.fullname}" />
+
+			<p:outputLabel for="doB" value="#{viewUserBean.labelDoB}" />
+			<p:outputLabel id="doB" value="#{viewUserBean.user.doB}" />
+
+			<p:outputLabel for="hiredDate" value="#{viewUserBean.labelHiredDate}" />
+			<p:outputLabel id="hiredDate" value="#{viewUserBean.user.hiredDate}" />
+
+			<p:outputLabel for="gender" value="#{viewUserBean.labelGender}" />
+			<p:outputLabel id="gender" value="#{viewUserBean.gender}" />
+
+			<p:outputLabel for="position" value="#{viewUserBean.labelPosition}" />
+			<p:outputLabel id="position" value="#{viewUserBean.user.position}" />
+
+			<p:outputLabel for="manager" value="#{viewUserBean.labelManager}" />
+			<p:commandLink id="manager" value="#{viewUserBean.manager}"
+				action="#{viewUserBean.onClick(0)}" update=":page1" />
+
+		</h:panelGrid>
+		<p:commandButton action="#{indexBean.close()}" value="Back" update=":page1"/>
+	</h:form>
+</ui:composition>

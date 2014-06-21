@@ -1,0 +1,28 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:form id="editProjectForm">
+		<h:panelGrid columns="2" cellpadding="10" cellspacing="50">
+			<p:outputLabel for="editName" value="Name" />
+			<p:inputText id="editName" value="#{editProjectBean.project.name}" />
+
+			<p:outputLabel for="editDescription" value="Description" />
+			<p:inputTextarea id="editDescription" value="#{editProjectBean.project.description}" cols="20" rows="10" />
+
+			<p:outputLabel for="editCustomer" value="Customer" />
+			<p:inputTextarea id="editCustomer" value="#{editProjectBean.project.customer}" cols="20" rows="10" />
+
+			<p:outputLabel for="editStartDate" value="Start date" />
+			<p:calendar id="editStartDate" value="#{editProjectBean.project.startDate}" mode="popup" />
+
+			<p:outputLabel for="editExpectedEnddate" value="Expected end date" />
+			<p:calendar id="editExpectedEnddate" value="#{editProjectBean.project.expectedEndDate}" mode="popup" />
+		</h:panelGrid>
+
+		<p:commandButton value="Save" action="#{editProjectBean.editProject()}" update=":page1" />
+	</h:form>
+</ui:composition>

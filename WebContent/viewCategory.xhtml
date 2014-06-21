@@ -1,0 +1,29 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:form id="viewProjectForm">
+		<h:panelGrid columns="2" cellpadding="10" cellspacing="50">
+			<p:outputLabel for="name" value="Name" />
+			<p:inputText id="name" value="#{viewCategoryBean.category.name}" readonly="true" />
+
+			<p:outputLabel for="description" value="Description" />
+			<p:inputTextarea id="description" value="#{viewCategoryBean.category.description}" readonly="true"/>
+
+			<p:outputLabel for="status" value="Status" />
+			<p:outputLabel id="status" value="#{viewCategoryBean.getStatus(viewCategoryBean.category.status)}"/>
+		</h:panelGrid>
+		<br />
+		Skills list: <br />
+		<p:dataTable value="#{viewCategoryBean.category.skills}" var="skill">
+			<p:column headerText="Name">#{skill.name}</p:column>
+			<p:column headerText="Description">#{skill.description}</p:column>
+			<p:column headerText="Status">#{viewCategoryBean.getStatus(skill.status)}</p:column>
+		</p:dataTable>
+		
+		<p:commandButton action="#{indexBean.close()}" value="Back" update=":page1"/>
+	</h:form>
+</ui:composition>
