@@ -5,34 +5,39 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
-	<h:form id="addProjectForm">
-		<h:panelGrid columns="2" cellpadding="10" cellspacing="50">
+	<h:form id="addProjectForm" role="form">
+		<div class="form-group">
+		<!--  <h:panelGrid columns="2" cellpadding="10" cellspacing="30">-->
 			<p:outputLabel for="inputName"
-				value="#{addProjectBean.labelInputName}" />
-			<p:inputText id="inputName" value="#{addProjectBean.projectName}" />
+				value="#{addProjectBean.labelInputName}"/>
+			<p:inputText id="inputName" value="#{addProjectBean.projectName}" class="form-control"/>
 
 			<p:outputLabel for="inputDescription"
 				value="#{addProjectBean.labelInputDescription}" />
 			<p:inputTextarea id="inputDescription"
-				value="#{addProjectBean.projectDescription}" cols="20" rows="10" />
+				value="#{addProjectBean.projectDescription}" class="form-control"/>
 
 			<p:outputLabel for="inputCustomer"
-				value="#{addProjectBean.labelInputCustomer}" />
+				value="#{addProjectBean.labelInputCustomer}"/>
 			<p:inputTextarea id="inputCustomer"
-				value="#{addProjectBean.projectCustomer}" cols="20" rows="10" />
+				value="#{addProjectBean.projectCustomer}" class="form-control"/>
 
 			<p:outputLabel for="inputStartDate"
-				value="#{addProjectBean.labelInputStartDate}" />
+				value="#{addProjectBean.labelInputStartDate}"/>
 			<p:calendar id="inputStartDate"
-				value="#{addProjectBean.projectStartDate}" mode="popup" />
+				value="#{addProjectBean.projectStartDate}" mode="popup" class="form-control"/>
 
 			<p:outputLabel for="inputExpectedEnddate"
-				value="#{addProjectBean.labelInputExpectedEnddate}" />
-			<p:calendar id="inputExpectedEnddate"
-				value="#{addProjectBean.projectExpectedEndDate}" mode="popup" />
-		</h:panelGrid>
+				value="#{addProjectBean.labelInputExpectedEnddate}"/>
+			<div class="form-control">
+				<p:calendar id="inputExpectedEnddate"
+					value="#{addProjectBean.projectExpectedEndDate}" mode="popup" />
+			</div>
+				
+		<!--  </h:panelGrid>-->
+		</div>
 
 		<p:commandButton value="#{addProjectBean.btnSubmmit}"
-			action="#{addProjectBean.addProject()}" update=":page1" />
+			action="#{addProjectBean.addProject()}" update=":page1" class="btn btn-default btn-block"/>
 	</h:form>
 </ui:composition>
