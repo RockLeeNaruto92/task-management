@@ -7,21 +7,30 @@
 	xmlns:p="http://primefaces.org/ui"
 	template="/WEB-INF/template/template.xhtml">
 
-	<ui:define name="content">
-		<h:form class="navigation_tab">
-			<!--  	<p:link outcome="#{indexBean.onClick(0)}" value="#{indexBean.btnAddProject}" /> -->
-			<p:commandLink action="#{indexBean.onClick(0)}" value="#{indexBean.btnAddProject}" update=":page1"></p:commandLink>
-			<br />
-			<!--  	<p:link outcome="#{indexBean.onClick(1)}" value="#{indexBean.btnAddUser}"/>-->
-			<p:commandLink action="#{indexBean.onClick(1)}" value="#{indexBean.btnAddUser}" update=":page1"></p:commandLink>
-			<br />
-			<p:commandLink action="#{indexBean.onClick(2)}" value="Skill category" update=":page1"/>
-			<br />
-			<p:commandLink action="#{indexBean.onClick(3)}" value="Add new skill" update=":page1"/>
-		</h:form>
-		
-		<p:panel id="page1">
+	<ui:define name="content" class="container">
+		<div class="col-md-2"/>
+		<p:panel  class="col-md-2">
+			<h:form>
+				<!--  	<p:link outcome="#{indexBean.onClick(0)}" value="#{indexBean.btnAddProject}" /> -->
+				<p:commandLink action="#{indexBean.onClick(0)}"
+					value="#{indexBean.btnAddProject}" update=":page1"></p:commandLink>
+				<br />
+				<!--  	<p:link outcome="#{indexBean.onClick(1)}" value="#{indexBean.btnAddUser}"/>-->
+				<p:commandLink action="#{indexBean.onClick(1)}"
+					value="#{indexBean.btnAddUser}" update=":page1"></p:commandLink>
+				<br />
+				<p:commandLink action="#{indexBean.onClick(2)}"
+					value="Skill category" update=":page1" />
+				<br />
+				<p:commandLink action="#{indexBean.onClick(3)}"
+					value="Add new skill" update=":page1" />
+			</h:form>
+		</p:panel>
+
+		<p:panel id="page1" class="col-md-6">
 			<ui:include src="#{indexBean.path}" />
 		</p:panel>
+		
+		<div class="col-md-2"/>
 	</ui:define>
 </ui:composition>

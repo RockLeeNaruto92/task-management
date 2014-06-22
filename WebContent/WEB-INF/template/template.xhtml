@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions" xmlns:f="http://java.sun.com/jsf/core">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:f="http://java.sun.com/jsf/core">
 
 <!-- PrimeFaces require h:head. Plain HTML head tag won't work -->
 <h:head>
@@ -12,10 +17,12 @@
 
 	<f:facet name="last">
 		<!-- override primefaces classes properties -->
-		<h:outputStylesheet name="customize.css" media="screen" library="css"/>
+		<h:outputStylesheet name="customize.css" media="screen" library="css" />
+		<h:outputStylesheet name="bootstrap-3.1.1-dist/css/bootstrap.min.css"
+			media="screen" library="css" />
 	</f:facet>
-	
-	
+
+
 	<h:form id="faceletDebugForm">
 		<ui:debug hotkey="1" />
 	</h:form>
@@ -25,32 +32,50 @@
 	<p:growl id="growl" autoUpdate="true" showDetail="true" escape="false" />
 
 	<!-- Block UI -->
-	<pe:blockUI source="contentPage" target="contentPage" event="expand, select, unselect, change, click" autoShow="true" widgetVar="globalBlockUI_js" id="globalBlockUI">
+	<pe:blockUI source="contentPage" target="contentPage"
+		event="expand, select, unselect, change, click" autoShow="true"
+		widgetVar="globalBlockUI_js" id="globalBlockUI">
 		<h:panelGrid columns="2">
-			<h:graphicImage library="images" name="loading.gif" style="margin-right: 12px; vertical-align: middle;" />
-			<h:outputText value="#{messages['loading']}..." style="white-space: nowrap;" />
+			<h:graphicImage library="images" name="loading.gif"
+				style="margin-right: 12px; vertical-align: middle;" />
+			<h:outputText value="#{messages['loading']}..."
+				style="white-space: nowrap;" />
 		</h:panelGrid>
 	</pe:blockUI>
 
 	<!-- Page layout -->
+
 	<p:layout id="pageLayout" widgetVar="pageLayout_js" fullPage="true">
-		<p:layoutUnit id="northPane" widgetVar="northPane_js" position="north" size="40" collapsible="true" effect="none">
+	<!--    
+		<p:layoutUnit id="northPane" widgetVar="northPane_js" position="north"
+			size="40" collapsible="true" effect="none">
 			<p:outputPanel id="headerPane">
 				<ui:include src="header_pane.xhtml" />
 			</p:outputPanel>
 		</p:layoutUnit>
-
+	-->
+		    
 		<p:layoutUnit id="centerPane" position="center">
 			<p:outputPanel id="contentPane">
 				<ui:insert name="content" />
 			</p:outputPanel>
 		</p:layoutUnit>
-
-		<p:layoutUnit id="southPane" widgetVar="southPane" position="south" collapsible="true" effect="none" maxSize="50" collapsed="true">
+		
+		  
+		<p:layoutUnit id="southPane" widgetVar="southPane" position="south"
+			collapsible="true" effect="none" maxSize="50" collapsed="true">
 			<p:outputPanel>
 				<ui:include src="footer_pane.xhtml" />
 			</p:outputPanel>
 		</p:layoutUnit>
+		
 	</p:layout>
+
+	<!-- include javascript file -->
+	<!--  
+	<h:outputScript library="js" name="https://code.jquery.com/jquery.js" />
+	<h:outputScript library="js"
+		name="bootstrap-3.1.1-dist/js/bootstrap.min.js" />
+	-->
 </h:body>
 </html>
