@@ -6,11 +6,11 @@
 	xmlns:p="http://primefaces.org/ui">
 	
 	Skill category: <br />
-	
-	<p:dataTable value="#{skillCategoryBean.skillLists}" var="skill">
-		<p:column headerText="Name">#{skill.name}</p:column>
-		<p:column headerText="Description">#{skill.description}</p:column>
-		<p:column headerText="Status">#{skillCategoryBean.getStatus(skill)}</p:column>
+
+	<p:dataTable value="#{skillCategoryBean.skillLists}" var="skill" class="table table-hover">
+		<p:column headerText="Name" class="col-sm-4">#{skill.name}</p:column>
+		<p:column headerText="Description" class="col-sm-6">#{skill.description}</p:column>
+		<p:column headerText="Status" class="col-sm-2">#{skillCategoryBean.getStatus(skill)}</p:column>
 	</p:dataTable>
 	<br />
 	<h:form>

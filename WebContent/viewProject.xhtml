@@ -5,33 +5,30 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
-	<h:form id="viewProjectForm">
-		<h:panelGrid columns="2" cellpadding="10" cellspacing="50">
+	<h:form id="viewProjectForm" role="form">
+		<div class="form-group">
 			<p:outputLabel for="name" value="#{viewProjectBean.labelName}" />
-			<p:inputText id="name" value="#{viewProjectBean.project.name}"
-				readonly="true" />
+			<p:outputLabel id="name" value="#{viewProjectBean.project.name}" class="form-control"/>
 
 			<p:outputLabel for="description"
 				value="#{viewProjectBean.labelDescription}" />
-			<p:inputTextarea id="description"
-				value="#{viewProjectBean.project.description}" readonly="true" />
+			<p:inputTextarea id="description" class="form-control" readonly="true" value="#{viewProjectBean.project.description}" />
 
 			<p:outputLabel for="customer"
 				value="#{viewProjectBean.labelCustomer}" />
 			<p:inputTextarea id="customer"
-				value="#{viewProjectBean.project.customer}" readonly="true" />
+				value="#{viewProjectBean.project.customer}" class="form-control" readonly="true"/>
 
 			<p:outputLabel for="startDate"
 				value="#{viewProjectBean.labelStartDate}" />
-			<p:calendar id="startDate"
-				value="#{viewProjectBean.project.startDate}" readonlyInput="true" />
+			<p:outputLabel id="startDate"
+				value="#{viewProjectBean.project.startDate}" class="form-control"/>
 
 			<p:outputLabel for="expectedEnddate"
 				value="#{viewProjectBean.labelExpectedEndDate}" />
-			<p:calendar id="expectedEnddate"
-				value="#{viewProjectBean.project.expectedEndDate}"
-				readonlyInput="true" />
-		</h:panelGrid>
+			<p:outputLabel id="expectedEnddate"
+				value="#{viewProjectBean.project.expectedEndDate}" class="form-control"/>
+		</div>
 		<p:commandLink value="Edit" action="#{viewProjectBean.onClick(0)}" update=":page1"/>
 	</h:form>
 

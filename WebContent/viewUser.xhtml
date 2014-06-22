@@ -5,32 +5,33 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
-	<h:form id="viewProjectForm">
-		<h:panelGrid columns="2" cellpadding="10" cellspacing="50">
+	<h:form id="viewProjectForm" role="form">
+		<div class="form-group">
 			<p:outputLabel for="username" value="#{viewUserBean.labelUsername}" />
-			<p:inputText id="username" value="#{viewUserBean.user.username}"
-				readonly="true" />
+			<p:outputLabel id="username" value="#{viewUserBean.user.username}" class="form-control"/>
+			
 
 			<p:outputLabel for="fullname" value="#{viewUserBean.labelFullname}" />
-			<p:inputText id="fullname" value="#{viewUserBean.user.fullname}" />
+			<p:outputLabel id="fullname" value="#{viewUserBean.user.fullname}" class="form-control"/>
 
 			<p:outputLabel for="doB" value="#{viewUserBean.labelDoB}" />
-			<p:outputLabel id="doB" value="#{viewUserBean.user.doB}" />
+			<p:outputLabel id="doB" value="#{viewUserBean.user.doB}" class="form-control"/>
 
 			<p:outputLabel for="hiredDate" value="#{viewUserBean.labelHiredDate}" />
-			<p:outputLabel id="hiredDate" value="#{viewUserBean.user.hiredDate}" />
+			<p:outputLabel id="hiredDate" value="#{viewUserBean.user.hiredDate}" class="form-control"/>
 
 			<p:outputLabel for="gender" value="#{viewUserBean.labelGender}" />
-			<p:outputLabel id="gender" value="#{viewUserBean.gender}" />
+			<p:outputLabel id="gender" value="#{viewUserBean.gender}" class="form-control"/>
 
 			<p:outputLabel for="position" value="#{viewUserBean.labelPosition}" />
-			<p:outputLabel id="position" value="#{viewUserBean.user.position}" />
+			<p:outputLabel id="position" value="#{viewUserBean.user.position}" class="form-control"/>
 
 			<p:outputLabel for="manager" value="#{viewUserBean.labelManager}" />
 			<p:commandLink id="manager" value="#{viewUserBean.manager}"
-				action="#{viewUserBean.onClick(0)}" update=":page1" />
+				action="#{viewUserBean.onClick(0)}" update=":page1" class="form-control"/>
 
-		</h:panelGrid>
+		</div>
+		
 		<p:commandButton action="#{indexBean.close()}" value="Back" update=":page1"/>
 	</h:form>
 </ui:composition>

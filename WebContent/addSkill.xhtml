@@ -6,27 +6,28 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	<h:form id="addSkillForm">
-		<h:panelGrid columns="2" cellpadding="10" cellspacing="20">
+		<!--  <h:panelGrid columns="2" cellpadding="10" cellspacing="20">-->
+		<div class="form-group">
 			<p:outputLabel for="inputName" value="Name" />
-			<p:inputText id="inputName" value="#{addSkillBean.skillName}" />
+			<p:inputText id="inputName" value="#{addSkillBean.skillName}" class="form-control"/>
 			
 			<p:outputLabel for="inputCategory" value="Category" />
-			<p:selectOneMenu id="inputCategory" value="#{addSkillBean.skillCategory}">
+			<p:selectOneMenu id="inputCategory" value="#{addSkillBean.skillCategory}" class="form-control">
 				<f:selectItems value="#{addSkillBean.skillCategoriesList}"/>
 			</p:selectOneMenu>
 
-			<p:outputLabel for="inputDescription" value="Description}" />
-			<p:inputTextarea id="inputDescription" value="#{addSkillBean.skillDescription}" />
+			<p:outputLabel for="inputDescription" value="Description" />
+			<p:inputTextarea id="inputDescription" value="#{addSkillBean.skillDescription}" class="form-control"/>
 
 			<p:outputLabel for="inputStatus" value="Status" />
 			<p:panel id="inputStatus">
-				<p:selectBooleanCheckbox value="#{addSkillBean.skillStatus}" >
-					<p:ajax update="msg" listener="#{addSkillBean.updateStatus}"/>
+				<p:selectBooleanCheckbox value="#{addSkillBean.skillStatus}" class="checkbox" itemLabel="#{addSkillBean.status}">
+					<p:ajax update="inputStatus" listener="#{addSkillBean.updateStatus}"/>
 				</p:selectBooleanCheckbox>
-				<p:outputLabel id="msg" value="#{addSkillBean.status}"/>
 			</p:panel>
+		</div>
 			
-		</h:panelGrid>
+		<!--  </h:panelGrid>-->
 
 		<p:commandButton value="Add" action="#{addSkillBean.addSkill()}" update=":page1"/>
 	</h:form>
