@@ -8,29 +8,33 @@
 	template="/WEB-INF/template/template.xhtml">
 
 	<ui:define name="content" class="container">
-		<div class="col-md-2"/>
-		<p:panel  class="col-md-2">
-			<h:form>
-				<!--  	<p:link outcome="#{indexBean.onClick(0)}" value="#{indexBean.btnAddProject}" /> -->
-				<p:commandLink action="#{indexBean.onClick(0)}"
-					value="#{indexBean.btnAddProject}" update=":page1"></p:commandLink>
-				<br />
-				<!--  	<p:link outcome="#{indexBean.onClick(1)}" value="#{indexBean.btnAddUser}"/>-->
-				<p:commandLink action="#{indexBean.onClick(1)}"
-					value="#{indexBean.btnAddUser}" update=":page1"></p:commandLink>
-				<br />
-				<p:commandLink action="#{indexBean.onClick(2)}"
-					value="Skill category" update=":page1" />
-				<br />
-				<p:commandLink action="#{indexBean.onClick(3)}"
-					value="Add new skill" update=":page1" />
-			</h:form>
-		</p:panel>
-
-		<p:panel id="page1" class="col-md-6">
+		<div class="col-md-1"/>
+		<h:form  class="col-md-2">
+			<ul class="nav nav-pills nav-stacked">
+				<li>
+					<p:commandLink action="#{indexBean.onHomeLinkClick()}" value="Home" update=":main_content"/>
+				</li>
+				<li>
+					<p:commandLink action="#{indexBean.onProjectManagementLinkClick()}" value="Project management" update=":main_content"/>
+				</li>
+				<li>
+					<p:commandLink action="#{indexBean.onUserManagementLinkClick()}" value="User management" update=":main_content"/>
+				</li>
+				<li>
+					<p:commandLink action="#{indexBean.onSkillCategoryLinkClick()}" value="Skill category" update=":main_content" />
+				</li>
+				<li>
+					<p:commandLink action="#{indexBean.onTasktypeManagementLinkClick()}" value="Tasktypes Management" update=":main_content" />
+				</li>
+			</ul>
+		</h:form>
+		
+		<p:panel id="main_content" class="col-md-8">
+			<h3><span class="label label-info">#{indexBean.topic}</span></h3>
+			<div class="blank_div"/>
 			<ui:include src="#{indexBean.path}" />
 		</p:panel>
 		
-		<div class="col-md-2"/>
+		<div class="col-md-1"/>
 	</ui:define>
 </ui:composition>

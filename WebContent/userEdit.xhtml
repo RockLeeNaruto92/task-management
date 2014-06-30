@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:form role="form" class="form-horizontal">
+		<div class="form-group">
+			<p:outputLabel for="username" value="Username" class="col-md-4 control-label" />
+			<div class="col-md-8">
+				<p:outputLabel id="username" value="#{userManagementBean.user.username}" class="form-control" />
+			</div>
+		</div>
+		<div class="form-group">
+			<p:outputLabel for="fullname" value="Fullname"
+				class="col-md-4 control-label" />
+			<div class="col-md-8">
+				<p:inputText id="fullname" value="#{userManagementBean.user.fullname}" class="form-control" />
+			</div>
+		</div>
+		<div class="form-group">
+			<p:outputLabel for="doB" value="Date of birth" class="col-md-4 control-label" />
+			<div class="col-md-8">
+				<p:calendar id="doB" value="#{userManagementBean.user.doB}" class="form-control" mode="popup"/>
+			</div>
+		</div>
+		<div class="form-group">
+			<p:outputLabel for="hiredDate" value="Hired date" class="col-md-4 control-label" />
+			<div class="col-md-8">
+				<p:calendar id="hiredDate" value="#{userManagementBean.user.hiredDate}" class="form-control" mode="popup"/>
+			</div>
+		</div>
+		<div class="form-group">
+			<p:outputLabel for="gender" value="Gender" class="col-md-4 control-label" />
+			<div class="col-md-8">
+				<p:selectOneMenu id="gender" value="#{userManagementBean.user.gender}" class="form-control" >
+					<f:selectItem itemLabel="Male" itemValue="0"/>
+					<f:selectItem itemLabel="Female" itemValue="1"/>
+					<f:selectItem itemLabel="Other" itemValue="2"/>
+				</p:selectOneMenu>
+			</div>
+		</div>
+		<div class="form-group">
+			<p:outputLabel for="position" value="Position" class="col-md-4 control-label" />
+			<div class="col-md-8">
+				<p:inputText id="position" value="#{userManagementBean.user.position}" class="form-control" />
+			</div>
+		</div>
+		<div class="form-group">
+			<p:outputLabel for="manager" value="Manager" class="col-md-4 control-label" />
+			<div class="col-md-8">
+				<p:autoComplete id="manager" value="#{userManagementBean.managerUsername}" completeMethod="#{userManagementBean.getSuggestlistUserMethod}"/>
+			</div>
+		</div>
+		<div class="form-group">
+			<p:commandButton value="Save" action="#{userManagementBean.onEditFormSaveBtnClick()}" update=":showBasicUserInfo" class="form-control"/>
+		</div>
+	</h:form>
+</ui:composition>

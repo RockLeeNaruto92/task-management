@@ -1,14 +1,12 @@
 package hust.arrowtech.taskmanagement.Bean;
 
-import hust.arrowtech.taskmanagement.service.ProjectController;
 import hust.arrowtech.taskmanagement.util.Page;
+import hust.arrowtech.taskmanagement.util.Topic;
 
 import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
 import javax.inject.Named;
 
 @Named
@@ -19,33 +17,12 @@ public class IndexBean implements Serializable {
 	 */
 	private static final long serialVersionUID = 2406018016768670150L;
 	
-	public static final int ON_ADD_PROJECT_CLICK = 0;
-	public static final int ON_ADD_USER_CLICK = 1;
-	public static final int ON_SKILL_CATEGORY = 2;
-	public static final int ON_ADD_SKILL_CLICK = 3;
-
-	private String btnAddProject;
-	private String btnAddUser;
+	
 	private String path;
-	private String tempUser;
-
-	@Inject
-	ProjectController prController;
-
-	public String getBtnAddProject() {
-		return btnAddProject;
-	}
-
-	public void setBtnAddProject(String btnAddProject) {
-		this.btnAddProject = btnAddProject;
-	}
-
-	public String getBtnAddUser() {
-		return btnAddUser;
-	}
-
-	public void setBtnAddUser(String btnAddUser) {
-		this.btnAddUser = btnAddUser;
+	private String topic;
+	
+	
+	public IndexBean(){
 	}
 
 	public String getPath() {
@@ -55,46 +32,64 @@ public class IndexBean implements Serializable {
 	public void setPath(String path) {
 		this.path = path;
 	}
-
-	public String getTempUser() {
-		return tempUser;
+	
+	
+	public String getTopic() {
+		return topic;
 	}
 
-	public void setTempUser(String tempUser) {
-		this.tempUser = tempUser;
+	public void setTopic(String topic) {
+		this.topic = topic;
 	}
 
+	/* END GETTER AND SETTER */
+	/**************************************/
+	/**
+	 * Do when constructed
+	 */
 	@PostConstruct
-	public void postConstruct() {
-		this.btnAddProject = "Add new project";
-		this.btnAddUser = "Add new user";
-		
-	}
-
-	public void onClick(int choose) {
-		switch (choose) {
-		case ON_ADD_PROJECT_CLICK:
-			this.path = Page.ADD_PROJECT;
-			break;
-			
-		case ON_ADD_USER_CLICK:
-			this.path = Page.ADD_USER;
-			break;
-			
-		case ON_SKILL_CATEGORY:
-			this.path = Page.SKILL_CATEGORY;
-			break;
-			
-		case ON_ADD_SKILL_CLICK:
-			this.path = Page.ADD_SKILL;
-			break;
-
-		default:
-			break;
-		}
+	public void postConstruct(){
+		this.path = Page.DEFAULT;
+		this.topic = Topic.DEFAULT;
 	}
 	
-	public void close(){
+	/**
+	 * On home link click
+	 */
+	public void onHomeLinkClick(){
 		this.path = Page.DEFAULT;
+		this.topic = Topic.DEFAULT;
+	}
+	
+	/**
+	 * On project management link click
+	 */
+	public void onProjectManagementLinkClick(){
+		this.path = Page.PROJECT_MANAGEMENT;
+		this.topic = Topic.PROJECT_MANAGEMENT;
+	}
+
+	/**
+	 * On user management link click
+	 */
+	public void onUserManagementLinkClick(){
+		this.path = Page.USER_MANAGEMENT;
+		this.topic = Topic.USER_MANAGEMENT;
+	}
+	
+	/**
+	 * On skill category link click
+	 */
+	public void onSkillCategoryLinkClick(){
+		this.path = Page.SKILL_CATEGORY;
+		this.topic = Topic.SKILL_CATEGORY;
+	}
+	
+	/**
+	 * On tasktype management link click
+	 */
+	public void onTasktypeManagementLinkClick(){
+		this.path = Page.TASK_TYPE_MANAGEMENT;
+		this.topic = Topic.TASK_TYPE_MANAGEMENT;
 	}
 }

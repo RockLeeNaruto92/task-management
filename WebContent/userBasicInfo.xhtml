@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:form role="form" class="form-horizontal">
+		<div class="form-group">
+			<p:outputLabel for="username" value="Username" class="col-md-4 control-label" />
+			<div class="col-md-8">
+				<p:outputLabel id="username" value="#{userManagementBean.user.username}" class="form-control" />
+			</div>
+		</div>
+		<div class="form-group">
+			<p:outputLabel for="fullname" value="Fullname"
+				class="col-md-4 control-label" />
+			<div class="col-md-8">
+				<p:outputLabel id="fullname" value="#{userManagementBean.user.fullname}" class="form-control" />
+			</div>
+		</div>
+		<div class="form-group">
+			<p:outputLabel for="doB" value="Date of birth" class="col-md-4 control-label" />
+			<div class="col-md-8">
+				<p:outputLabel id="doB" value="#{userManagementBean.user.doB}" class="form-control" />
+			</div>
+		</div>
+		<div class="form-group">
+			<p:outputLabel for="hiredDate" value="Hired date" class="col-md-4 control-label" />
+			<div class="col-md-8">
+				<p:outputLabel id="hiredDate" value="#{userManagementBean.user.hiredDate}" class="form-control" />
+			</div>
+		</div>
+		<div class="form-group">
+			<p:outputLabel for="gender" value="Gender" class="col-md-4 control-label" />
+			<div class="col-md-8">
+				<p:outputLabel id="gender" value="#{userManagementBean.user.gender}" class="form-control" />
+			</div>
+		</div>
+		<div class="form-group">
+			<p:outputLabel for="position" value="Position" class="col-md-4 control-label" />
+			<div class="col-md-8">
+				<p:outputLabel id="position" value="#{userManagementBean.user.position}" class="form-control" />
+			</div>
+		</div>
+		<div class="form-group">
+			<p:outputLabel for="manager" value="Manager" class="col-md-4 control-label" />
+			<div class="col-md-8">
+				<p:commandLink id="manager" value="#{userManagementBean.user.manager.username}"/>
+			</div>
+		</div>
+	</h:form>
+	<h:form>
+		<p:commandLink value="Edit"
+			action="#{userManagementBean.onEditLinkClick()}" update=":showBasicUserInfo"/>
+	</h:form>
+</ui:composition>

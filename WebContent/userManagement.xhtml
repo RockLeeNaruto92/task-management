@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<p:panel id="showUsers">
+		<p:dataTable value="#{userManagementBean.users}" var="user"
+			selectionMode="single" rowKey="#{user.username}"
+			rowIndexVar="rowIndex">
+			<f:facet name="header">List users</f:facet>
+
+			<p:ajax event="rowSelect"
+				listener="#{userManagementBean.onRowSelect}" update=":main_content" />
+
+			<p:column headerText="Username">#{user.username}</p:column>
+			<p:column headerText="Fullname">#{user.fullname}</p:column>
+			<p:column headerText="Date of birth">#{user.doB}</p:column>
+			<p:column headerText="Hired date">#{user.hiredDate}</p:column>
+			<p:column headerText="Position">#{user.position}</p:column>
+		</p:dataTable>
+	</p:panel>
+	
+	<h:form role="form" class="form-horizontal">
+		<p:commandButton value="Add new user" class="btn btn-primary btn-sm" action="#{userManagementBean.onAddUserBtnClick()}" update=":addUserDlg"/>
+	</h:form>
+	
+	
+	<p:dialog id="addUserDlg" header="Add new user" widgetVar="dlgAddUser" width="500" visible="#{userManagementBean.addUserDlgShow}">
+		<h:form id="formAddProject" role="form">
+			<div class="form-group">
+				<p:outputLabel for="inputUserName" value="Username" class="col-sm-4 control-label"/>
+				<div class="col-sm-8">
+					<p:inputText id="inputUserName" value="#{userManagementBean.user.username}" class="form-control"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<p:outputLabel for="inputFullname" value="Fullname" class="col-sm-4 control-label"/>
+				<div class="col-sm-8">
+					<p:inputText id="inputFullname" value="#{userManagementBean.user.fullname}" class="form-control"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<p:outputLabel for="inputDob" value="Date of birth" class="col-sm-4 control-label"/>
+				<div class="col-sm-8">
+					<p:calendar id="inputDob" value="#{userManagementBean.user.doB}" 
+						mode="popup" class="form-control"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<p:outputLabel for="inputHiredDate" value="Hired date" class="col-sm-4 control-label"/>
+				<div class="col-sm-8">
+					<p:calendar id="inputHiredDate" value="#{userManagementBean.user.hiredDate}" 
+						mode="popup" class="form-control"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<p:outputLabel for="inputGender" value="Gender" class="col-sm-4 control-label"/>
+				<div class="col-sm-8">
+					<p:selectOneMenu id="inputGender"
+						value="#{userManagementBean.user.gender}"
+						class="form-control">
+						<f:selectItem itemLabel="Male" itemValue="0" />
+						<f:selectItem itemLabel="Female" itemValue="1" />
+						<f:selectItem itemLabel="Other" itemValue="2" />
+					</p:selectOneMenu>
+				</div>
+			</div>
+			<div class="form-group">
+				<p:outputLabel for="inputPosition" value="Position" class="col-sm-4 control-label"/>
+				<div class="col-sm-8">
+					<p:inputText id="inputPosition" value="#{userManagementBean.user.position}" class="form-control"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<p:outputLabel for="inputManager" value="Manager" class="col-sm-4 control-label"/>
+				<div class="col-sm-8">
+					<p:inputText id="inputManager" value="#{userManagementBean.user.manager}" class="form-control"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<p:commandButton value="Add" class="btn btn-primary btn-sm col-sm-12" action="#{userManagementBean.onAddUserDlgAddBtnClick()}" update=":showUsers,:addUserDlg"/>
+				<p:commandButton value="Cancel" class="btn btn-primary btn-sm col-sm-12" action="#{userManagementBean.onAddUserDlgCancelBtnClick()}" update=":addUserDlg"/>
+			</div>
+		</h:form>
+	</p:dialog>
+</ui:composition>

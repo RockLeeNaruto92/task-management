@@ -1,9 +1,7 @@
 package hust.arrowtech.taskmanagement.service;
 
-import hust.arrowtech.taskmanagement.entity.Project;
 import hust.arrowtech.taskmanagement.entity.ProjectSkill;
 import hust.arrowtech.taskmanagement.entity.ProjectSkillPK;
-import hust.arrowtech.taskmanagement.entity.Skill;
 import hust.arrowtech.taskmanagement.util.EmCreator;
 
 import java.io.Serializable;
@@ -19,26 +17,28 @@ public class ProjectSkillController implements Serializable{
 	
 	@Inject
 	EmCreator emCreator;
+
+	/**
+	 * Find project skill by id
+	 * @param projectId
+	 * @param skillId
+	 * @return
+	 */
+	public ProjectSkill find(int projectId, int skillId){
+		ProjectSkillPK id = new ProjectSkillPK(projectId, skillId);
+		
+		return this.emCreator.getEm().find(ProjectSkill.class, id);
+	}
 	
-	public ProjectSkillPK addProjectSkill(int projectId, int skillId, int level, int experienceYear){
-		ProjectSkill projectSkill = new ProjectSkill(projectId, skillId, experienceYear, level);
+	/**
+	 * Add new project skill object
+	 * @return
+	 */
+	public ProjectSkill add(ProjectSkill projectSkill){
 		
 		this.emCreator.getEm().persist(projectSkill);
 		assert projectSkill != null;
 		
-		return projectSkill.getId();
-	}
-	
-	public ProjectSkill find(ProjectSkillPK id){
-		return this.emCreator.getEm().find(ProjectSkill.class, id);
-	}
-	
-	public ProjectSkill find(Project project, Skill skill){
-		return this.emCreator.getEm().find(ProjectSkill.class, new ProjectSkillPK(project.getId(), skill.getId()));
-	}
-	
-	public void update(ProjectSkill ps, int experienceYear, int level){
-		ps.setExperienceYear(experienceYear);
-		ps.setLevel(level);
+		return projectSkill;
 	}
 }

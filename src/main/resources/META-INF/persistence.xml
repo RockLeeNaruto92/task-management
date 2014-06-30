@@ -10,6 +10,10 @@
 		<class>hust.arrowtech.taskmanagement.entity.Skill</class>
 		<class>hust.arrowtech.taskmanagement.entity.SkillCategory</class>
 		<class>hust.arrowtech.taskmanagement.entity.User</class>
+		<class>hust.arrowtech.taskmanagement.entity.UserSkill</class>
+		<class>hust.arrowtech.taskmanagement.entity.UserSkillPK</class>
+		<class>hust.arrowtech.taskmanagement.entity.Milestone</class>
+		<class>hust.arrowtech.taskmanagement.entity.TaskType</class>
 		<!-- Difference between JTA and RESOURCE_LOCAL (non-jta): http://tomee.apache.org/jpa-concepts.html -->
 		<!-- <non-jta-data-source>myNonJtaDataSource</non-jta-data-source> -->
 		<!-- <jta-data-source>java:jboss/datasources/testDb</jta-data-source> -->

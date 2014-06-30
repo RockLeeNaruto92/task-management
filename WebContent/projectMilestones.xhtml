@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<!-- Show Project milestone list  -->
+	<p:panel id="showMilestones">
+		<p:dataTable value="#{projectManagementBean.project.milestones}" var="milestone"
+			paginator="true" rows="10">
+			<f:facet name="header">Project's milestones list</f:facet>
+
+			<p:column headerText="Name">
+				<p:outputLabel value="#{milestone.name}"/>
+			</p:column>
+			<p:column headerText="Due date">
+				<p:outputLabel value="#{milestone.dueDate}"/>
+			</p:column>
+			<p:column headerText="Version number">
+				<p:outputLabel value="#{milestone.versionNumber}"/>
+			</p:column>
+		</p:dataTable>
+	</p:panel>
+
+	<!-- Show add milestone button -->	
+	<p:panel>
+		<h:form role="form" class="form-horizontal">
+			<p:commandButton value="Add milestone" class="btn btn-primary btn-sm" action="#{projectManagementBean.onAddMilestoneBtnClick()}" update=":addMilestoneDlg"/>
+		</h:form>
+	</p:panel>
+	
+	<!-- Add milestone dialog -->
+	<p:dialog id="addMilestoneDlg" header="Add milestone" widgetVar="dlgAddMilestone" width="500" visible="#{projectManagementBean.addMilestoneDlgShow}">
+		<h:form id="formAssignUser" role="form">
+			<div class="form-group">
+				<p:outputLabel for="inputName" value="Name" class="col-sm-4 control-label"/>
+				<div class="col-sm-8">
+					<p:inputText id="inputName" value="#{projectManagementBean.milestone.name}" class="form-control"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<p:outputLabel for="inputDueDate" value="DueDate" class="col-sm-4 control-label"/>
+				<div class="col-sm-8">
+					<p:calendar id="inputDueDate" value="#{projectManagementBean.milestone.dueDate}" mode="popup" class="form-control"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<p:outputLabel for="inputVersion" value="Version" class="col-sm-4 control-label"/>
+				<div class="col-sm-8">
+					<p:inputText id="inputVersion" value="#{projectManagementBean.milestone.versionNumber}" class="form-control"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<p:commandButton value="Add" class="btn btn-primary btn-sm col-sm-12" action="#{projectManagementBean.onAddMilestoneDlgAddBtnClick()}" update=":showMilestones,:addMilestoneDlg"/>
+				<p:commandButton value="Cancel" class="btn btn-primary btn-sm col-sm-12" action="#{projectManagementBean.onAddMilestoneDlgCancelBtnClick()}" update=":addMilestoneDlg"/>
+			</div>
+		</h:form>
+	</p:dialog>
+</ui:composition>

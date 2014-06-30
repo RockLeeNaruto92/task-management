@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<!-- Show Project user list  -->
+	<p:panel id="showUsers">
+		<p:dataTable value="#{projectManagementBean.project.users}" var="user"
+			paginator="true" rows="10">
+			<f:facet name="header">Users list of project</f:facet>
+
+			<p:column headerText="Username">
+				<h:form role="form">
+					<p:commandLink value="#{user.username}" />
+				</h:form>
+			</p:column>
+			<p:column headerText="Fullname">
+				<h:form role="form">
+					<p:commandLink value="#{user.fullname}" />
+				</h:form>
+			</p:column>
+		</p:dataTable>
+	</p:panel>
+
+	<!-- Show add user button -->	
+	<p:panel>
+		<h:form role="form" class="form-horizontal">
+			<p:commandButton value="Assign user" class="btn btn-primary btn-sm" action="#{projectManagementBean.onAssignUserBtnClick()}" update=":assignUserDlg"/>
+		</h:form>
+	</p:panel>
+	
+	<!-- Add user dialog -->
+	<p:dialog id="assignUserDlg" header="Assign user" widgetVar="dlgAssignUser" width="500" visible="#{projectManagementBean.assignUserDlgShow}">
+		<h:form id="formAssignUser" role="form">
+			<div class="form-group">
+				<p:outputLabel for="inputUserName" value="Username" class="col-sm-4 control-label"/>
+				<div class="col-sm-8">
+					<p:autoComplete id="inputUserName" value="#{projectManagementBean.username}" completeMethod="#{projectManagementBean.addUserCompleteMethod}" class="form-control"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<p:commandButton value="Assign" class="btn btn-primary btn-sm col-sm-12" action="#{projectManagementBean.onAssignUserDlgAddBtnClick()}" update=":showUsers,:assignUserDlg"/>
+				<p:commandButton value="Cancel" class="btn btn-primary btn-sm col-sm-12" action="#{projectManagementBean.onAssignUserDlgCancelBtnClick()}" update=":assignUserDlg"/>
+			</div>
+		</h:form>
+	</p:dialog>
+</ui:composition>

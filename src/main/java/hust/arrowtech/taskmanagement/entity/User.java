@@ -1,9 +1,7 @@
 package hust.arrowtech.taskmanagement.entity;
 
 import java.io.Serializable;
-
 import javax.persistence.*;
-
 import java.util.Date;
 import java.util.List;
 
@@ -47,18 +45,11 @@ public class User implements Serializable {
 	@OneToMany(mappedBy="manager", fetch=FetchType.EAGER)
 	private List<User> staffs;
 
-	public User() {
-	}
+	//bi-directional many-to-one association to UserSkill
+	@OneToMany(mappedBy="user", fetch=FetchType.EAGER)
+	private List<UserSkill> userSkills;
 
-	public User(String username, Date doB, String fullname, Integer gender,
-			Date hiredDate, String position) {
-		super();
-		this.username = username;
-		this.doB = doB;
-		this.fullname = fullname;
-		this.gender = gender;
-		this.hiredDate = hiredDate;
-		this.position = position;
+	public User() {
 	}
 
 	public String getUsername() {
@@ -145,6 +136,28 @@ public class User implements Serializable {
 		staff.setManager(null);
 
 		return staff;
+	}
+
+	public List<UserSkill> getUserSkills() {
+		return this.userSkills;
+	}
+
+	public void setUserSkills(List<UserSkill> userSkills) {
+		this.userSkills = userSkills;
+	}
+
+	public UserSkill addUserSkill(UserSkill userSkill) {
+		getUserSkills().add(userSkill);
+		userSkill.setUser(this);
+
+		return userSkill;
+	}
+
+	public UserSkill removeUserSkill(UserSkill userSkill) {
+		getUserSkills().remove(userSkill);
+		userSkill.setUser(null);
+
+		return userSkill;
 	}
 
 }

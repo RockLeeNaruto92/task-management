@@ -34,14 +34,6 @@ public class ProjectSkill implements Serializable {
 
 	public ProjectSkill() {
 	}
-	
-	public ProjectSkill(int projectId, int skillId, int experienceYear, int level){
-		ProjectSkillPK pk = new ProjectSkillPK(projectId, skillId);
-		
-		this.id = pk;
-		this.experienceYear = experienceYear;
-		this.level = level;
-	}
 
 	public ProjectSkillPK getId() {
 		return this.id;

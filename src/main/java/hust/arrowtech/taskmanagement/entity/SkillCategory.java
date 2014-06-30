@@ -1,9 +1,7 @@
 package hust.arrowtech.taskmanagement.entity;
 
 import java.io.Serializable;
-
 import javax.persistence.*;
-
 import java.util.List;
 
 
@@ -31,15 +29,6 @@ public class SkillCategory implements Serializable {
 	private List<Skill> skills;
 
 	public SkillCategory() {
-	}
-
-	public SkillCategory(Integer id, String description, String name,
-			Boolean status) {
-		super();
-		this.id = id;
-		this.description = description;
-		this.name = name;
-		this.status = status;
 	}
 
 	public Integer getId() {

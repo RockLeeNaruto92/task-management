@@ -34,6 +34,10 @@ public class Project implements Serializable {
 	@Column(name="\"startDate\"")
 	private Date startDate;
 
+	//bi-directional many-to-one association to Milestone
+	@OneToMany(mappedBy="project", fetch=FetchType.EAGER)
+	private List<Milestone> milestones;
+
 	//bi-directional many-to-many association to Skill
 	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(
@@ -63,6 +67,10 @@ public class Project implements Serializable {
 	//bi-directional many-to-one association to ProjectSkill
 	@OneToMany(mappedBy="project", fetch=FetchType.EAGER)
 	private List<ProjectSkill> projectSkills;
+
+	//bi-directional many-to-many association to TaskType
+	@ManyToMany(mappedBy="projects", fetch=FetchType.EAGER)
+	private List<TaskType> taskTypes;
 
 	public Project() {
 	}
@@ -126,6 +134,28 @@ public class Project implements Serializable {
 		this.startDate = startDate;
 	}
 
+	public List<Milestone> getMilestones() {
+		return this.milestones;
+	}
+
+	public void setMilestones(List<Milestone> milestones) {
+		this.milestones = milestones;
+	}
+
+	public Milestone addMilestone(Milestone milestone) {
+		getMilestones().add(milestone);
+		milestone.setProject(this);
+
+		return milestone;
+	}
+
+	public Milestone removeMilestone(Milestone milestone) {
+		getMilestones().remove(milestone);
+		milestone.setProject(null);
+
+		return milestone;
+	}
+
 	public List<Skill> getSkills() {
 		return this.skills;
 	}
@@ -164,11 +194,19 @@ public class Project implements Serializable {
 		return projectSkill;
 	}
 
+	public List<TaskType> getTaskTypes() {
+		return this.taskTypes;
+	}
+
+	public void setTaskTypes(List<TaskType> taskTypes) {
+		this.taskTypes = taskTypes;
+	}
+	
 	public void addUser(User user){
 		this.users.add(user);
 	}
-	
-	public void addSkill(Skill skill){
-		this.skills.add(skill);
+
+	public void addTasktype(TaskType tasktype){
+		this.taskTypes.add(tasktype);
 	}
 }
