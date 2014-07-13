@@ -6,20 +6,21 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
-	<p:panel id="showSkillsSet">
-		<p:dataTable value="#{projectManagementBean.categories}" var="category">
+	<h:form id="showSkillForm">
+		<p:dataTable id="showSkillsSet"
+			value="#{projectManagementBean.categories}" var="category">
 			<p:columnGroup type="header">
 				<p:row>
 					<p:column headerText="Name" />
-					<p:column headerText="Level A Basic"/>
+					<p:column headerText="Level A Basic" />
 					<p:column headerText="Level B Experience" />
-					<p:column headerText="Level C Expert"/>
+					<p:column headerText="Level C Expert" />
 					<p:column headerText="Year of experience" />
 				</p:row>
 			</p:columnGroup>
-			
+
 			<f:facet name="header">Project skills set</f:facet>
-			
+
 			<p:subTable value="#{category.skills}" var="skill">
 				<f:facet name="header">#{category.name}</f:facet>
 				<p:column>#{skill.name}</p:column>
@@ -29,55 +30,68 @@
 				<p:column>#{projectManagementBean.viewSkillInfo(3, skill.id)}</p:column>
 			</p:subTable>
 		</p:dataTable>
-	</p:panel>
-	
-	<h:form role="form">
-		<p:commandButton value="Add skill" action="#{projectManagementBean.onAddSkillBtnClick()}" update=":addSkillDlg"/>
 	</h:form>
-	
-		
+
+	<h:form role="form">
+		<p:commandButton value="Add skill" class="add-new-skill-btn"
+			action="#{projectManagementBean.onAddSkillBtnClick()}"
+			update=":tab:addSkillDlg" />
+	</h:form>
+
+
 	<!-- Dialog -->
-	<p:dialog id="addSkillDlg" widgetVar="dlgAddSkill" width="500" visible="#{projectManagementBean.addSkillDlgShow}">
-		<h:form role="form" class="form-horizontal">
-			<div class="form-group">
-				<p:outputLabel for="selectSkill" value="Skill" class="col-sm-4 control-label"/>
+	<p:dialog id="addSkillDlg" widgetVar="dlgAddSkill" width="40%"
+		visible="#{projectManagementBean.addSkillDlgShow}">
+		<h:form role="form">
+			<div class="group-has-select-menu">
+				<p:outputLabel for="selectSkill" value="Skill"
+					class="dlg-label col-sm-4 control-label" />
 				<div class="col-sm-8">
-					<p:selectOneMenu id="selectSkill" value="#{projectManagementBean.projectSkill.id.skillId}" class="form-control">
-						<f:selectItems value="#{categoryController.skillList}"/>			
+					<p:selectOneMenu id="selectSkill"
+						value="#{projectManagementBean.projectSkill.id.skillId}">
+						<f:selectItems value="#{categoryController.skillList}" />
 					</p:selectOneMenu>
 				</div>
 			</div>
-			<div class="form-group">
-				<p:outputLabel for="selectLevel" value="Level" class="col-sm-4 control-label"/>
+			<div class="group-has-select-menu">
+				<p:outputLabel for="selectLevel" value="Level"
+					class="dlg-label col-sm-4 control-label" />
 				<div class="col-sm-8">
-					<p:selectOneMenu id="selectLevel" value="#{projectManagementBean.projectSkill.level}" class="form-control">
-						<f:selectItem itemLabel="Basic" itemValue="0"/>
-						<f:selectItem itemLabel="Experience" itemValue="1"/>
-						<f:selectItem itemLabel="Expert" itemValue="2"/>
+					<p:selectOneMenu id="selectLevel"
+						value="#{projectManagementBean.projectSkill.level}">
+						<f:selectItem itemLabel="Basic" itemValue="0" />
+						<f:selectItem itemLabel="Experience" itemValue="1" />
+						<f:selectItem itemLabel="Expert" itemValue="2" />
 					</p:selectOneMenu>
 				</div>
 			</div>
-			<div class="form-group">
-				<p:outputLabel for="selectYear" value="Year of experience" class="col-sm-4 control-label"/>
+			<div class="group-has-select-menu">
+				<p:outputLabel for="selectYear" value="Year of experience"
+					class="dlg-label col-sm-4 control-label" />
 				<div class="col-sm-8">
-					<p:selectOneMenu id="selectYear" value="#{projectManagementBean.projectSkill.experienceYear}" class="form-control">
-						<f:selectItem itemLabel="0" itemValue="0"/>
-						<f:selectItem itemLabel="1" itemValue="1"/>
-						<f:selectItem itemLabel="2" itemValue="2"/>
-						<f:selectItem itemLabel="3" itemValue="3"/>
-						<f:selectItem itemLabel="4" itemValue="4"/>
-						<f:selectItem itemLabel="5" itemValue="5"/>
-						<f:selectItem itemLabel="6" itemValue="6"/>
-						<f:selectItem itemLabel="7" itemValue="7"/>
-						<f:selectItem itemLabel="8" itemValue="8"/>
-						<f:selectItem itemLabel="9" itemValue="9"/>
-						<f:selectItem itemLabel="10" itemValue="10"/>
+					<p:selectOneMenu id="selectYear"
+						value="#{projectManagementBean.projectSkill.experienceYear}">
+						<f:selectItem itemLabel="0" itemValue="0" />
+						<f:selectItem itemLabel="1" itemValue="1" />
+						<f:selectItem itemLabel="2" itemValue="2" />
+						<f:selectItem itemLabel="3" itemValue="3" />
+						<f:selectItem itemLabel="4" itemValue="4" />
+						<f:selectItem itemLabel="5" itemValue="5" />
+						<f:selectItem itemLabel="6" itemValue="6" />
+						<f:selectItem itemLabel="7" itemValue="7" />
+						<f:selectItem itemLabel="8" itemValue="8" />
+						<f:selectItem itemLabel="9" itemValue="9" />
+						<f:selectItem itemLabel="10" itemValue="10" />
 					</p:selectOneMenu>
 				</div>
 			</div>
-			<div class="form-group">
-				<p:commandButton value="Add" action="#{projectManagementBean.onAddSkillDlgAddBtnClick()}" update=":addSkillDlg,:showSkillsSet" class="btn btn-primary btn-sm"/>
-				<p:commandButton value="Cancel" action="#{projectManagementBean.onAddSkillDlgCancelBtnClick()}" update=":addSkillDlg"/>
+			<div class="group-2-sm-button">
+				<p:commandButton value="Add" class="dlg-button col-sm-4"
+					action="#{projectManagementBean.onAddSkillDlgAddBtnClick()}"
+					update=":tab:addSkillDlg,:tab:showSkillForm:showSkillsSet" />
+				<p:commandButton value="Cancel" class="dlg-button col-sm-4"
+					action="#{projectManagementBean.onAddSkillDlgCancelBtnClick()}"
+					update=":tab:addSkillDlg" />
 			</div>
 		</h:form>
 	</p:dialog>

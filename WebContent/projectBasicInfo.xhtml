@@ -6,7 +6,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
-	<h:form role="form" class="form-horizontal">
+	<h:form role="form" class="form-horizontal" id="showProjectInfo">
 		<div class="form-group">
 			<p:outputLabel for="name" value="Name" class="col-md-4 control-label" />
 			<div class="col-md-8">
@@ -41,7 +41,7 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<p:outputLabel for="expectedEndDate" value="expectedEndDate"
+			<p:outputLabel for="expectedEndDate" value="Expected end date"
 				class="col-md-4 control-label" />
 			<div class="col-md-8">
 				<p:outputLabel id="expectedEndDate"
@@ -49,9 +49,70 @@
 					class="form-control" />
 			</div>
 		</div>
+		<div class="form-group">
+			<p:commandButton value="Edit" class="save-btn col-sm-12"
+				action="#{projectManagementBean.onEditLinkClick()}" update=":tab:editProjectDlg"/>
+		</div>
 	</h:form>
-	<h:form>
-		<p:commandLink value="Edit"
-			action="#{projectManagementBean.onEditLinkClick()}" update=":showBasicProjectInfo"/>
-	</h:form>
+
+	<!-- edit project dialog -->
+	<p:dialog id="editProjectDlg" header="Edit project"
+		widgetVar="dlgEditProject"
+		visible="#{projectManagementBean.editProjectDlgShow}" width="50%">
+		<h:form id="formEditProject" role="form">
+			<div class="group-has-inputText">
+				<p:outputLabel for="inputName" value="Name"
+					class="dlg-label col-sm-4 control-label" />
+				<div class="col-sm-8">
+					<p:inputText id="inputName"
+						value="#{projectManagementBean.project.name}" class="form-control" />
+				</div>
+			</div>
+			<div class="group-has-inputTextarea">
+				<p:outputLabel for="inputDescription" value="Description"
+					class="dlg-label col-sm-4 control-label" />
+				<div class="col-sm-8">
+					<p:inputTextarea id="inputDescription" autoResize="false" rows="5"
+						value="#{projectManagementBean.project.description}"
+						class="form-control" />
+				</div>
+			</div>
+			<div class="group-has-inputTextarea">
+				<p:outputLabel for="inputCustomer" value="Customer"
+					class="dlg-label col-sm-4 control-label" />
+				<div class="col-sm-8">
+					<p:inputTextarea id="inputCustomer" autoResize="false" rows="5"
+						value="#{projectManagementBean.project.customer}"
+						class="form-control" />
+				</div>
+			</div>
+			<div class="group-has-calendar">
+				<p:outputLabel for="inputStartDate" value="Start date"
+					class="dlg-label col-sm-4 control-label" />
+				<div class="select-calendar-container col-sm-3">
+					<p:calendar id="inputStartDate"
+						value="#{projectManagementBean.project.startDate}" mode="popup"
+						class="select-calendar" />
+				</div>
+			</div>
+			<div class="group-has-calendar">
+				<p:outputLabel for="inputExpectedEndDate" value="Expected end date"
+					class="dlg-label col-sm-4 control-label" />
+				<div class="select-calendar-container col-sm-3">
+					<p:calendar id="inputExpectedEndDate"
+						value="#{projectManagementBean.project.expectedEndDate}"
+						mode="popup" class="select-calendar" />
+				</div>
+			</div>
+			<div class="group-2-sm-button">
+				<p:commandButton value="Save" class="dlg-button col-sm-4"
+					action="#{projectManagementBean.onEditProjectDlgSaveBtnClick()}"
+					update=":tab:showProjectInfo, :tab:editProjectDlg" />
+				<p:commandButton value="Cancel" class="dlg-button col-sm-4"
+					action="#{projectManagementBean.onEditProjectDlgCancelBtnClick()}"
+					update=":tab:editProjectDlg"/>
+			</div>
+		</h:form>
+	</p:dialog>
+
 </ui:composition>

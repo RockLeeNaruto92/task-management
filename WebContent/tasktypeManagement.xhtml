@@ -6,46 +6,60 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
-	<!-- Show tasktypes list -->	
-	<p:panel id="showTasktypes">
-		<p:dataTable value="#{tasktypeManagementBean.taskTypes}" var="taskType"
-			selectionMode="single" rowKey="#{taskType.name}"
-			rowIndexVar="rowIndex">
-			<f:facet name="header">List tasktypes</f:facet>
 
-			<p:column headerText="Name">#{taskType.name}</p:column>
-			<p:column headerText="Kind">#{taskType.kindOfTask}</p:column>
-		</p:dataTable>
-	</p:panel>
-	
+	<!-- Show tasktypes list -->
+	<p:dataTable id="showTasktypes"
+		value="#{tasktypeManagementBean.taskTypes}" var="taskType"
+		selectionMode="single" rowKey="#{taskType.name}"
+		rowIndexVar="rowIndex">
+		<f:facet name="header">List tasktypes</f:facet>
+
+		<p:column headerText="Name">#{taskType.name}</p:column>
+		<p:column headerText="Kind">#{taskType.kindOfTask}</p:column>
+	</p:dataTable>
+
 	<!-- Show add new tasktype button -->
 	<h:form role="form" class="form-horizontal">
-		<p:commandButton value="Add new task type" class="btn btn-primary btn-sm" action="#{tasktypeManagementBean.onAddNewTaskTypeBtnClick()}" update=":addTasktypeDlg"/>
+		<p:commandButton value="Add new task type"
+			class="add-new-task-type-btn"
+			action="#{tasktypeManagementBean.onAddNewTaskTypeBtnClick()}"
+			update=":addTasktypeDlg" />
 	</h:form>
-	
-	
-	<p:dialog id="addTasktypeDlg" header="Add new task type" widgetVar="dlgAddTasktype" width="500" visible="#{tasktypeManagementBean.addTasktypeDlgShow}">
+
+
+	<p:dialog id="addTasktypeDlg" header="Add new task type"
+		widgetVar="dlgAddTasktype" width="40%"
+		visible="#{tasktypeManagementBean.addTasktypeDlgShow}">
 		<h:form id="formAddTasktype" role="form">
-			<div class="form-group">
-				<p:outputLabel for="inputName" value="Name" class="col-sm-4 control-label"/>
+			<div class="group-has-inputText">
+				<p:outputLabel for="inputName" value="Name"
+					class="dlg-label col-sm-4 control-label" />
 				<div class="col-sm-8">
-					<p:inputText id="inputName" value="#{tasktypeManagementBean.taskType.name}" class="form-control"/>
+					<p:inputText id="inputName"
+						value="#{tasktypeManagementBean.taskType.name}"
+						class="form-control" />
 				</div>
 			</div>
-			<div class="form-group">
-				<p:outputLabel for="inputKindOfTask" value="Kind" class="col-sm-4 control-label"/>
+			<div class="group-has-select-menu">
+				<p:outputLabel for="inputKindOfTask" value="Kind"
+					class="col-sm-4 control-label" />
 				<div class="col-sm-8">
-					<p:selectOneMenu id="inputKindOfTask" value="#{tasktypeManagementBean.taskType.kindOfTask}">
-						<f:selectItem itemLabel="Design" itemValue="0"/>
-						<f:selectItem itemLabel="Develop" itemValue="1"/>
-						<f:selectItem itemLabel="Test" itemValue="2"/>
-						<f:selectItem itemLabel="Manage" itemValue="3"/>
+					<p:selectOneMenu id="inputKindOfTask"
+						value="#{tasktypeManagementBean.taskType.kindOfTask}">
+						<f:selectItem itemLabel="Design" itemValue="0" />
+						<f:selectItem itemLabel="Develop" itemValue="1" />
+						<f:selectItem itemLabel="Test" itemValue="2" />
+						<f:selectItem itemLabel="Manage" itemValue="3" />
 					</p:selectOneMenu>
 				</div>
 			</div>
-			<div class="form-group">
-				<p:commandButton value="Add" class="btn btn-primary btn-sm col-sm-12" action="#{tasktypeManagementBean.onAddTasktypeDlgAddBtnClick()}" update=":showTasktypes,:addTasktypeDlg"/>
-				<p:commandButton value="Cancel" class="btn btn-primary btn-sm col-sm-12" action="#{tasktypeManagementBean.onAddTasktypeDlgCancelBtnClick()}" update=":addTasktypeDlg"/>
+			<div class="group-2-sm-button">
+				<p:commandButton value="Add" class="dlg-button col-sm-4"
+					action="#{tasktypeManagementBean.onAddTasktypeDlgAddBtnClick()}"
+					update=":showTasktypes,:addTasktypeDlg" />
+				<p:commandButton value="Cancel" class="dlg-button col-sm-4"
+					action="#{tasktypeManagementBean.onAddTasktypeDlgCancelBtnClick()}"
+					update=":addTasktypeDlg" />
 			</div>
 		</h:form>
 	</p:dialog>

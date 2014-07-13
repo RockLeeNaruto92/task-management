@@ -5,16 +5,13 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
-	
-	<p:panel id="navigationTab">
-		<h:form role="form">
-			<ol>
-				<li><p:commandLink class="btn btn-link" action="#{userManagementBean.onBasicInformationLinkClick()}" update=":showBasicUserInfo" value="Basic information"/></li>
-				<li><p:commandLink class="btn btn-link" action="#{userManagementBean.onSkillSetLinkClick()}" update=":showBasicUserInfo" value="Skills set"/></li>
-			</ol>
-		</h:form>
-	</p:panel>
-	<p:panel id="showBasicUserInfo">
-		<ui:include src="#{userManagementBean.path}" />
-	</p:panel>
+
+	<p:tabView id="tab" dynamic="true" cache="true">
+		<p:tab title="Basic information">
+			<ui:include src="userBasicInfo.xhtml" />
+		</p:tab>
+		<p:tab title="Skills set">
+			<ui:include src="userSkillSet.xhtml" />
+		</p:tab>
+	</p:tabView>
 </ui:composition>

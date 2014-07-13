@@ -5,9 +5,14 @@ import javax.faces.context.FacesContext;
 
 public class Utils {
 
+	/**
+	 * Display message 
+	 * @param msg
+	 */
 	public static void addMessage(String msg) {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
 				msg, null);
 		FacesContext.getCurrentInstance().addMessage(null, message);
 	}
+	
 }

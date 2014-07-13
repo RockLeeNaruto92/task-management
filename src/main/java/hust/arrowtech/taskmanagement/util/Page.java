@@ -10,6 +10,7 @@ public class Page {
 	public static final String PROJECT_SKILL_SET = "projectSkillSet.xhtml";
 	public static final String PROJECT_MILESTONE = "projectMilestones.xhtml";
 	public static final String PROJECT_TASK_TYPE = "projectTasktype.xhtml";
+	public static final String PROJECT_TASK_LIST = "projectTasklist.xhtml";
 	public static final String PROJECT_EDIT = "projectEdit.xhtml";
 	
 	public static final String USER_MANAGEMENT = "userManagement.xhtml";

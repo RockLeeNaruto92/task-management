@@ -5,6 +5,7 @@ import hust.arrowtech.taskmanagement.entity.ProjectSkillPK;
 import hust.arrowtech.taskmanagement.util.EmCreator;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -41,4 +42,13 @@ public class ProjectSkillController implements Serializable{
 		
 		return projectSkill;
 	}
+	
+	/**
+	 * 
+	 * @param pss
+	 * @return
+	 */
+//	public List<ProjectSkill> sortBySkillId(List<ProjectSkill> pss){
+//		
+//	}
 }

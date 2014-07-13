@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<!-- Show Project task list  -->
+	<h:form id="showTaskForm">
+		<p:dataTable id="showTasklists"
+			value="#{projectManagementBean.project.tasks}" var="task"
+			editable="true" editMode="cell">
+			<f:facet name="header">Tasks list</f:facet>
+
+			<p:column headerText="Name">
+				<p:cellEditor>
+					<f:facet name="output">#{task.name}</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{task.name}" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="Description">
+				<p:cellEditor>
+					<f:facet name="output">#{task.description}</f:facet>
+					<f:facet name="input">
+						<p:inputTextarea value="#{task.description}" rows="5"
+							autoResize="false" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="Type">
+				<p:cellEditor>
+					<f:facet name="output">#{task.taskType.name}</f:facet>
+					<f:facet name="input">
+						<p:selectOneMenu value="#{task.taskType.id}">
+							<f:selectItems
+								value="#{tasktypeController.getHashMapTasktype(projectManagementBean.project.taskTypes)}" />
+						</p:selectOneMenu>
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="Estimate Point">
+				<p:cellEditor>
+					<f:facet name="output">#{task.estimatePoint}</f:facet>
+					<f:facet name="input">
+						<p:inputMask mask="9999" id="inputEstimatePoint"
+							value="#{task.estimatePoint}" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="Start date">
+				<p:cellEditor>
+					<f:facet name="output">#{task.startDate}</f:facet>
+					<f:facet name="input">
+						<p:calendar value="#{task.startDate}" mode="popup" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="Due date">
+				<p:cellEditor>
+					<f:facet name="output">#{task.dueDate}</f:facet>
+					<f:facet name="input">
+						<p:calendar value="#{task.dueDate}" mode="popup"></p:calendar>
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+		</p:dataTable>
+	</h:form>
+
+	<!-- Show add task button -->
+	<h:form role="form" class="form-horizontal">
+		<p:commandButton value="Add task" class="add-new-task-btn"
+			action="#{projectManagementBean.onAddTaskBtnClick()}"
+			update=":tab:addTaskDlg" />
+	</h:form>
+
+	<!-- Add task dialog -->
+	<p:dialog id="addTaskDlg" header="Add task" widgetVar="dlgAddTask"
+		width="40%" visible="#{projectManagementBean.addTaskDlgShow}">
+		<h:form id="formAddTask" role="form">
+			<div class="group-has-inputText">
+				<p:outputLabel for="inputName" value="Name"
+					class="dlg-label col-sm-4 control-label" />
+				<div class="col-sm-8">
+					<p:inputText id="inputName"
+						value="#{projectManagementBean.task.name}" class="form-control" />
+				</div>
+			</div>
+			<div class="group-has-inputTextarea">
+				<p:outputLabel for="inputDescription" value="Description"
+					class="dlg-label col-sm-4 control-label" />
+				<div class="col-sm-8">
+					<p:inputTextarea id="inputDescription"
+						value="#{projectManagementBean.task.description}" rows="5"
+						autoResize="false" class="form-control" />
+				</div>
+			</div>
+			<div class="group-has-select-menu">
+				<p:outputLabel for="inputType" value="Type"
+					class="dlg-label col-sm-4 control-label" />
+				<div class="col-sm-8">
+					<p:selectOneMenu id="inputType"
+						value="#{projectManagementBean.task.taskType.id}">
+						<f:selectItems
+							value="#{tasktypeController.getHashMapTasktype(projectManagementBean.project.taskTypes)}" />
+					</p:selectOneMenu>
+				</div>
+			</div>
+			<div class="group-has-inputText">
+				<p:outputLabel for="inputEstimatePoint" value="Estimate point"
+					class="dlg-label col-sm-4 control-label" />
+				<div class="col-sm-8">
+					<p:inputMask mask="9999" id="inputEstimatePoint"
+						value="#{projectManagementBean.task.estimatePoint}"
+						class="form-control" />
+				</div>
+			</div>
+			<div class="group-has-calendar">
+				<p:outputLabel for="inputStartDate" value="Start date"
+					class="dlg-label col-sm-4 control-label" />
+				<div class="select-calendar-container col-sm-8">
+					<p:calendar id="inputStartDate"
+						value="#{projectManagementBean.task.startDate}" mode="popup"
+						class="select-calendar" />
+				</div>
+			</div>
+			<div class="group-has-calendar">
+				<p:outputLabel for="inputDueDate" value="Due date"
+					class="dlg-label col-sm-4 control-label" />
+				<div class="select-calendar-container col-sm-8">
+					<p:calendar id="inputDueDate"
+						value="#{projectManagementBean.task.dueDate}" mode="popup"
+						class="select-calendar" />
+				</div>
+			</div>
+			<div class="group-2-sm-button">
+				<p:commandButton value="Add" class="dlg-button col-sm-4"
+					action="#{projectManagementBean.onAddTaskDlgAddBtnClick()}"
+					update=":tab:showTaskForm:showTasklists,:tab:addTaskDlg" />
+				<p:commandButton value="Cancel" class="dlg-button col-sm-4"
+					action="#{projectManagementBean.onAddTaskDlgCancelBtnClick()}"
+					update=":tab:addTaskDlg" />
+			</div>
+		</h:form>
+	</p:dialog>
+</ui:composition>

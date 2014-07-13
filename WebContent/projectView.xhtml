@@ -5,19 +5,26 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
-	
-	<p:panel id="navigationTab">
-		<h:form role="form">
-			<ol>
-				<li><p:commandLink class="btn btn-link" action="#{projectManagementBean.onBasicInformationLinkClick()}" update=":showBasicProjectInfo" value="Basic information"/></li>
-				<li><p:commandLink class="btn btn-link" action="#{projectManagementBean.onUserListLinkClick()}" update=":showBasicProjectInfo" value="User list"/></li>
-				<li><p:commandLink class="btn btn-link" action="#{projectManagementBean.onSkillSetLinkClick()}" update=":showBasicProjectInfo" value="Skills set"/></li>
-				<li><p:commandLink class="btn btn-link" action="#{projectManagementBean.onMilestoneLinkClick()}" update=":showBasicProjectInfo" value="Milestones"/></li>
-				<li><p:commandLink class="btn btn-link" action="#{projectManagementBean.onTasktypeListLinkClick()}" update=":showBasicProjectInfo" value="Task types list"/></li>
-			</ol>
-		</h:form>
-	</p:panel>
-	<p:panel id="showBasicProjectInfo">
-		<ui:include src="#{projectManagementBean.path}" />
-	</p:panel>
+
+
+	<p:tabView id="tab" dynamic="true" cache="true">
+		<p:tab title="Basic information">
+			<ui:include src="projectBasicInfo.xhtml" />
+		</p:tab>
+		<p:tab title="Users">
+			<ui:include src="projectUserList.xhtml" />
+		</p:tab>
+		<p:tab title="Skills">
+			<ui:include src="projectSkillSet.xhtml" />
+		</p:tab>
+		<p:tab title="Milestones">
+			<ui:include src="projectMilestones.xhtml" />
+		</p:tab>
+		<p:tab title="Task types">
+			<ui:include src="projectTasktype.xhtml" />
+		</p:tab>
+		<p:tab title="Tasks">
+			<ui:include src="projectTasklist.xhtml" />
+		</p:tab>
+	</p:tabView>
 </ui:composition>

@@ -9,6 +9,8 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
+import org.primefaces.event.TabChangeEvent;
+
 @Named
 @ViewScoped
 public class IndexBean implements Serializable {
@@ -51,6 +53,22 @@ public class IndexBean implements Serializable {
 	public void postConstruct(){
 		this.path = Page.DEFAULT;
 		this.topic = Topic.DEFAULT;
+	}
+	
+	public void onTabChange(TabChangeEvent event){
+		String tabTitle = event.getTab().getTitle();
+		
+		if (tabTitle.equals("Home")){
+			onHomeLinkClick();
+		}else if (tabTitle.equals("Project management")){
+			onProjectManagementLinkClick();
+		}else if (tabTitle.equals("User management")){
+			onUserManagementLinkClick();
+		}else if (tabTitle.equals("Category management")){
+			onSkillCategoryLinkClick();
+		}else {
+			onTasktypeManagementLinkClick();
+		}
 	}
 	
 	/**

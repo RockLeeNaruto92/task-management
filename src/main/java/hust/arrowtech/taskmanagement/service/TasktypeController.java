@@ -33,6 +33,20 @@ public class TasktypeController implements Serializable{
 	}
 	
 	/**
+	 * Find tasktype by name
+	 * @param name
+	 * @return
+	 */
+	public TaskType find(String name){
+		String queryStr = "SELECT t FROM TaskType t WHERE t.name = :name";
+		Query query = this.emCreator.getEm().createQuery(queryStr);
+		
+		query.setParameter("name", name);
+		
+		return (TaskType) query.getSingleResult();
+	}
+	
+	/**
 	 * Get list of tasktype from database
 	 * @return
 	 */
@@ -57,20 +71,42 @@ public class TasktypeController implements Serializable{
 		
 		return taskType;
 	}
-	
+
+	/**
+	 * Remove tasktype from tasktypes list by name
+	 * @param tasktypes
+	 * @param tasktype
+	 * @return
+	 */
+	public List<TaskType> removeTasktype(List<TaskType> tasktypes, TaskType tasktype){
+		for (TaskType taskType : tasktypes) {
+			if (taskType.getName().equals(tasktype.getName())){
+				tasktypes.remove(taskType);
+				
+				return tasktypes;
+			}
+		}
+		
+		return tasktypes;
+	}
 	/**
 	 * Get hashmap for select tasktype
 	 * @return
 	 */
-	public HashMap<String, Integer> getHashMapTasktype(){
+	public HashMap<String, Integer> getHashMapTasktype(List<TaskType> tasktypes){
 		HashMap<String, Integer> hashmap = new HashMap<String, Integer>();
-		List<TaskType> tasktypes = this.getAllTasktypes();
 		
 		for (TaskType taskType : tasktypes) {
 			hashmap.put(taskType.getName(), taskType.getId());
 		}
 		
 		return hashmap;
+	}
+	
+	public HashMap<String, Integer> getHashMapTaskType(){
+		List<TaskType> tasktypes = this.getAllTasktypes();
+		
+		return getHashMapTasktype(tasktypes);
 	}
 	
 	/**
@@ -83,6 +119,19 @@ public class TasktypeController implements Serializable{
 		tasktype.addProject(project);
 		
 		this.emCreator.getEm().merge(tasktype);
+		return tasktype;
+	}
+	
+	/**
+	 * 
+	 * @param tasktype
+	 * @param project
+	 * @return
+	 */
+	public TaskType removeProject(TaskType tasktype, Project project){
+		tasktype.removeProject(project);
+		
+		tasktype = this.emCreator.getEm().merge(tasktype);
 		return tasktype;
 	}
 }

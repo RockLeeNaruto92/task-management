@@ -2,12 +2,14 @@ package hust.arrowtech.taskmanagement.service;
 
 import hust.arrowtech.taskmanagement.entity.Milestone;
 import hust.arrowtech.taskmanagement.entity.Project;
+import hust.arrowtech.taskmanagement.entity.Task;
 import hust.arrowtech.taskmanagement.entity.TaskType;
 import hust.arrowtech.taskmanagement.entity.User;
 import hust.arrowtech.taskmanagement.util.EmCreator;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -140,8 +142,11 @@ public class ProjectController implements Serializable{
 	 */
 	public boolean isProjectHadTasktype(Project project, TaskType tasktype){
 		for (TaskType tp : project.getTaskTypes()) {
-			if (tp.getId() == tasktype.getId())
+			if (tp.getId() == tasktype.getId()){
+				System.out.println("tasktype-id: " + tasktype.getId());
+				System.out.println("tasktype-name: " + tp.getName());
 				return true;
+			}
 		}
 		
 		return false;
@@ -159,4 +164,48 @@ public class ProjectController implements Serializable{
 		this.emCreator.getEm().merge(project);
 		return project;
 	}
+	
+	/**
+	 * 
+	 * @param project
+	 * @param tasktype
+	 * @return
+	 */
+	public Project removeTasktype(Project project, TaskType tasktype){
+		project.removeTasktype(tasktype);
+		
+		this.emCreator.getEm().merge(project);
+		
+		return project;
+	}
+	
+	/**
+	 * Add task that not have id to project
+	 * @param project
+	 * @param task
+	 * @return
+	 */
+	public Project addTask(Project project, Task task){
+		project.addTask(task);
+		
+		this.emCreator.getEm().merge(project);
+		return project;
+	}
+	
+	/**
+	 * get hash map 
+	 * @param project
+	 * @return
+	 */
+	public HashMap<String, TaskType> getHashMapTasktype(Project project){
+		HashMap<String, TaskType> hashmap = new HashMap<String, TaskType>();
+		
+		for (TaskType tt : project.getTaskTypes()) {
+			hashmap.put(tt.getName(), tt);
+		}
+		
+		return hashmap;
+	}
+	
+	
 }

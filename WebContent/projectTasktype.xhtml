@@ -7,41 +7,57 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	<!-- Show Project tasktypes list  -->
-	<p:panel id="showTasktypes">
-		<p:dataTable value="#{projectManagementBean.project.taskTypes}" var="tasktype"
-			paginator="true" rows="10">
+	<h:form id="showTasktypeForm">
+		<p:contextMenu for="showTasktypes">
+			<p:menuitem value="Delete" update="showTasktypes"
+				icon="ui-icon-close"
+				actionListener="#{projectManagementBean.removeTasktype}" />
+		</p:contextMenu>
+
+		<p:dataTable id="showTasktypes"
+			value="#{projectManagementBean.project.taskTypes}" var="tasktype"
+			rowKey="#{tasktype.id}" rowIndexVar="rowIndex	"
+			selection="#{projectManagementBean.tasktype}" selectionMode="single">
 			<f:facet name="header">Tasktypes list of project</f:facet>
 
-			<p:column headerText="Name">
-				<p:outputLabel value="#{tasktype.name}"/>
+			<p:column headerText="Name" class="col-sm-6">
+				#{tasktype.name}
 			</p:column>
-			<p:column headerText="Kind of task">
-				<p:outputLabel value="#{tasktype.kindOfTask}"/>
+			<p:column headerText="Kind of task" class="col-sm-5">
+				#{tasktype.kindOfTask}
 			</p:column>
 		</p:dataTable>
-	</p:panel>
+	</h:form>
 
-	<!-- Show add tasktype button -->	
-	<p:panel>
-		<h:form role="form" class="form-horizontal">
-			<p:commandButton value="Add task type" class="btn btn-primary btn-sm" action="#{projectManagementBean.onAddTasktypeBtnClick()}" update=":addTasktypeDlg"/>
-		</h:form>
-	</p:panel>
-	
+	<!-- Show add tasktype button -->
+	<h:form role="form" class="form-horizontal">
+		<p:commandButton value="Add task type" class="add-new-task-type-btn"
+			action="#{projectManagementBean.onAddTasktypeBtnClick()}"
+			update=":tab:addTasktypeDlg" />
+	</h:form>
+
 	<!-- Add user dialog -->
-	<p:dialog id="addTasktypeDlg" header="Add tasktype" widgetVar="dlgAddTasktype" width="500" visible="#{projectManagementBean.addTasktypeDlgShow}">
-		<h:form id="formAssignUser" role="form">
-			<div class="form-group">
-				<p:outputLabel for="inputName" value="Name" class="col-sm-4 control-label"/>
+	<p:dialog id="addTasktypeDlg" header="Add tasktype"
+		widgetVar="dlgAddTasktype" width="25%"
+		visible="#{projectManagementBean.addTasktypeDlgShow}">
+		<h:form id="formAddTasktype" role="form">
+			<div class="group-has-select-menu">
+				<p:outputLabel for="inputName" value="Name"
+					class="dlg-label col-sm-4 control-label" />
 				<div class="col-sm-8">
-					<p:selectOneMenu id="inputName" value="#{projectManagementBean.tasktype.id}">
-						<f:selectItems value="#{tasktypeController.hashMapTasktype}"/>
+					<p:selectOneMenu id="inputName"
+						value="#{projectManagementBean.tasktype.id}">
+						<f:selectItems value="#{tasktypeController.hashMapTaskType}" />
 					</p:selectOneMenu>
 				</div>
 			</div>
-			<div class="form-group">
-				<p:commandButton value="Add" class="btn btn-primary btn-sm col-sm-12" action="#{projectManagementBean.onAddTasktypeDlgAddBtnClick()}" update=":showTasktypes,:addTasktypeDlg"/>
-				<p:commandButton value="Cancel" class="btn btn-primary btn-sm col-sm-12" action="#{projectManagementBean.onAddTasktypeDlgCancelBtnClick()}" update=":addTasktypeDlg"/>
+			<div class="group-2-sm-button">
+				<p:commandButton value="Add" class="dlg-button col-sm-4"
+					action="#{projectManagementBean.onAddTasktypeDlgAddBtnClick()}"
+					update=":tab:showTasktypeForm:showTasktypes,:tab:addTasktypeDlg" />
+				<p:commandButton value="Cancel" class="dlg-button col-sm-4"
+					action="#{projectManagementBean.onAddTasktypeDlgCancelBtnClick()}"
+					update=":tab:addTasktypeDlg" />
 			</div>
 		</h:form>
 	</p:dialog>

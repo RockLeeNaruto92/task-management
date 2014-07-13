@@ -10,8 +10,8 @@ import java.util.List;
  * The persistent class for the user database table.
  * 
  */
-@Entity
-@NamedQuery(name="User.findAll", query="SELECT u FROM User u")
+@Entity(name = "Users")
+@NamedQuery(name="User.findAll", query="SELECT u FROM Users u")
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 

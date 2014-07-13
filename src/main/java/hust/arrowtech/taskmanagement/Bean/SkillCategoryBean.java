@@ -3,6 +3,7 @@ package hust.arrowtech.taskmanagement.Bean;
 import hust.arrowtech.taskmanagement.entity.Skill;
 import hust.arrowtech.taskmanagement.entity.SkillCategory;
 import hust.arrowtech.taskmanagement.service.CategoryController;
+import hust.arrowtech.taskmanagement.service.SkillController;
 import hust.arrowtech.taskmanagement.util.Page;
 import hust.arrowtech.taskmanagement.util.Topic;
 import hust.arrowtech.taskmanagement.util.Utils;
@@ -15,7 +16,9 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.event.TabChangeEvent;
 
 @Named
 @ViewScoped
@@ -33,12 +36,15 @@ public class SkillCategoryBean implements Serializable {
 	private String path;
 	private boolean addCategoryDlgShow;
 	private boolean addSkillDlgShow;
+	private boolean editCategoryDlgShow;
 	
 	
 	@Inject
 	IndexBean indexBean;
 	@Inject
 	CategoryController cController;
+	@Inject
+	SkillController sController;
 	
 	public SkillCategoryBean(){
 	}
@@ -92,6 +98,14 @@ public class SkillCategoryBean implements Serializable {
 		this.path = path;
 	}
 
+	public boolean isEditCategoryDlgShow() {
+		return editCategoryDlgShow;
+	}
+
+	public void setEditCategoryDlgShow(boolean editCategoryDlgShow) {
+		this.editCategoryDlgShow = editCategoryDlgShow;
+	}
+
 	public boolean isAddCategoryDlgShow() {
 		return addCategoryDlgShow;
 	}
@@ -122,6 +136,7 @@ public class SkillCategoryBean implements Serializable {
 		this.status = "Disable";
 		this.addCategoryDlgShow = false;
 		this.addSkillDlgShow = false;
+		this.editCategoryDlgShow = false;
 	}
 	
 	/**
@@ -180,6 +195,26 @@ public class SkillCategoryBean implements Serializable {
 	 * on edit link click
 	 */
 	public void onEditLinkClick(){
+		this.editCategoryDlgShow = true;
+	}
+	
+	/**
+	 * 
+	 */
+	public void onEditCategoryDlgAddBtnClick(){
+		if (checkAddCategoryForm()){
+			category = cController.update(category);
+			
+			Utils.addMessage("Saved");
+			this.editCategoryDlgShow = false;
+		}
+	}
+	
+	/**
+	 * 
+	 */
+	public void onEditCategoryDlgCancelBtnClick(){
+		this.editCategoryDlgShow = false;
 	}
 	
 	/**
@@ -269,5 +304,41 @@ public class SkillCategoryBean implements Serializable {
 	public void reinit(){
 		this.categories = null;
 		this.category = new SkillCategory();
+	}
+
+	/**
+	 * Show status is enable or disable
+	 * @return
+	 */
+	public String showStatus(){
+		if (category == null) 
+			return "Disable";
+		
+		return (category.getStatus())? "Enable" : "Disable";
+	}
+	
+	/**
+	 * 
+	 * @param event
+	 */
+	public void onTabChange(TabChangeEvent event){
+		String tabTitle = event.getTab().getTitle();
+		
+		if (tabTitle.equals("Basic information")){
+			onBasicInformationLinkClick();
+		}else {
+			onSkillSetLinkClick();
+		}
+	}
+	
+	/**
+	 * 
+	 * @param event
+	 */
+	public void onCellEdit(CellEditEvent event){
+		Skill skill = (Skill)category.getSkills().get(event.getRowIndex());
+		
+		skill = sController.update(skill);
+		Utils.addMessage("Saved!");
 	}
 }

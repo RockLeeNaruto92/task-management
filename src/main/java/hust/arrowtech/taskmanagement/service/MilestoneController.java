@@ -41,4 +41,15 @@ public class MilestoneController implements Serializable{
 		
 		return milestone;
 	}
+	
+	/**
+	 * Update existed milestone information
+	 * @param milestone
+	 * @return
+	 */
+	public Milestone update(Milestone milestone){
+		this.emCreator.getEm().merge(milestone);
+		
+		return milestone;
+	}
 }

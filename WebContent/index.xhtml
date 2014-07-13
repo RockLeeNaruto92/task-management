@@ -8,33 +8,24 @@
 	template="/WEB-INF/template/template.xhtml">
 
 	<ui:define name="content" class="container">
-		<div class="col-md-1"/>
-		<h:form  class="col-md-2">
-			<ul class="nav nav-pills nav-stacked">
-				<li>
-					<p:commandLink action="#{indexBean.onHomeLinkClick()}" value="Home" update=":main_content"/>
-				</li>
-				<li>
-					<p:commandLink action="#{indexBean.onProjectManagementLinkClick()}" value="Project management" update=":main_content"/>
-				</li>
-				<li>
-					<p:commandLink action="#{indexBean.onUserManagementLinkClick()}" value="User management" update=":main_content"/>
-				</li>
-				<li>
-					<p:commandLink action="#{indexBean.onSkillCategoryLinkClick()}" value="Skill category" update=":main_content" />
-				</li>
-				<li>
-					<p:commandLink action="#{indexBean.onTasktypeManagementLinkClick()}" value="Tasktypes Management" update=":main_content" />
-				</li>
-			</ul>
+		<h:form class="main-navigation col-md-3">
+			<h3><span>Task management</span></h3>
+			<p:tabView orientation="left">
+				<p:ajax event="tabChange" listener="#{indexBean.onTabChange}" update=":main_content"/>
+				
+				<p:tab title="Home"/>
+				<p:tab title="Project management"/>
+				<p:tab title="User management"/>
+				<p:tab title="Category management"/>
+				<p:tab title="Tasktype management"/>
+			</p:tabView>
 		</h:form>
 		
-		<p:panel id="main_content" class="col-md-8">
-			<h3><span class="label label-info">#{indexBean.topic}</span></h3>
+		<p:panel id="main_content" style="margin-top: 4%" class="col-md-8">
+			<h3><span class="main-label">#{indexBean.topic}</span></h3>
 			<div class="blank_div"/>
 			<ui:include src="#{indexBean.path}" />
 		</p:panel>
 		
-		<div class="col-md-1"/>
 	</ui:define>
 </ui:composition>

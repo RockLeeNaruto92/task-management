@@ -5,12 +5,15 @@ import hust.arrowtech.taskmanagement.entity.Project;
 import hust.arrowtech.taskmanagement.entity.ProjectSkill;
 import hust.arrowtech.taskmanagement.entity.ProjectSkillPK;
 import hust.arrowtech.taskmanagement.entity.SkillCategory;
+import hust.arrowtech.taskmanagement.entity.Task;
 import hust.arrowtech.taskmanagement.entity.TaskType;
 import hust.arrowtech.taskmanagement.entity.User;
 import hust.arrowtech.taskmanagement.service.CategoryController;
 import hust.arrowtech.taskmanagement.service.MilestoneController;
 import hust.arrowtech.taskmanagement.service.ProjectController;
 import hust.arrowtech.taskmanagement.service.ProjectSkillController;
+import hust.arrowtech.taskmanagement.service.ProjectTasktypeController;
+import hust.arrowtech.taskmanagement.service.TaskController;
 import hust.arrowtech.taskmanagement.service.TasktypeController;
 import hust.arrowtech.taskmanagement.service.UserController;
 import hust.arrowtech.taskmanagement.util.Page;
@@ -25,7 +28,9 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.event.TabChangeEvent;
 
 @Named
 @ViewScoped
@@ -41,6 +46,7 @@ public class ProjectManagementBean implements Serializable {
 	// Add, edit
 	private Project project;
 	private TaskType tasktype;
+	private Task task;
 	private User user;
 	private Milestone milestone;
 	private ProjectSkill projectSkill;
@@ -51,6 +57,8 @@ public class ProjectManagementBean implements Serializable {
 	private boolean addSkillDlgShow;
 	private boolean addMilestoneDlgShow;
 	private boolean addTasktypeDlgShow;
+	private boolean addTaskDlgShow;
+	private boolean editProjectDlgShow;
 	
 	private boolean isValidForm;
 	private String path;
@@ -68,7 +76,11 @@ public class ProjectManagementBean implements Serializable {
 	@Inject
 	MilestoneController mController;
 	@Inject
-	TasktypeController tController;
+	TasktypeController ttController;
+	@Inject
+	TaskController tController;
+	@Inject
+	ProjectTasktypeController ptController;
 	@Inject
 	IndexBean indexBean;
 	
@@ -117,6 +129,14 @@ public class ProjectManagementBean implements Serializable {
 
 	public void setTasktype(TaskType tasktype) {
 		this.tasktype = tasktype;
+	}
+
+	public Task getTask() {
+		return task;
+	}
+
+	public void setTask(Task task) {
+		this.task = task;
 	}
 
 	public Milestone getMilestone() {
@@ -191,6 +211,22 @@ public class ProjectManagementBean implements Serializable {
 		this.addTasktypeDlgShow = addTasktypeDlgShow;
 	}
 
+	public boolean isAddTaskDlgShow() {
+		return addTaskDlgShow;
+	}
+
+	public void setAddTaskDlgShow(boolean addTaskDlgShow) {
+		this.addTaskDlgShow = addTaskDlgShow;
+	}
+
+	public boolean isEditProjectDlgShow() {
+		return editProjectDlgShow;
+	}
+
+	public void setEditProjectDlgShow(boolean editProjectDlgShow) {
+		this.editProjectDlgShow = editProjectDlgShow;
+	}
+
 	public User getUser() {
 		return user;
 	}
@@ -217,6 +253,8 @@ public class ProjectManagementBean implements Serializable {
 		this.project = new Project();
 		this.user = new User();
 		this.tasktype = new TaskType();
+		this.task = new Task();
+		this.task.setTaskType(new TaskType());
 		this.milestone = new Milestone();
 		this.projectSkill = new ProjectSkill();
 		this.projectSkill.setId(new ProjectSkillPK());
@@ -226,9 +264,11 @@ public class ProjectManagementBean implements Serializable {
 		this.addSkillDlgShow = false;
 		this.addMilestoneDlgShow = false;
 		this.addTasktypeDlgShow = false;
+		this.addTaskDlgShow = false;
+		this.editProjectDlgShow = false;
 		
 		this.path = Page.PROJECT_BASIC_INFO;
-	}
+ 	}
 	
 	/**
 	 * On AddProjectDialog's Add Button Click
@@ -286,10 +326,37 @@ public class ProjectManagementBean implements Serializable {
 	}
 	
 	/**
+	 * on task list link click
+	 */
+	public void onTaskListLinkClick(){
+		this.path = Page.PROJECT_TASK_LIST;
+	}
+	
+	/**
 	 * On edit link click
 	 */
 	public void onEditLinkClick(){
-		this.path = Page.PROJECT_EDIT;
+		this.editProjectDlgShow = true;
+	}
+	
+	/**
+	 * on edit project dialog's save button click
+	 */
+	public void onEditProjectDlgSaveBtnClick(){
+		if (checkForm()){
+			// Check form ->true
+			project = prController.save(project);
+			
+			Utils.addMessage("Save");
+			this.editProjectDlgShow = false;
+		}
+	}
+	
+	/**
+	 * on edit project dialog's cancel button click
+	 */
+	public void onEditProjectDlgCancelBtnClick(){
+		this.editProjectDlgShow = false;
 	}
 	
 	/**
@@ -365,20 +432,6 @@ public class ProjectManagementBean implements Serializable {
 	 */
 	public void onAddSkillDlgCancelBtnClick(){
 		this.addSkillDlgShow = false;
-	}
-	
-	/**
-	 * on editForm's save button click
-	 */
-	public void onEditFormSaveBtnClick(){
-		if (checkForm()){
-			// Check form ->true
-			project = prController.save(project);
-			
-			Utils.addMessage("Save");
-			
-			this.path = Page.PROJECT_BASIC_INFO;
-		}
 	}
 	
 	/**
@@ -501,6 +554,51 @@ public class ProjectManagementBean implements Serializable {
 	}
 	
 	/**
+	 * Check inputed add task form
+	 * @return
+	 */
+	public boolean checkAddTaskForm(){
+		// Check name
+		if (task.getName().equals("")){
+			Utils.addMessage("Please input task's name field!");
+			return false;
+		}
+		
+		// check description 
+		if (task.getDescription().equals("")){
+			Utils.addMessage("Please input task's description field!");
+			return false;
+		}
+		
+		// check estimate point
+		if (task.getEstimatePoint() == null){
+			Utils.addMessage("Please input task's estimate point field!");
+			return false;
+		}
+		
+		// check start date
+		if (task.getStartDate() == null){
+			Utils.addMessage("Please input task's start date field!");
+			return false;
+		}
+		
+		// check due date
+		if (task.getDueDate() == null){
+			Utils.addMessage("Please input task's due date field!");
+			return false;
+		}
+		
+		// check start date is before due date
+		if (task.getStartDate().compareTo(task.getDueDate()) > 0){
+			Utils.addMessage("Task's start date must be before task's due date!");
+			return false;
+		}
+		
+		return true;
+		
+	}
+	
+	/**
 	 * On add tasktype button click
 	 */
 	public void onAddTasktypeBtnClick(){
@@ -512,7 +610,7 @@ public class ProjectManagementBean implements Serializable {
 	 */
 	public void onAddTasktypeDlgAddBtnClick(){
 		// Find tasktype by id
-		tasktype = tController.find(tasktype.getId());
+		tasktype = ttController.find(tasktype.getId());
 		// Check project already had tasktype???
 		if (prController.isProjectHadTasktype(project, tasktype)){
 			// if true -> return
@@ -521,7 +619,7 @@ public class ProjectManagementBean implements Serializable {
 		}
 		
 		// Add tasktype to project tasktypes list
-		tController.addProject(tasktype, project);
+		ttController.addProject(tasktype, project);
 		prController.addTasktype(project, tasktype);
 		
 		Utils.addMessage("Added task type \"" + tasktype.getName() +"\"");
@@ -535,6 +633,42 @@ public class ProjectManagementBean implements Serializable {
 	 */
 	public void onAddTasktypeDlgCancelBtnClick(){
 		this.addTasktypeDlgShow = false;
+	}
+	
+	/**
+	 * on add task button click
+	 */
+	public void onAddTaskBtnClick(){
+		this.addTaskDlgShow = true;
+	}
+	
+	/**
+	 * on add task dialog's add button click
+	 */
+	public void onAddTaskDlgAddBtnClick(){
+		// check inputed add task form
+		if (checkAddTaskForm()){
+			// find tasktype
+			task.setTaskType(ttController.find(task.getTaskType().getId()));
+			task.setProject(project);
+			// add task to database
+			tController.add(task);
+			// add task to project
+			prController.addTask(project, task);
+			
+			Utils.addMessage("Add new task \"" + task.getName() + "\" to project");
+			this.addTaskDlgShow = false;
+			
+			this.task = new Task();
+			this.task.setTaskType(new TaskType());
+		}
+	}
+	
+	/**
+	 * on add task dialog's cancel button click
+	 */
+	public void onAddTaskDlgCancelBtnClick(){
+		this.addTaskDlgShow = false;
 	}
 	
 	/**
@@ -604,5 +738,46 @@ public class ProjectManagementBean implements Serializable {
 	 */
 	public List<String> addUserCompleteMethod(String tag){
 		return uController.getListUser(tag);
+	}
+	
+	public void onTabChange(TabChangeEvent event){
+		String tabTitle = event.getTab().getTitle();
+		
+		if (tabTitle.equals("Basic information")){
+			onBasicInformationLinkClick();
+		}else if (tabTitle.equals("Users")){
+			onUserListLinkClick();
+		}else if (tabTitle.equals("Skills")){
+			onSkillSetLinkClick();
+		}else if (tabTitle.equals("Milestones")){
+			onMilestoneLinkClick();
+		}else if (tabTitle.equals("Task types")){
+			onTasktypeListLinkClick();
+		}else {
+			onTaskListLinkClick();
+		}
+	}
+	
+	/**
+	 * 
+	 * @param event
+	 */
+	public void onCellEdit(CellEditEvent event){
+		Milestone milestone = (Milestone)project.getMilestones().get(event.getRowIndex());
+		
+		milestone = mController.update(milestone);
+		
+		Utils.addMessage("Saved!");
+	}
+
+	/**
+	 * Remove the selected tasktype 
+	 */
+	public void removeTasktype(){
+		project = prController.removeTasktype(project, tasktype);
+		
+		ptController.remove(project.getId(), tasktype.getId());
+		
+		Utils.addMessage("Remove tasktype \"" + tasktype.getName() + "\"");
 	}
 }

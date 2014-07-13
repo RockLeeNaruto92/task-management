@@ -23,6 +23,10 @@ public class TaskType implements Serializable {
 
 	private String name;
 
+	//bi-directional many-to-one association to Task
+	@OneToMany(mappedBy="taskType", fetch=FetchType.EAGER)
+	private List<Task> tasks;
+
 	//bi-directional many-to-many association to Project
 	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(
@@ -63,6 +67,28 @@ public class TaskType implements Serializable {
 		this.name = name;
 	}
 
+	public List<Task> getTasks() {
+		return this.tasks;
+	}
+
+	public void setTasks(List<Task> tasks) {
+		this.tasks = tasks;
+	}
+
+	public Task addTask(Task task) {
+		getTasks().add(task);
+		task.setTaskType(this);
+
+		return task;
+	}
+
+	public Task removeTask(Task task) {
+		getTasks().remove(task);
+		task.setTaskType(null);
+
+		return task;
+	}
+
 	public List<Project> getProjects() {
 		return this.projects;
 	}
@@ -70,8 +96,13 @@ public class TaskType implements Serializable {
 	public void setProjects(List<Project> projects) {
 		this.projects = projects;
 	}
-
+	
 	public void addProject(Project project){
 		this.projects.add(project);
 	}
+	
+	public void removeProject(Project project){
+		this.projects.add(project);
+	}
+
 }

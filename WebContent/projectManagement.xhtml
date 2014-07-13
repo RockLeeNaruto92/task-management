@@ -7,68 +7,85 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	<!-- Show project list -->
-	<p:panel id="showProjects">
-		<p:dataTable value="#{projectManagementBean.projects}" var="project"
-			selectionMode="single" rowKey="#{project.id}" rowIndexVar="rowIndex">
-			<f:facet name="header">List projects</f:facet>
+	<p:dataTable id="showProjects"
+		value="#{projectManagementBean.projects}" var="project"
+		selectionMode="single" rowKey="#{project.id}" rowIndexVar="rowIndex">
+		<f:facet name="header">List projects</f:facet>
 
-			<p:ajax event="rowSelect" listener="#{projectManagementBean.onRowSelect}" update=":main_content" />
+		<p:ajax event="rowSelect"
+			listener="#{projectManagementBean.onRowSelect}"
+			update=":main_content" />
 
-			<p:column headerText="Name" class="col-md-2">#{project.name}</p:column>
-			<p:column headerText="Customer" class="col-md-2">#{project.customer}</p:column>
-			<p:column headerText="Description" class="col-md-4">#{project.description}</p:column>
-			<p:column headerText="Start date" class="col-md-2">#{project.startDate}</p:column>
-			<p:column headerText="Expected end date" class="col-md-2">#{project.expectedEndDate}</p:column>
-		</p:dataTable>
-	</p:panel>
+		<p:column headerText="Name" class="col-md-2">#{project.name}</p:column>
+		<p:column headerText="Customer" class="col-md-2">#{project.customer}</p:column>
+		<p:column headerText="Description" class="col-md-4">#{project.description}</p:column>
+		<p:column headerText="Start date" class="col-md-2">#{project.startDate}</p:column>
+		<p:column headerText="Expected end date" class="col-md-2">#{project.expectedEndDate}</p:column>
+	</p:dataTable>
 
 	<!-- Button add new project  -->
 	<h:form role="form" class="form-horizontal">
-		<p:commandButton value="Add new project" class="btn btn-primary btn-sm" action="#{projectManagementBean.onAddProjectBtnClick()}" update=":addNewProject"/>
+		<p:commandButton value="Add new project" class="add-new-project-btn"
+			action="#{projectManagementBean.onAddProjectBtnClick()}"
+			update=":addNewProject" />
 	</h:form>
 
 	<!-- Dialog add new project -->
-	<p:dialog id="addNewProject" header="Add new project" widgetVar="dlgAddProject" visible="#{projectManagementBean.addProjectDlgShow}">
+	<p:dialog id="addNewProject" header="Add new project"
+		widgetVar="dlgAddProject"
+		visible="#{projectManagementBean.addProjectDlgShow}" width="50%">
 		<h:form id="formAddProject" role="form">
-			<div class="form-group">
-				<p:outputLabel for="inputName" value="Name" class="col-sm-4 control-label"/>
+			<div class="group-has-inputText">
+				<p:outputLabel for="inputName" value="Name"
+					class="dlg-label col-sm-4 control-label" />
 				<div class="col-sm-8">
-					<p:inputText id="inputName" value="#{projectManagementBean.project.name}" class="form-control"/>
+					<p:inputText id="inputName"
+						value="#{projectManagementBean.project.name}" class="form-control" />
 				</div>
 			</div>
-			<div class="form-group">
-				<p:outputLabel for="inputDescription" value="Description" class="col-sm-4 control-label"/>
+			<div class="group-has-inputTextarea">
+				<p:outputLabel for="inputDescription" value="Description"
+					class="dlg-label col-sm-4 control-label" />
 				<div class="col-sm-8">
 					<p:inputTextarea id="inputDescription" autoResize="false" rows="5"
-						value="#{projectManagementBean.project.description}" class="form-control"/>
+						value="#{projectManagementBean.project.description}"
+						class="form-control" />
 				</div>
 			</div>
-			<div class="form-group">
-				<p:outputLabel for="inputCustomer" value="Customer" class="col-sm-4 control-label"/>
+			<div class="group-has-inputTextarea">
+				<p:outputLabel for="inputCustomer" value="Customer"
+					class="dlg-label col-sm-4 control-label" />
 				<div class="col-sm-8">
 					<p:inputTextarea id="inputCustomer" autoResize="false" rows="5"
-						value="#{projectManagementBean.project.customer}" class="form-control"/>
+						value="#{projectManagementBean.project.customer}"
+						class="form-control" />
 				</div>
 			</div>
-			<div class="form-group">
-				<p:outputLabel for="inputStartDate" value="Start date" class="col-sm-4 control-label"/>
-				<div class="col-sm-8">
-					<p:calendar id="inputStartDate" value="#{projectManagementBean.project.startDate}" 
-						mode="popup" class="form-control"/>
+			<div class="group-has-calendar">
+				<p:outputLabel for="inputStartDate" value="Start date"
+					class="dlg-label col-sm-4 control-label" />
+				<div class="select-calendar-container col-sm-3">
+					<p:calendar id="inputStartDate"
+						value="#{projectManagementBean.project.startDate}" mode="popup"
+						class="select-calendar" />
 				</div>
 			</div>
-			<div class="form-group">
-				<p:outputLabel for="inputExpectedEndDate" value="Expected end date" class="col-sm-4 control-label"/>
-				<div class="col-sm-8">
-					<p:calendar id="inputExpectedEndDate" value="#{projectManagementBean.project.expectedEndDate}" 
-						mode="popup" class="form-control"/>
+			<div class="group-has-calendar">
+				<p:outputLabel for="inputExpectedEndDate" value="Expected end date"
+					class="dlg-label col-sm-4 control-label" />
+				<div class="select-calendar-container col-sm-3">
+					<p:calendar id="inputExpectedEndDate"
+						value="#{projectManagementBean.project.expectedEndDate}"
+						mode="popup" class="select-calendar" />
 				</div>
 			</div>
-			<div class="form-group">
-				<p:commandButton value="Add" class="btn btn-primary btn-sm col-sm-12" action="#{projectManagementBean.onAddProjectDlgAddBtnClick()}" 
-					update=":addNewProject,:showProjects"/>
-				<p:commandButton value="Cancel" class="btn btn-primary btn-sm col-sm-12" action="#{projectManagementBean.onAddProjectDlgCancelBtnClick()}"
-					update=":addNewProject"/>
+			<div class="group-2-sm-button">
+				<p:commandButton value="Add" class="dlg-button col-sm-4"
+					action="#{projectManagementBean.onAddProjectDlgAddBtnClick()}"
+					update=":addNewProject,:showProjects" />
+				<p:commandButton value="Cancel" class="dlg-button col-sm-4"
+					action="#{projectManagementBean.onAddProjectDlgCancelBtnClick()}"
+					update=":addNewProject" />
 			</div>
 		</h:form>
 	</p:dialog>

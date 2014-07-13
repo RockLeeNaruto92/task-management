@@ -6,12 +6,12 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
-	<h:form role="form" class="form-horizontal">
+	<h:form role="form" class="form-horizontal" id="showCategoryInfo">
 		<div class="form-group">
 			<p:outputLabel for="name" value="Name" class="col-md-4 control-label" />
 			<div class="col-md-8">
-				<p:outputLabel id="name"
-					value="#{skillCategoryBean.category.name}" class="form-control" />
+				<p:outputLabel id="name" value="#{skillCategoryBean.category.name}"
+					class="form-control" />
 			</div>
 		</div>
 		<div class="form-group">
@@ -19,8 +19,7 @@
 				class="col-md-4 control-label" />
 			<div class="col-md-8">
 				<p:inputTextarea id="description" class="form-control"
-					readonly="true"
-					value="#{skillCategoryBean.category.description}" />
+					readonly="true" value="#{skillCategoryBean.category.description}" />
 			</div>
 		</div>
 		<div class="form-group">
@@ -28,13 +27,56 @@
 				class="col-md-4 control-label" />
 			<div class="col-md-8">
 				<p:outputLabel id="status"
-					value="#{skillCategoryBean.category.status}"
-					class="form-control" />
+					value="#{skillCategoryBean.category.status}" class="form-control" />
 			</div>
 		</div>
+		<div class="form-group">
+			<p:commandButton value="Edit" class="save-btn col-sm-12"
+				action="#{skillCategoryBean.onEditLinkClick()}"
+				update=":tab:editCategoryDlg" />
+		</div>
 	</h:form>
-	<h:form>
-		<p:commandLink value="Edit"
-			action="#{skillCategoryBean.onEditLinkClick()}" />
-	</h:form>
+
+
+	<!-- Edit category dialog -->
+	<p:dialog id="editCategoryDlg" header="Edit category"
+		widgetVar="dlgEditCategory"
+		visible="#{skillCategoryBean.editCategoryDlgShow}" width="50%">
+		<h:form id="formEditCategory" role="form">
+			<div class="group-has-inputText">
+				<p:outputLabel for="inputName" value="Name"
+					class="dlg-label col-sm-4 control-label" />
+				<div class="col-sm-8">
+					<p:inputText id="inputName"
+						value="#{skillCategoryBean.category.name}" class="form-control" />
+				</div>
+			</div>
+			<div class="group-has-inputTextarea">
+				<p:outputLabel for="inputDescription" value="Description"
+					class="dlg-label col-sm-4 control-label" />
+				<div class="col-sm-8">
+					<p:inputTextarea id="inputDescription"
+						value="#{skillCategoryBean.category.description}"
+						class="form-control" autoResize="false" rows="5" />
+				</div>
+			</div>
+			<div class="group-has-checkbox" id="status">
+				<p:outputLabel for="inputStatus" value="Status"
+					class="dlg-label col-sm-4 control-label" />
+				<div class="col-sm-8">
+					<p:selectBooleanCheckbox id="inputStatus"
+						value="#{skillCategoryBean.category.status}" class="form-control">
+					</p:selectBooleanCheckbox>
+				</div>
+			</div>
+			<div class="group-2-sm-button">
+				<p:commandButton value="Save" class="dlg-button col-sm-4"
+					action="#{skillCategoryBean.onEditCategoryDlgAddBtnClick()}"
+					update=":tab:showCategoryInfo,:tab:editCategoryDlg" />
+				<p:commandButton value="Cancel" class="dlg-button col-sm-4"
+					action="#{skillCategoryBean.onEditCategoryDlgCancelBtnClick()}"
+					update=":tab:editCategoryDlg" />
+			</div>
+		</h:form>
+	</p:dialog>
 </ui:composition>

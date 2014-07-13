@@ -21,6 +21,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.primefaces.event.SelectEvent;
+import org.primefaces.event.TabChangeEvent;
 
 @Named
 @ViewScoped
@@ -38,6 +39,7 @@ public class UserManagementBean implements Serializable {
 	
 	
 	private boolean addUserDlgShow;
+	private boolean editUserDlgShow;
 	private boolean addSkillDlgShow;
 	private String path;
 	private String managerUsername;
@@ -138,6 +140,14 @@ public class UserManagementBean implements Serializable {
 		this.addSkillDlgShow = addSkillDlgShow;
 	}
 
+	public boolean isEditUserDlgShow() {
+		return editUserDlgShow;
+	}
+
+	public void setEditUserDlgShow(boolean editUserDlgShow) {
+		this.editUserDlgShow = editUserDlgShow;
+	}
+
 	/* END GETTER AND SETTER METHOD*/
 	/**************************************/
 	/**
@@ -151,6 +161,7 @@ public class UserManagementBean implements Serializable {
 		
 		this.addUserDlgShow = false;
 		this.addSkillDlgShow = false;
+		this.editUserDlgShow = false;
 		this.path = Page.USER_BASIC_INFO;
 	}
 	
@@ -208,9 +219,31 @@ public class UserManagementBean implements Serializable {
 	 * On Edit link click
 	 */
 	public void onEditLinkClick(){
-		this.path = Page.USER_EDIT;
+		this.editUserDlgShow = true;
 	}
 	
+	/**
+	 * on edit user dialog's save button click
+	 */
+	public void onEditUserDlgSaveBtnClick(){
+		if (checkForm()){
+			user = uController.save(user);
+			
+			Utils.addMessage("Saved!");
+			this.editUserDlgShow = false;
+		}
+	}
+	
+	/**
+	 * on edit user dialog's cancel button click
+	 */
+	public void onEditUserDlgCancelBtnClick(){
+		this.editUserDlgShow = false;
+	}
+	
+	/**
+	 * on add skill btn clic
+	 */
 	public void onAddSkillBtnClick(){
 		this.addSkillDlgShow = true;
 	}
@@ -319,6 +352,10 @@ public class UserManagementBean implements Serializable {
 	public void onRowSelect(SelectEvent event){
 		user = (User)event.getObject();
 		
+		for (UserSkill us : user.getUserSkills()) {
+			System.out.println("on row select: " + us.getSkill().getId());
+		}
+		
 		indexBean.setPath(Page.USER_VIEW);
 		indexBean.setTopic(Topic.USER_INFO);
 	}
@@ -382,5 +419,15 @@ public class UserManagementBean implements Serializable {
 	 */
 	public List<String> getSuggestlistUserMethod(String tag){
 		return uController.getListUser(tag);
+	}
+	
+	public void onTabChange(TabChangeEvent event){
+		String tabTitle = event.getTab().getTitle();
+		
+		if (tabTitle.equals("Basic information")){
+			onBasicInformationLinkClick();
+		}else {
+			onSkillSetLinkClick();
+		}
 	}
 }

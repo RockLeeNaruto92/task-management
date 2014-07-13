@@ -7,9 +7,9 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	<!-- Show Project user list  -->
-	<p:panel id="showUsers">
-		<p:dataTable value="#{projectManagementBean.project.users}" var="user"
-			paginator="true" rows="10">
+	<h:form id="showUserForm">
+		<p:dataTable id="showUsers"
+			value="#{projectManagementBean.project.users}" var="user">
 			<f:facet name="header">Users list of project</f:facet>
 
 			<p:column headerText="Username">
@@ -23,27 +23,38 @@
 				</h:form>
 			</p:column>
 		</p:dataTable>
-	</p:panel>
+	</h:form>
 
-	<!-- Show add user button -->	
-	<p:panel>
-		<h:form role="form" class="form-horizontal">
-			<p:commandButton value="Assign user" class="btn btn-primary btn-sm" action="#{projectManagementBean.onAssignUserBtnClick()}" update=":assignUserDlg"/>
-		</h:form>
-	</p:panel>
-	
+	<!-- Show add user button -->
+	<h:form role="form" class="form-horizontal" id="userAddBtn">
+		<p:commandButton value="Assign user"
+			class="assign-user-to-project-btn"
+			action="#{projectManagementBean.onAssignUserBtnClick()}"
+			update=":tab:assignUserDlg" />
+	</h:form>
+
 	<!-- Add user dialog -->
-	<p:dialog id="assignUserDlg" header="Assign user" widgetVar="dlgAssignUser" width="500" visible="#{projectManagementBean.assignUserDlgShow}">
+	<p:dialog id="assignUserDlg" header="Assign user"
+		widgetVar="dlgAssignUser" width="25%"
+		visible="#{projectManagementBean.assignUserDlgShow}">
 		<h:form id="formAssignUser" role="form">
-			<div class="form-group">
-				<p:outputLabel for="inputUserName" value="Username" class="col-sm-4 control-label"/>
-				<div class="col-sm-8">
-					<p:autoComplete id="inputUserName" value="#{projectManagementBean.username}" completeMethod="#{projectManagementBean.addUserCompleteMethod}" class="form-control"/>
+			<div class="group-has-inputText">
+				<p:outputLabel for="inputUserName" value="Username"
+					class="dlg-label col-sm-4 control-label" />
+				<div class="input-autocomplete-container col-sm-8">
+					<p:autoComplete id="inputUserName"
+						value="#{projectManagementBean.username}"
+						completeMethod="#{projectManagementBean.addUserCompleteMethod}"
+						class="input-autocomplete" />
 				</div>
 			</div>
-			<div class="form-group">
-				<p:commandButton value="Assign" class="btn btn-primary btn-sm col-sm-12" action="#{projectManagementBean.onAssignUserDlgAddBtnClick()}" update=":showUsers,:assignUserDlg"/>
-				<p:commandButton value="Cancel" class="btn btn-primary btn-sm col-sm-12" action="#{projectManagementBean.onAssignUserDlgCancelBtnClick()}" update=":assignUserDlg"/>
+			<div class="group-2-sm-button">
+				<p:commandButton value="Assign" class="dlg-button col-sm-4"
+					action="#{projectManagementBean.onAssignUserDlgAddBtnClick()}"
+					update=":tab:showUserForm:showUsers,:tab:assignUserDlg" />
+				<p:commandButton value="Cancel" class="dlg-button col-sm-4"
+					action="#{projectManagementBean.onAssignUserDlgCancelBtnClick()}"
+					update=":tab:assignUserDlg" />
 			</div>
 		</h:form>
 	</p:dialog>

@@ -6,53 +6,143 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
-	<h:form role="form" class="form-horizontal">
+	<h:form role="form" class="form-horizontal" id="showUserInfo">
 		<div class="form-group">
-			<p:outputLabel for="username" value="Username" class="col-md-4 control-label" />
+			<p:outputLabel for="username" value="Username"
+				class="col-md-4 control-label" />
 			<div class="col-md-8">
-				<p:outputLabel id="username" value="#{userManagementBean.user.username}" class="form-control" />
+				<p:outputLabel id="username"
+					value="#{userManagementBean.user.username}" class="form-control" />
 			</div>
 		</div>
 		<div class="form-group">
 			<p:outputLabel for="fullname" value="Fullname"
 				class="col-md-4 control-label" />
 			<div class="col-md-8">
-				<p:outputLabel id="fullname" value="#{userManagementBean.user.fullname}" class="form-control" />
+				<p:outputLabel id="fullname"
+					value="#{userManagementBean.user.fullname}" class="form-control" />
 			</div>
 		</div>
 		<div class="form-group">
-			<p:outputLabel for="doB" value="Date of birth" class="col-md-4 control-label" />
+			<p:outputLabel for="doB" value="Date of birth"
+				class="col-md-4 control-label" />
 			<div class="col-md-8">
-				<p:outputLabel id="doB" value="#{userManagementBean.user.doB}" class="form-control" />
+				<p:outputLabel id="doB" value="#{userManagementBean.user.doB}"
+					class="form-control" />
 			</div>
 		</div>
 		<div class="form-group">
-			<p:outputLabel for="hiredDate" value="Hired date" class="col-md-4 control-label" />
+			<p:outputLabel for="hiredDate" value="Hired date"
+				class="col-md-4 control-label" />
 			<div class="col-md-8">
-				<p:outputLabel id="hiredDate" value="#{userManagementBean.user.hiredDate}" class="form-control" />
+				<p:outputLabel id="hiredDate"
+					value="#{userManagementBean.user.hiredDate}" class="form-control" />
 			</div>
 		</div>
 		<div class="form-group">
-			<p:outputLabel for="gender" value="Gender" class="col-md-4 control-label" />
+			<p:outputLabel for="gender" value="Gender"
+				class="col-md-4 control-label" />
 			<div class="col-md-8">
-				<p:outputLabel id="gender" value="#{userManagementBean.user.gender}" class="form-control" />
+				<p:outputLabel id="gender" value="#{userManagementBean.user.gender}"
+					class="form-control" />
 			</div>
 		</div>
 		<div class="form-group">
-			<p:outputLabel for="position" value="Position" class="col-md-4 control-label" />
+			<p:outputLabel for="position" value="Position"
+				class="col-md-4 control-label" />
 			<div class="col-md-8">
-				<p:outputLabel id="position" value="#{userManagementBean.user.position}" class="form-control" />
+				<p:outputLabel id="position"
+					value="#{userManagementBean.user.position}" class="form-control" />
 			</div>
 		</div>
 		<div class="form-group">
-			<p:outputLabel for="manager" value="Manager" class="col-md-4 control-label" />
+			<p:outputLabel for="manager" value="Manager"
+				class="col-md-4 control-label" />
 			<div class="col-md-8">
-				<p:commandLink id="manager" value="#{userManagementBean.user.manager.username}"/>
+				<p:commandLink id="manager"
+					value="#{userManagementBean.user.manager.username}" />
 			</div>
+		</div>
+		<div class="form-group">
+			<p:commandButton value="Edit" class="save-btn col-sm-12"
+				action="#{userManagementBean.onEditLinkClick()}"
+				update=":tab:editUserDlg" />
 		</div>
 	</h:form>
-	<h:form>
-		<p:commandLink value="Edit"
-			action="#{userManagementBean.onEditLinkClick()}" update=":showBasicUserInfo"/>
-	</h:form>
+
+	<!-- Edit user dialog -->
+	<p:dialog id="editUserDlg" header="Edit user" widgetVar="dlgEditUser"
+		width="50%" visible="#{userManagementBean.editUserDlgShow}">
+		<h:form id="formEditProject" role="form">
+			<div class="group-has-inputText">
+				<p:outputLabel for="inputUserName" value="Username"
+					class="dlg-label col-sm-4 control-label" />
+				<div class="col-sm-8">
+					<p:inputText id="inputUserName" readonly="true"
+						value="#{userManagementBean.user.username}" class="form-control" />
+				</div>
+			</div>
+			<div class="group-has-inputText">
+				<p:outputLabel for="inputFullname" value="Fullname"
+					class="dlg-label col-sm-4 control-label" />
+				<div class="col-sm-8">
+					<p:inputText id="inputFullname"
+						value="#{userManagementBean.user.fullname}" class="form-control" />
+				</div>
+			</div>
+			<div class="group-has-calendar">
+				<p:outputLabel for="inputDob" value="Date of birth"
+					class="dlg-label col-sm-4 control-label" />
+				<div class="select-calendar-container col-sm-3">
+					<p:calendar id="inputDob" value="#{userManagementBean.user.doB}"
+						mode="popup" class="select-calendar" />
+				</div>
+			</div>
+			<div class="group-has-calendar">
+				<p:outputLabel for="inputHiredDate" value="Hired date"
+					class="dlg-label col-sm-4 control-label" />
+				<div class="select-calendar-container col-sm-3">
+					<p:calendar id="inputHiredDate"
+						value="#{userManagementBean.user.hiredDate}" mode="popup"
+						class="select-calendar" />
+				</div>
+			</div>
+			<div class="group-has-select-menu">
+				<p:outputLabel for="inputGender" value="Gender"
+					class="dlg-label col-sm-4 control-label" />
+				<div class="col-sm-8">
+					<p:selectOneMenu id="inputGender"
+						value="#{userManagementBean.user.gender}">
+						<f:selectItem itemLabel="Male" itemValue="0" />
+						<f:selectItem itemLabel="Female" itemValue="1" />
+						<f:selectItem itemLabel="Other" itemValue="2" />
+					</p:selectOneMenu>
+				</div>
+			</div>
+			<div class="group-has-inputText">
+				<p:outputLabel for="inputPosition" value="Position"
+					class="dlg-label col-sm-4 control-label" />
+				<div class="col-sm-8">
+					<p:inputText id="inputPosition"
+						value="#{userManagementBean.user.position}" class="form-control" />
+				</div>
+			</div>
+			<div class="group-has-inputText">
+				<p:outputLabel for="inputManager" value="Manager"
+					class="dlg-label col-sm-4 control-label" />
+				<div class="col-sm-8">
+					<p:inputText id="inputManager"
+						value="#{userManagementBean.user.manager}" class="form-control" />
+				</div>
+			</div>
+			<div class="group-2-sm-button">
+				<p:commandButton value="Save" class="dlg-button col-sm-4"
+					action="#{userManagementBean.onEditUserDlgSaveBtnClick()}"
+					update=":tab:editUserDlg, :tab:showUserInfo" />
+				<p:commandButton value="Cancel" class="dlg-button col-sm-4"
+					action="#{userManagementBean.onEditUserDlgCancelBtnClick()}"
+					update=":tab:editUserDlg" />
+			</div>
+		</h:form>
+	</p:dialog>
 </ui:composition>

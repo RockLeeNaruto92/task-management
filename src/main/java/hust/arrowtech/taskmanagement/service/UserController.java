@@ -35,7 +35,7 @@ public class UserController implements Serializable{
 	 */
 	@SuppressWarnings("unchecked")
 	public List<User> getAllUser(){
-		String queryStr = "SELECT u FROM User u";
+		String queryStr = "SELECT u FROM Users u";
 		Query query = this.emCreator.getEm().createQuery(queryStr);
 		
 		return query.getResultList();
@@ -89,12 +89,12 @@ public class UserController implements Serializable{
 	public List<String> getListUser(String tag){
 		System.out.println("Tag:" + tag);
 		
-		String queryStr = "SELECT u.username FROM User u WHERE u.username LIKE :tag";
+		String queryStr = "SELECT u.username FROM Users u WHERE u.username LIKE :tag";
 		Query query = this.emCreator.getEm().createQuery(queryStr);
 		
 		query.setParameter("tag", tag + "%");
 		
 		return query.getResultList();
-		
 	}
+	
 }

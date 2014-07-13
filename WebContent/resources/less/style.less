@@ -1,0 +1,140 @@
+@import "../css/bootstrap-3.2.0/less/bootstrap.less";
+
+a.annoying{
+	&:extend(.btn);
+	&:extend(.btn-danger);
+	&:extend(.btn-large);
+}
+
+/** p:calendar style **/
+input.hasDatepicker{
+	padding-left: 33%;
+	width: 100%;
+	height: 100%;
+	textAlign: center;
+}
+
+/** p.dialog elements*/
+.group-has-inputText{
+	&:extend(.form-group);
+	width: 100%;
+	height: 40px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.group-has-inputTextarea{
+	&:extend(.form-group);
+	width: 100%; 
+	height: 120px; 
+	margin-top:10px; 
+	margin-bottom: 10px;
+}
+
+.group-has-calendar{
+	&:extend(.form-group);
+	width: 100%; 
+	height: 34px; 
+	margin-top: 10px; 
+	margin-bottom: 10px;
+}
+
+.group-has-select-menu, .group-has-checkbox{
+	&:extend(.form-group);
+	
+	width: 100%;
+	height: 34px;
+}
+
+div.ui-selectonemenu, .input-text{
+	width: 100% !important;
+} 
+
+div.select-calendar-container, div.input-autocomplete-container, div.select-one-menu-container{
+	height: 100%;
+}
+
+div span.select-calendar, div span input-autocomplete{
+	&:extend(.form-control);
+	height: 100% !important;
+    padding-left: 0px;
+    border-left-width: 0px;
+    padding-right: 0px;
+    padding-bottom: 0px;
+    padding-top: 0px;
+    border-bottom-width: 0px;
+    border-right-width: 0px;
+    border-top-width: 0px;
+}
+
+.group-2-sm-button{
+	&:extend(.form-group);
+    margin-top: 15px;
+}
+
+button.dlg-button{
+	&:extend(.btn);
+	&:extend(.btn-default);
+	&:extend(.btn-sm);
+	
+    margin-right: 8.33%;
+    margin-left: 8.33%;
+    margin-top: 15px;
+    margin-bottom: 15px;
+	
+}
+
+label.dlg-label{
+	margin-top: 10px;
+}
+
+label.ui-selectonemenu-label{
+	width: 100% !important;
+}
+
+h3 > span.main-label{
+	&:extend(.label);
+	&:extend(.label-info);
+	
+	margin-bottom: 4%;
+}
+
+ul.ui-tabs-nav{
+	width: 100% !important;
+	height: 100% !important;
+}
+
+.main-navigation{
+	margin-left: 5%;
+}
+
+button.save-btn,
+button.add-new-project-btn, 
+button.add-new-skill-btn, 
+button.add-new-category-btn, 
+button.add-new-user-btn,
+button.add-new-task-type-btn,
+button.add-new-task-btn,
+button.assign-user-to-project-btn,
+button.assign-task-type-to-project-btn,
+button.add-new-milestone-btn{
+	&:extend(.btn);
+	&:extend(.btn-default);
+	&:extend(.btn-sm);
+	
+	margin-top: 5%;
+}
+
+div#tab{
+    border-top-width: 1px;
+    border-left-width: 0px;
+    border-bottom-width: 0px;
+    border-right-width: 0px;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    
+}
+
+div#showProjects, div#showUsers, div#showCategories, div#showTasktypes{
+    margin-top: 7%;
+}

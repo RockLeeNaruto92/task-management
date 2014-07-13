@@ -35,6 +35,17 @@ public class CategoryController implements Serializable {
 	public SkillCategory find(int id) {
 		return this.emCreator.getEm().find(SkillCategory.class, id);
 	}
+	
+	/**
+	 * Update skill cateogory object
+	 * @param category
+	 * @return
+	 */
+	public SkillCategory update(SkillCategory category){
+		category = this.emCreator.getEm().merge(category);
+		
+		return category;
+	}
 
 	/**
 	 * Get all categories in database

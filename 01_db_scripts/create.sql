@@ -38,7 +38,7 @@ COMMENT ON COLUMN project.id IS 'Project id';
 
 -- DROP TABLE "user";
 
-CREATE TABLE "user"
+CREATE TABLE "users"
 (
   username text NOT NULL,
   fullname text,
@@ -79,6 +79,25 @@ WITH (
   OIDS=FALSE
 );
 ALTER TABLE project_user
+  OWNER TO postgres;
+
+  
+-- Table: skill_category
+
+-- DROP TABLE skill_category;
+
+CREATE TABLE skill_category
+(
+  id integer NOT NULL,
+  description character varying(255),
+  name character varying(255),
+  status boolean,
+  CONSTRAINT skill_category_pkey PRIMARY KEY (id )
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE skill_category
   OWNER TO postgres;
 
 
@@ -236,4 +255,33 @@ WITH (
   OIDS=FALSE
 );
 ALTER TABLE project_tasktype
+  OWNER TO postgres;
+
+  
+-- Table: task
+
+-- DROP TABLE task;
+
+CREATE TABLE task
+(
+  id integer NOT NULL,
+  name text,
+  description text,
+  type integer,
+  estimate_point integer,
+  start_date date,
+  due_date date,
+  project_id integer,
+  CONSTRAINT pk_task PRIMARY KEY (id ),
+  CONSTRAINT fk_task_2_project FOREIGN KEY (project_id)
+      REFERENCES project (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_task_2_tasktype FOREIGN KEY (type)
+      REFERENCES task_type (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE task
   OWNER TO postgres;

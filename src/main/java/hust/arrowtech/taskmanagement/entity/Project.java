@@ -1,11 +1,20 @@
 package hust.arrowtech.taskmanagement.entity;
 
 import java.io.Serializable;
-
-import javax.persistence.*;
-
 import java.util.Date;
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 
 /**
@@ -67,6 +76,10 @@ public class Project implements Serializable {
 	//bi-directional many-to-one association to ProjectSkill
 	@OneToMany(mappedBy="project", fetch=FetchType.EAGER)
 	private List<ProjectSkill> projectSkills;
+
+	//bi-directional many-to-one association to Task
+	@OneToMany(mappedBy="project", fetch=FetchType.EAGER)
+	private List<Task> tasks;
 
 	//bi-directional many-to-many association to TaskType
 	@ManyToMany(mappedBy="projects", fetch=FetchType.EAGER)
@@ -194,6 +207,28 @@ public class Project implements Serializable {
 		return projectSkill;
 	}
 
+	public List<Task> getTasks() {
+		return this.tasks;
+	}
+
+	public void setTasks(List<Task> tasks) {
+		this.tasks = tasks;
+	}
+
+	public Task addTask(Task task) {
+		getTasks().add(task);
+		task.setProject(this);
+
+		return task;
+	}
+
+	public Task removeTask(Task task) {
+		getTasks().remove(task);
+		task.setProject(null);
+
+		return task;
+	}
+
 	public List<TaskType> getTaskTypes() {
 		return this.taskTypes;
 	}
@@ -205,8 +240,13 @@ public class Project implements Serializable {
 	public void addUser(User user){
 		this.users.add(user);
 	}
-
+	
 	public void addTasktype(TaskType tasktype){
 		this.taskTypes.add(tasktype);
 	}
+	
+	public void removeTasktype(TaskType tasktype){
+		this.taskTypes.remove(tasktype);
+	}
+	
 }

@@ -7,48 +7,48 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	<h:form role="form" class="form-horizontal">
-		<div class="form-group">
-			<p:outputLabel for="name" value="Name" class="col-md-4 control-label" />
+		<div class="group-has-inputText">
+			<p:outputLabel for="name" value="Name" class="dlg-label col-md-4 control-label" />
 			<div class="col-md-8">
 				<p:inputText id="name" value="#{projectManagementBean.project.name}" class="form-control" />
 			</div>
 		</div>
-		<div class="form-group">
+		<div class="group-has-inputTextarea">
 			<p:outputLabel for="description" value="Description"
-				class="col-md-4 control-label" />
+				class="dlg-label col-md-4 control-label" />
 			<div class="col-md-8">
 				<p:inputTextarea id="description" class="form-control"
 					value="#{projectManagementBean.project.description}" />
 			</div>
 		</div>
-		<div class="form-group">
+		<div class="group-has-inputTextarea">
 			<p:outputLabel for="customer" value="Customer"
-				class="col-md-4 control-label" />
+				class="dlg-label col-md-4 control-label" />
 			<div class="col-md-8">
 				<p:inputTextarea id="customer" class="form-control"
 					value="#{projectManagementBean.project.customer}" />
 			</div>
 		</div>
-		<div class="form-group">
+		<div class="group-has-calendar">
 			<p:outputLabel for="startDate" value="Start date"
-				class="col-md-4 control-label" />
-			<div class="col-md-8">
+				class="dlg-label col-md-4 control-label" />
+			<div class="select-calendar-container col-md-3">
 				<p:calendar id="startDate" mode="popup"
 					value="#{projectManagementBean.project.startDate}"
-					class="form-control" />
+					class="select-calendar" />
 			</div>
 		</div>
-		<div class="form-group">
+		<div class="group-has-calendar">
 			<p:outputLabel for="expectedEndDate" value="expectedEndDate"
-				class="col-md-4 control-label" />
-			<div class="col-md-8">
+				class="dlg-label col-md-4 control-label" />
+			<div class="select-calendar-container col-md-3">
 				<p:calendar id="expectedEndDate" mode="popup"
 					value="#{projectManagementBean.project.expectedEndDate}"
-					class="form-control" />
+					class="select-calendar" />
 			</div>
 		</div>
 		<div class="form-group">
-			<p:commandButton value="Save" action="#{projectManagementBean.onEditFormSaveBtnClick()}" update=":showBasicProjectInfo"/>
+			<p:commandButton value="Save" action="#{projectManagementBean.onEditFormSaveBtnClick()}"/>
 		</div>
 	</h:form>
 </ui:composition>

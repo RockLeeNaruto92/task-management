@@ -4,21 +4,23 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 	<persistence-unit name="TaskManagement"
 		transaction-type="JTA">
+		<jta-data-source>java:jboss/datasources/business_traceability</jta-data-source> 
+		<class>hust.arrowtech.taskmanagement.entity.Milestone</class>
 		<class>hust.arrowtech.taskmanagement.entity.Project</class>
 		<class>hust.arrowtech.taskmanagement.entity.ProjectSkill</class>
 		<class>hust.arrowtech.taskmanagement.entity.ProjectSkillPK</class>
 		<class>hust.arrowtech.taskmanagement.entity.Skill</class>
 		<class>hust.arrowtech.taskmanagement.entity.SkillCategory</class>
+		<class>hust.arrowtech.taskmanagement.entity.Task</class>
+		<class>hust.arrowtech.taskmanagement.entity.TaskType</class>
 		<class>hust.arrowtech.taskmanagement.entity.User</class>
 		<class>hust.arrowtech.taskmanagement.entity.UserSkill</class>
 		<class>hust.arrowtech.taskmanagement.entity.UserSkillPK</class>
-		<class>hust.arrowtech.taskmanagement.entity.Milestone</class>
-		<class>hust.arrowtech.taskmanagement.entity.TaskType</class>
+		<class>hust.arrowtech.taskmanagement.entity.ProjectTasktype</class>
+		<class>hust.arrowtech.taskmanagement.entity.ProjectTasktypePK</class>
 		<!-- Difference between JTA and RESOURCE_LOCAL (non-jta): http://tomee.apache.org/jpa-concepts.html -->
 		<!-- <non-jta-data-source>myNonJtaDataSource</non-jta-data-source> -->
-		<!-- <jta-data-source>java:jboss/datasources/testDb</jta-data-source> -->
 		<properties>
-			<property name="hibernate.hbm2ddl.auto" value="create-drop" />  
 			<property name="hibernate.show_sql" value="true" />
 		</properties>
 	</persistence-unit>

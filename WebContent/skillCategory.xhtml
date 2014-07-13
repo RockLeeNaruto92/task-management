@@ -6,51 +6,66 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
+
 	<!-- show categories -->
-	<p:panel id="showCategories">
-		<p:dataTable value="#{skillCategoryBean.categories}" var="category"
-			selectionMode="single" rowKey="#{category.id}" rowIndexVar="rowIndex">
-			<p:ajax event="rowSelect" listener="#{skillCategoryBean.onRowSelect}" update=":main_content" />
-			
-			<f:facet name="header">Categories list</f:facet>
-			
-			<p:column headerText="Name">#{category.name}</p:column>
-			<p:column headerText="Description">#{category.description}</p:column>
-			<p:column headerText="Status">#{category.status}</p:column>
-		</p:dataTable>
-	</p:panel>
-	
+	<p:dataTable id="showCategories"
+		value="#{skillCategoryBean.categories}" var="category"
+		selectionMode="single" rowKey="#{category.id}" rowIndexVar="rowIndex">
+		<p:ajax event="rowSelect" listener="#{skillCategoryBean.onRowSelect}"
+			update=":main_content" />
+
+		<f:facet name="header">Categories list</f:facet>
+
+		<p:column headerText="Name">#{category.name}</p:column>
+		<p:column headerText="Description">#{category.description}</p:column>
+		<p:column headerText="Status">#{category.status}</p:column>
+	</p:dataTable>
+
 	<!-- show button add new category -->
 	<h:form role="form">
-		<p:commandButton value="Add new category" class="btn btn-primary btn-sm" action="#{skillCategoryBean.onAddCategoryBtnClick()}" update=":addCategoryDlg"/>
+		<p:commandButton value="Add new category" class="add-new-category-btn"
+			action="#{skillCategoryBean.onAddCategoryBtnClick()}"
+			update=":addCategoryDlg" />
 	</h:form>
-	
+
 	<!-- Dialog  -->
-	<p:dialog id="addCategoryDlg" header="Add new category" widgetVar="dlgAddCategory" visible="#{skillCategoryBean.addCategoryDlgShow}">
+	<p:dialog id="addCategoryDlg" header="Add new category"
+		widgetVar="dlgAddCategory"
+		visible="#{skillCategoryBean.addCategoryDlgShow}" width="50%">
 		<h:form id="formAddCategory" role="form">
-			<div class="form-group">
-				<p:outputLabel for="inputName" value="Name" class="col-sm-4 control-label"/>
+			<div class="group-has-inputText">
+				<p:outputLabel for="inputName" value="Name"
+					class="dlg-label col-sm-4 control-label" />
 				<div class="col-sm-8">
-					<p:inputText id="inputName" value="#{skillCategoryBean.category.name}" class="form-control"/>
+					<p:inputText id="inputName"
+						value="#{skillCategoryBean.category.name}" class="form-control" />
 				</div>
 			</div>
-			<div class="form-group">
-				<p:outputLabel for="inputDescription" value="Description" class="col-sm-4 control-label"/>
+			<div class="group-has-inputTextarea">
+				<p:outputLabel for="inputDescription" value="Description"
+					class="dlg-label col-sm-4 control-label" />
 				<div class="col-sm-8">
-					<p:inputTextarea id="inputDescription" value="#{skillCategoryBean.category.description}" class="form-control" 
-						autoResize="false" rows="5"/>
+					<p:inputTextarea id="inputDescription"
+						value="#{skillCategoryBean.category.description}"
+						class="form-control" autoResize="false" rows="5" />
 				</div>
 			</div>
-			<div class="form-group" id="status">
-				<p:outputLabel for="inputStatus" value="Status" class="col-sm-4 control-label"/>
+			<div class="group-has-checkbox" id="status">
+				<p:outputLabel for="inputStatus" value="Status"
+					class="dlg-label col-sm-4 control-label" />
 				<div class="col-sm-8">
-					<p:selectBooleanCheckbox id="inputStatus" value="#{skillCategoryBean.category.status}" class="form-control">
+					<p:selectBooleanCheckbox id="inputStatus"
+						value="#{skillCategoryBean.category.status}" class="form-control">
 					</p:selectBooleanCheckbox>
 				</div>
 			</div>
-			<div class="form-group">
-				<p:commandButton value="Add" class="btn btn-primary btn-sm col-sm-12" action="#{skillCategoryBean.onAddCategoryDlgAddBtnClick()}"  update=":showCategories,:addCategoryDlg"/>
-				<p:commandButton value="Cancel" class="btn btn-primary btn-sm col-sm-12" action="#{skillCategoryBean.onAddCategoryDlgCancelBtnClick()}" update=":addCategoryDlg"/>
+			<div class="group-2-sm-button">
+				<p:commandButton value="Add" class="dlg-button col-sm-4"
+					action="#{skillCategoryBean.onAddCategoryDlgAddBtnClick()}"
+					update=":showCategories,:addCategoryDlg" />
+				<p:commandButton value="Cancel" class="dlg-button col-sm-4"
+					action="#{skillCategoryBean.onAddCategoryDlgCancelBtnClick()}"
+					update=":addCategoryDlg" />
 			</div>
 		</h:form>
 	</p:dialog>
