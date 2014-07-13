@@ -2,6 +2,7 @@ package hust.arrowtech.taskmanagement.entity;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.util.List;
 
 
 /**
@@ -17,7 +18,15 @@ public class ProjectTasktype implements Serializable {
 	@EmbeddedId
 	private ProjectTasktypePK id;
 
-	public ProjectTasktype() {
+	//bi-directional many-to-one association to Task
+	@OneToMany(mappedBy="projectTasktype", fetch=FetchType.EAGER)
+	private List<Task> tasks;
+
+	public ProjectTasktype(int projectId, int taskTypeId) {
+		this.id = new ProjectTasktypePK(projectId, taskTypeId);
+	}
+	
+	public ProjectTasktype(){
 	}
 
 	public ProjectTasktypePK getId() {
@@ -26,6 +35,28 @@ public class ProjectTasktype implements Serializable {
 
 	public void setId(ProjectTasktypePK id) {
 		this.id = id;
+	}
+
+	public List<Task> getTasks() {
+		return this.tasks;
+	}
+
+	public void setTasks(List<Task> tasks) {
+		this.tasks = tasks;
+	}
+
+	public Task addTask(Task task) {
+		getTasks().add(task);
+		task.setProjectTasktype(this);
+
+		return task;
+	}
+
+	public Task removeTask(Task task) {
+		getTasks().remove(task);
+		task.setProjectTasktype(null);
+
+		return task;
 	}
 
 }

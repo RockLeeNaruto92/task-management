@@ -34,20 +34,20 @@ public class Task implements Serializable {
 
 	//bi-directional many-to-one association to Project
 	@ManyToOne
-	@JoinColumn(name = "project_id", referencedColumnName = "id")
+	@JoinColumn(name = "project_id", referencedColumnName = "id", insertable = false, updatable = false)
 	private Project project;
 
 	//bi-directional many-to-one association to ProjectTasktype
 	@ManyToOne
 	@JoinColumns({
-		@JoinColumn(name="project_id", referencedColumnName="task_type_id", insertable = false, updatable = false),
-		@JoinColumn(name="type", referencedColumnName="project_id", insertable = false, updatable = false)
+		@JoinColumn(name="project_id", referencedColumnName="project_id"),
+		@JoinColumn(name="type", referencedColumnName="task_type_id")
 		})
 	private ProjectTasktype projectTasktype;
 
 	//bi-directional many-to-one association to TaskType
 	@ManyToOne
-	@JoinColumn(name="type", referencedColumnName = "id")
+	@JoinColumn(name="type", referencedColumnName = "id", insertable = false, updatable = false)
 	private TaskType taskType;
 
 	public Task() {

@@ -13,10 +13,10 @@ public class ProjectTasktypePK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
-	@Column(name="project_id", insertable=false, updatable=false)
+	@Column(name="project_id")
 	private Integer projectId;
 
-	@Column(name="task_type_id", insertable=false, updatable=false)
+	@Column(name="task_type_id")
 	private Integer taskTypeId;
 
 	public ProjectTasktypePK() {

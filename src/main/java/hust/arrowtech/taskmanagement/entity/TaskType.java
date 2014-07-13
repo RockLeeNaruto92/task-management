@@ -102,7 +102,7 @@ public class TaskType implements Serializable {
 	}
 	
 	public void removeProject(Project project){
-		this.projects.add(project);
+		this.projects.remove(project);
 	}
 
 }

@@ -4,6 +4,8 @@ import hust.arrowtech.taskmanagement.entity.Milestone;
 import hust.arrowtech.taskmanagement.entity.Project;
 import hust.arrowtech.taskmanagement.entity.ProjectSkill;
 import hust.arrowtech.taskmanagement.entity.ProjectSkillPK;
+import hust.arrowtech.taskmanagement.entity.ProjectTasktype;
+import hust.arrowtech.taskmanagement.entity.ProjectTasktypePK;
 import hust.arrowtech.taskmanagement.entity.SkillCategory;
 import hust.arrowtech.taskmanagement.entity.Task;
 import hust.arrowtech.taskmanagement.entity.TaskType;
@@ -28,7 +30,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.primefaces.event.CellEditEvent;
+import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.TabChangeEvent;
 
@@ -38,9 +40,9 @@ public class ProjectManagementBean implements Serializable {
 	/**
 	 * 
 	 */
-	
+
 	private static final long serialVersionUID = 2406018016768670150L;
-	
+
 	private List<Project> projects;
 	private List<SkillCategory> categories;
 	// Add, edit
@@ -50,8 +52,7 @@ public class ProjectManagementBean implements Serializable {
 	private User user;
 	private Milestone milestone;
 	private ProjectSkill projectSkill;
-	
-	
+
 	private boolean addProjectDlgShow;
 	private boolean assignUserDlgShow;
 	private boolean addSkillDlgShow;
@@ -59,12 +60,11 @@ public class ProjectManagementBean implements Serializable {
 	private boolean addTasktypeDlgShow;
 	private boolean addTaskDlgShow;
 	private boolean editProjectDlgShow;
-	
+
 	private boolean isValidForm;
 	private String path;
 	private String username;
-	
-	
+
 	@Inject
 	ProjectController prController;
 	@Inject
@@ -83,20 +83,18 @@ public class ProjectManagementBean implements Serializable {
 	ProjectTasktypeController ptController;
 	@Inject
 	IndexBean indexBean;
-	
-	
-	public ProjectManagementBean(){
-	}
-	
-	/**************************************/
-	/* START GETTER AND SETTER METHOD*/
 
+	public ProjectManagementBean() {
+	}
+
+	/**************************************/
+	/* START GETTER AND SETTER METHOD */
 
 	public List<Project> getProjects() {
-		if (projects == null){
+		if (projects == null) {
 			projects = prController.getAllProject();
 		}
-		
+
 		return projects;
 	}
 
@@ -105,7 +103,7 @@ public class ProjectManagementBean implements Serializable {
 	}
 
 	public List<SkillCategory> getCategories() {
-		if (categories == null){
+		if (categories == null) {
 			categories = cController.getAllCategories();
 		}
 		return categories;
@@ -158,7 +156,7 @@ public class ProjectManagementBean implements Serializable {
 	public boolean isValidForm() {
 		return isValidForm;
 	}
-	
+
 	public void setValidForm(boolean isValidForm) {
 		this.isValidForm = isValidForm;
 	}
@@ -243,13 +241,13 @@ public class ProjectManagementBean implements Serializable {
 		this.username = username;
 	}
 
-	/* END GETTER AND SETTER METHOD*/
+	/* END GETTER AND SETTER METHOD */
 	/**************************************/
 	/**
 	 * Do when constructed
 	 */
 	@PostConstruct
-	public void postConstruct(){
+	public void postConstruct() {
 		this.project = new Project();
 		this.user = new User();
 		this.tasktype = new TaskType();
@@ -258,7 +256,7 @@ public class ProjectManagementBean implements Serializable {
 		this.milestone = new Milestone();
 		this.projectSkill = new ProjectSkill();
 		this.projectSkill.setId(new ProjectSkillPK());
-		
+
 		this.addProjectDlgShow = false;
 		this.assignUserDlgShow = false;
 		this.addSkillDlgShow = false;
@@ -266,518 +264,547 @@ public class ProjectManagementBean implements Serializable {
 		this.addTasktypeDlgShow = false;
 		this.addTaskDlgShow = false;
 		this.editProjectDlgShow = false;
-		
+
 		this.path = Page.PROJECT_BASIC_INFO;
- 	}
-	
+	}
+
 	/**
 	 * On AddProjectDialog's Add Button Click
 	 */
-	public void onAddProjectDlgAddBtnClick(){
-		if (checkForm()){
+	public void onAddProjectDlgAddBtnClick() {
+		if (checkForm()) {
 			project = prController.add(project);
 			Utils.addMessage("Added new project: \"" + project.getName() + "\"");
-			
+
 			this.addProjectDlgShow = false;
 			reinit();
 		}
 	}
-	
+
 	/**
 	 * On AddProjectDialog's Cancel button click
 	 */
-	public void onAddProjectDlgCancelBtnClick(){
+	public void onAddProjectDlgCancelBtnClick() {
 		this.addProjectDlgShow = false;
 	}
-	
+
 	/**
 	 * On basicInformation link click
 	 */
-	public void onBasicInformationLinkClick(){
+	public void onBasicInformationLinkClick() {
 		this.path = Page.PROJECT_BASIC_INFO;
 	}
-	
+
 	/**
 	 * On user list link click
 	 */
-	public void onUserListLinkClick(){
+	public void onUserListLinkClick() {
 		this.path = Page.PROJECT_USER_LIST;
 	}
-	
+
 	/**
 	 * On skills set link click
 	 */
-	public void onSkillSetLinkClick(){
+	public void onSkillSetLinkClick() {
 		this.path = Page.PROJECT_SKILL_SET;
 	}
-	
+
 	/**
 	 * On milestone link click
 	 */
-	public void onMilestoneLinkClick(){
+	public void onMilestoneLinkClick() {
 		this.path = Page.PROJECT_MILESTONE;
 	}
-	
+
 	/**
 	 * On tasktype list link click
 	 */
-	public void onTasktypeListLinkClick(){
+	public void onTasktypeListLinkClick() {
 		this.path = Page.PROJECT_TASK_TYPE;
 	}
-	
+
 	/**
 	 * on task list link click
 	 */
-	public void onTaskListLinkClick(){
+	public void onTaskListLinkClick() {
 		this.path = Page.PROJECT_TASK_LIST;
 	}
-	
+
 	/**
 	 * On edit link click
 	 */
-	public void onEditLinkClick(){
+	public void onEditLinkClick() {
 		this.editProjectDlgShow = true;
 	}
-	
+
 	/**
 	 * on edit project dialog's save button click
 	 */
-	public void onEditProjectDlgSaveBtnClick(){
-		if (checkForm()){
+	public void onEditProjectDlgSaveBtnClick() {
+		if (checkForm()) {
 			// Check form ->true
 			project = prController.save(project);
-			
+
 			Utils.addMessage("Save");
 			this.editProjectDlgShow = false;
 		}
 	}
-	
+
 	/**
 	 * on edit project dialog's cancel button click
 	 */
-	public void onEditProjectDlgCancelBtnClick(){
+	public void onEditProjectDlgCancelBtnClick() {
 		this.editProjectDlgShow = false;
 	}
-	
+
 	/**
 	 * On assign user button click
 	 */
-	public void onAssignUserBtnClick(){
+	public void onAssignUserBtnClick() {
 		this.assignUserDlgShow = true;
 	}
-	
+
 	/**
 	 * On assignUserDialog's add button click
 	 */
-	public void onAssignUserDlgAddBtnClick(){
-		// Click vao button assign user 
+	public void onAssignUserDlgAddBtnClick() {
+		// Click vao button assign user
 		// Check form
-		if (checkAssignUserForm()){
+		if (checkAssignUserForm()) {
 			// check username is existed
 			user = uController.find(username);
-			if (user == null){
-				Utils.addMessage("User \"" + username +"\" is not existed!");
+			if (user == null) {
+				Utils.addMessage("User \"" + username + "\" is not existed!");
 				return;
 			}
-			
+
 			// Check if user already in project's user list
-			if (prController.isProjectContainUser(project, user)){
+			if (prController.isProjectContainUser(project, user)) {
 				Utils.addMessage("User is already in this project's user list!");
 				return;
 			}
-			
+
 			// else -> add to project's user list
 			prController.addUser(project, user);
-			Utils.addMessage("Added user \"" + user.getUsername() +"\" to project's user list!");
+			Utils.addMessage("Added user \"" + user.getUsername()
+					+ "\" to project's user list!");
 			this.assignUserDlgShow = false;
 		}
 	}
-	
+
 	/**
 	 * on assignUserDialog's cancel button click
 	 */
-	public void onAssignUserDlgCancelBtnClick(){
+	public void onAssignUserDlgCancelBtnClick() {
 		this.assignUserDlgShow = false;
 	}
-	
+
 	/**
 	 * On addSkill button click
 	 */
-	public void onAddSkillBtnClick(){
+	public void onAddSkillBtnClick() {
 		this.addSkillDlgShow = true;
 	}
-	
+
 	/**
 	 * on addSkillDialog's add button click
 	 */
-	public void onAddSkillDlgAddBtnClick(){
-		ProjectSkill ps = psController.find(project.getId(), projectSkill.getId().getSkillId());
-		
-		if (ps != null){
+	public void onAddSkillDlgAddBtnClick() {
+		ProjectSkill ps = psController.find(project.getId(), projectSkill
+				.getId().getSkillId());
+
+		if (ps != null) {
 			// if project already had skillId
-			Utils.addMessage("Project already had skill \"" + ps.getSkill().getName() + "\"");
+			Utils.addMessage("Project already had skill \""
+					+ ps.getSkill().getName() + "\"");
 			return;
 		}
-		
+
 		// else -> add skill to project's skill set
 		projectSkill.getId().setProjectId(project.getId());
 		projectSkill = psController.add(projectSkill);
-		
-		Utils.addMessage("Added skill to project \"" + project.getName() +"\" skills set!");
+
+		Utils.addMessage("Added skill to project \"" + project.getName()
+				+ "\" skills set!");
 		this.addSkillDlgShow = false;
 	}
-	
+
 	/**
 	 * on addSkillDialog's cancel button click
 	 */
-	public void onAddSkillDlgCancelBtnClick(){
+	public void onAddSkillDlgCancelBtnClick() {
 		this.addSkillDlgShow = false;
 	}
-	
+
 	/**
-	 * on add project button click  
+	 * on add project button click
 	 */
-	public void onAddProjectBtnClick(){
+	public void onAddProjectBtnClick() {
 		this.addProjectDlgShow = true;
 	}
-	
+
 	/**
 	 * Check assign user form in assign user dialog
+	 * 
 	 * @return
 	 */
-	public boolean checkAssignUserForm(){
-		if (username.equals("")){
+	public boolean checkAssignUserForm() {
+		if (username.equals("")) {
 			Utils.addMessage("Please input username field!");
 			return false;
 		}
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * Check form is inputed
+	 * 
 	 * @return
 	 */
-	private boolean checkForm(){
+	private boolean checkForm() {
 		// Check name
-		if (project.getName().equals("")){
+		if (project.getName().equals("")) {
 			Utils.addMessage("Please input name field!");
 			return false;
 		}
-		
+
 		// Check description
-		if (project.getDescription().equals("")){
+		if (project.getDescription().equals("")) {
 			Utils.addMessage("Please input description field!");
 			return false;
 		}
-		
+
 		// Check customer
-		if (project.getCustomer().equals("")){
+		if (project.getCustomer().equals("")) {
 			Utils.addMessage("Please input customer field!");
 			return false;
 		}
-		
+
 		// Check start date
-		if (project.getStartDate() == null){
+		if (project.getStartDate() == null) {
 			Utils.addMessage("Please input start date field!");
 			return false;
 		}
-		
+
 		// Check expected end date
-		if (project.getExpectedEndDate() == null){
+		if (project.getExpectedEndDate() == null) {
 			Utils.addMessage("Please input expected end date field!");
 			return false;
 		}
-		
+
 		// Compare start date and end date
-		if (project.getExpectedEndDate().compareTo(project.getStartDate()) < 0){
+		if (project.getExpectedEndDate().compareTo(project.getStartDate()) < 0) {
 			Utils.addMessage("Start date field must be before expected end date field!");
 			return false;
 		}
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * On add milestone button click
 	 */
-	public void onAddMilestoneBtnClick(){
+	public void onAddMilestoneBtnClick() {
 		this.addMilestoneDlgShow = true;
 	}
-	
+
 	/**
 	 * On addMilestoneDialog's add button click
 	 */
-	public void onAddMilestoneDlgAddBtnClick(){
+	public void onAddMilestoneDlgAddBtnClick() {
 		// check form is true?
-		if (checkAddMilestoneForm()){
+		if (checkAddMilestoneForm()) {
 			// set project for milestone
 			milestone.setProject(project);
 			// add milestone to database
 			mController.add(milestone);
-			
+
 			// project add milestone
 			project = prController.addMilestone(project, milestone);
-			
+
 			Utils.addMessage("Added milestone \"" + milestone.getName() + "\"");
-			
+
 			this.addMilestoneDlgShow = false;
 			this.milestone = new Milestone();
 		}
 	}
-	
+
 	/**
 	 * On addMilestoneDialog's cancel button click
 	 */
-	public void onAddMilestoneDlgCancelBtnClick(){
+	public void onAddMilestoneDlgCancelBtnClick() {
 		this.addMilestoneDlgShow = false;
 	}
-	
+
 	/**
 	 * Check inputed add milestone form
+	 * 
 	 * @return
 	 */
-	public boolean checkAddMilestoneForm(){
+	public boolean checkAddMilestoneForm() {
 		// Check name
-		if (milestone.getName().equals("")){
+		if (milestone.getName().equals("")) {
 			Utils.addMessage("Please input milestone's name field!");
 			return false;
 		}
-		
+
 		// Check Date
-		if (milestone.getDueDate() == null){
+		if (milestone.getDueDate() == null) {
 			Utils.addMessage("Please input milestone's dueDate field!");
 			return false;
 		}
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * Check inputed add task form
+	 * 
 	 * @return
 	 */
-	public boolean checkAddTaskForm(){
+	public boolean checkAddTaskForm() {
 		// Check name
-		if (task.getName().equals("")){
+		if (task.getName().equals("")) {
 			Utils.addMessage("Please input task's name field!");
 			return false;
 		}
-		
-		// check description 
-		if (task.getDescription().equals("")){
+
+		// check description
+		if (task.getDescription().equals("")) {
 			Utils.addMessage("Please input task's description field!");
 			return false;
 		}
-		
+
 		// check estimate point
-		if (task.getEstimatePoint() == null){
+		if (task.getEstimatePoint() == null) {
 			Utils.addMessage("Please input task's estimate point field!");
 			return false;
 		}
-		
+
 		// check start date
-		if (task.getStartDate() == null){
+		if (task.getStartDate() == null) {
 			Utils.addMessage("Please input task's start date field!");
 			return false;
 		}
-		
+
 		// check due date
-		if (task.getDueDate() == null){
+		if (task.getDueDate() == null) {
 			Utils.addMessage("Please input task's due date field!");
 			return false;
 		}
-		
+
 		// check start date is before due date
-		if (task.getStartDate().compareTo(task.getDueDate()) > 0){
+		if (task.getStartDate().compareTo(task.getDueDate()) > 0) {
 			Utils.addMessage("Task's start date must be before task's due date!");
 			return false;
 		}
-		
+
 		return true;
-		
+
 	}
-	
+
 	/**
 	 * On add tasktype button click
 	 */
-	public void onAddTasktypeBtnClick(){
+	public void onAddTasktypeBtnClick() {
 		this.addTasktypeDlgShow = true;
 	}
-	
+
 	/**
 	 * On add tasktype dialog's add button click
 	 */
-	public void onAddTasktypeDlgAddBtnClick(){
+	public void onAddTasktypeDlgAddBtnClick() {
 		// Find tasktype by id
 		tasktype = ttController.find(tasktype.getId());
 		// Check project already had tasktype???
-		if (prController.isProjectHadTasktype(project, tasktype)){
-			// if true -> return
-			Utils.addMessage("Project already had task type \"" + tasktype.getName() + "\"");
+		if (ptController.find(new ProjectTasktypePK(project.getId(), tasktype
+				.getId())) != null) {
+			Utils.addMessage("Project already had task type \""
+					+ tasktype.getName() + "\"");
+
 			return;
 		}
-		
+
 		// Add tasktype to project tasktypes list
-		ttController.addProject(tasktype, project);
-		prController.addTasktype(project, tasktype);
-		
-		Utils.addMessage("Added task type \"" + tasktype.getName() +"\"");
-		
+		project.addTasktype(tasktype);
+		ptController.add(project.getId(), tasktype.getId());
+
+		// Announce
+		Utils.addMessage("Added task type \"" + tasktype.getName() + "\"");
+
 		this.addTasktypeDlgShow = false;
 		this.tasktype = new TaskType();
 	}
-	
+
 	/**
 	 * On add tasktype dialog's cancel button click
 	 */
-	public void onAddTasktypeDlgCancelBtnClick(){
+	public void onAddTasktypeDlgCancelBtnClick() {
 		this.addTasktypeDlgShow = false;
 	}
-	
+
 	/**
 	 * on add task button click
 	 */
-	public void onAddTaskBtnClick(){
+	public void onAddTaskBtnClick() {
 		this.addTaskDlgShow = true;
 	}
-	
+
 	/**
 	 * on add task dialog's add button click
 	 */
-	public void onAddTaskDlgAddBtnClick(){
+	public void onAddTaskDlgAddBtnClick() {
 		// check inputed add task form
-		if (checkAddTaskForm()){
+		if (checkAddTaskForm()) {
 			// find tasktype
-			task.setTaskType(ttController.find(task.getTaskType().getId()));
-			task.setProject(project);
+			// task.setTaskType(ttController.find(task.getTaskType().getId()));
+			// task.setProject(project);
+
+			ProjectTasktype pt = new ProjectTasktype(project.getId(), task
+					.getTaskType().getId());
+			System.out.println("pt-projectId: " + pt.getId().getProjectId());
+			System.out.println("pt-tasktypeId: " + pt.getId().getTaskTypeId());
+
+			task.setProjectTasktype(new ProjectTasktype(project.getId(), task
+					.getTaskType().getId()));
 			// add task to database
 			tController.add(task);
 			// add task to project
 			prController.addTask(project, task);
-			
-			Utils.addMessage("Add new task \"" + task.getName() + "\" to project");
+
+			Utils.addMessage("Add new task \"" + task.getName()
+					+ "\" to project");
 			this.addTaskDlgShow = false;
-			
+
 			this.task = new Task();
 			this.task.setTaskType(new TaskType());
 		}
 	}
-	
+
 	/**
 	 * on add task dialog's cancel button click
 	 */
-	public void onAddTaskDlgCancelBtnClick(){
+	public void onAddTaskDlgCancelBtnClick() {
 		this.addTaskDlgShow = false;
 	}
-	
+
 	/**
 	 * Do when select a row
+	 * 
 	 * @param event
 	 */
-	public void onRowSelect(SelectEvent event){
-		project = (Project)event.getObject();
-		
+	public void onRowSelect(SelectEvent event) {
+		project = (Project) event.getObject();
+
 		indexBean.setTopic(Topic.PROJECT_INFO);
 		indexBean.setPath(Page.PROJECT_INFO);
 	}
-	
+
 	/**
 	 * 
 	 */
-	public void reinit(){
+	public void reinit() {
 		this.project = new Project();
 		this.projects = null;
 	}
-	
+
 	/**
 	 * 
 	 * @param choose
 	 * @param skillId
 	 * @return
 	 */
-	public String viewSkillInfo(int choose, int skillId){
+	public String viewSkillInfo(int choose, int skillId) {
 		ProjectSkill ps = psController.find(project.getId(), skillId);
-		
+
 		if (ps == null)
 			return null;
-		
+
 		switch (choose) {
 		case 0: // sho level A
 			if (ps.getLevel() == 0)
 				return "X";
-			else 
+			else
 				return null;
-		
+
 		case 1: // show level B
 			if (ps.getLevel() == 1)
 				return "X";
-			else 
+			else
 				return null;
-			
+
 		case 2: // show level C
 			if (ps.getLevel() == 3)
 				return "X";
-			else 
+			else
 				return null;
-			
+
 		case 3:
 			return ps.getExperienceYear() + "";
 
 		default:
 			break;
 		}
-		
+
 		return null;
 	}
-	
+
 	/**
 	 * 
 	 * @param tag
 	 * @return
 	 */
-	public List<String> addUserCompleteMethod(String tag){
+	public List<String> addUserCompleteMethod(String tag) {
 		return uController.getListUser(tag);
 	}
-	
-	public void onTabChange(TabChangeEvent event){
+
+	public void onTabChange(TabChangeEvent event) {
 		String tabTitle = event.getTab().getTitle();
-		
-		if (tabTitle.equals("Basic information")){
+
+		if (tabTitle.equals("Basic information")) {
 			onBasicInformationLinkClick();
-		}else if (tabTitle.equals("Users")){
+		} else if (tabTitle.equals("Users")) {
 			onUserListLinkClick();
-		}else if (tabTitle.equals("Skills")){
+		} else if (tabTitle.equals("Skills")) {
 			onSkillSetLinkClick();
-		}else if (tabTitle.equals("Milestones")){
+		} else if (tabTitle.equals("Milestones")) {
 			onMilestoneLinkClick();
-		}else if (tabTitle.equals("Task types")){
+		} else if (tabTitle.equals("Task types")) {
 			onTasktypeListLinkClick();
-		}else {
+		} else {
 			onTaskListLinkClick();
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param event
 	 */
-	public void onCellEdit(CellEditEvent event){
-		Milestone milestone = (Milestone)project.getMilestones().get(event.getRowIndex());
-		
+	public void onMilestoneRowEdit(RowEditEvent event) {
+		Milestone milestone = (Milestone) event.getObject();
+
 		milestone = mController.update(milestone);
-		
 		Utils.addMessage("Saved!");
 	}
 
 	/**
-	 * Remove the selected tasktype 
+	 * Remove the selected tasktype
 	 */
-	public void removeTasktype(){
-		project = prController.removeTasktype(project, tasktype);
-		
+	public void removeTasktype() {
+		project.removeTasktype(tasktype);
 		ptController.remove(project.getId(), tasktype.getId());
-		
+
 		Utils.addMessage("Remove tasktype \"" + tasktype.getName() + "\"");
+	}
+
+	/**
+	 * Remove the selected milestone
+	 */
+	public void removeMilestone() {
+		project.removeMilestone(milestone);
+		mController.remove(milestone);
+
+		Utils.addMessage("Remove milestone \"" + milestone.getName() + "\"");
 	}
 }

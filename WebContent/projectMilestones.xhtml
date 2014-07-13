@@ -8,39 +8,55 @@
 
 	<!-- Show Project milestone list  -->
 	<h:form id="showMilestoneForm">
+		<p:contextMenu for="showMilestones">
+			<p:menuitem value="Delete" update="showMilestones"
+				icon="ui-icon-close"
+				actionListener="#{projectManagementBean.removeMilestone}" />
+		</p:contextMenu>
+		
 		<p:dataTable id="showMilestones"
 			value="#{projectManagementBean.project.milestones}" var="milestone"
-			editable="true" editMode="cell">
+			editable="true" rowKey="#{milestone.id}" rowIndexVar="rowIndex"
+			selection="#{projectManagementBean.milestone}" selectionMode="single">
 			<f:facet name="header">Project's milestones list</f:facet>
 
+			<!--  
 			<p:ajax event="cellEdit"
 				listener="#{projectManagementBean.onCellEdit}"
 				update="showMilestones" />
+			-->
+			<p:ajax event="rowEdit"
+				listener="#{projectManagementBean.onMilestoneRowEdit}"
+				update="showMilestones" />
 
-			<p:column headerText="Name">
+			<p:column headerText="Name" class="col-sm-5">
 				<p:cellEditor>
 					<f:facet name="output">#{milestone.name}</f:facet>
 					<f:facet name="input">
-						<p:inputText value="#{milestone.name}" />
+						<p:inputText class="input-text" value="#{milestone.name}" />
 					</f:facet>
 				</p:cellEditor>
 
 			</p:column>
-			<p:column headerText="Due date">
+			<p:column headerText="Due date" class="col-sm-3">
 				<p:cellEditor>
 					<f:facet name="output">#{milestone.dueDate}</f:facet>
 					<f:facet name="input">
-						<p:calendar value="#{milestone.dueDate}" mode="popup" />
+						<p:calendar class="input-text" value="#{milestone.dueDate}" mode="popup" />
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
-			<p:column headerText="Version number">
+			<p:column headerText="Version number" class="col-sm-3">
 				<p:cellEditor>
 					<f:facet name="output">#{milestone.versionNumber}</f:facet>
 					<f:facet name="input">
-						<p:inputText value="#{milestone.versionNumber}" />
+						<p:inputText class="input-text" value="#{milestone.versionNumber}" />
 					</f:facet>
 				</p:cellEditor>
+			</p:column>
+
+			<p:column class="col-sm-1">
+				<p:rowEditor />
 			</p:column>
 		</p:dataTable>
 	</h:form>

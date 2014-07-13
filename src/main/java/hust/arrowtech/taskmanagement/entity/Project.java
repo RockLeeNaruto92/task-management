@@ -1,20 +1,11 @@
 package hust.arrowtech.taskmanagement.entity;
 
 import java.io.Serializable;
+
+import javax.persistence.*;
+
 import java.util.Date;
 import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 
 /**
@@ -60,19 +51,6 @@ public class Project implements Serializable {
 		)
 	private List<Skill> skills;
 
-	//bi-directional many-to-many association to User
-	@ManyToMany(fetch=FetchType.EAGER)
-	@JoinTable(
-		name="project_user"
-		, joinColumns={
-			@JoinColumn(name="projectid")
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="username")
-			}
-		)
-	private List<User> users;
-
 	//bi-directional many-to-one association to ProjectSkill
 	@OneToMany(mappedBy="project", fetch=FetchType.EAGER)
 	private List<ProjectSkill> projectSkills;
@@ -84,6 +62,10 @@ public class Project implements Serializable {
 	//bi-directional many-to-many association to TaskType
 	@ManyToMany(mappedBy="projects", fetch=FetchType.EAGER)
 	private List<TaskType> taskTypes;
+
+	//bi-directional many-to-many association to User
+	@ManyToMany(mappedBy="projects", fetch=FetchType.EAGER)
+	private List<User> users;
 
 	public Project() {
 	}
@@ -177,14 +159,6 @@ public class Project implements Serializable {
 		this.skills = skills;
 	}
 
-	public List<User> getUsers() {
-		return this.users;
-	}
-
-	public void setUsers(List<User> users) {
-		this.users = users;
-	}
-
 	public List<ProjectSkill> getProjectSkills() {
 		return this.projectSkills;
 	}
@@ -236,9 +210,21 @@ public class Project implements Serializable {
 	public void setTaskTypes(List<TaskType> taskTypes) {
 		this.taskTypes = taskTypes;
 	}
+
+	public List<User> getUsers() {
+		return this.users;
+	}
+
+	public void setUsers(List<User> users) {
+		this.users = users;
+	}
 	
 	public void addUser(User user){
 		this.users.add(user);
+	}
+	
+	public void removeUser(User user){
+		this.users.remove(user);
 	}
 	
 	public void addTasktype(TaskType tasktype){
@@ -248,5 +234,5 @@ public class Project implements Serializable {
 	public void removeTasktype(TaskType tasktype){
 		this.taskTypes.remove(tasktype);
 	}
-	
+
 }

@@ -33,4 +33,18 @@ public class ProjectTasktypeController implements Serializable {
 		
 		this.emCreator.getEm().remove(tasktype);
 	}
+	
+	/**
+	 * 
+	 * @param projectId
+	 * @param tasktypeId
+	 */
+	public ProjectTasktype add(int projectId, int tasktypeId){
+		ProjectTasktype projectTasktype = new ProjectTasktype(projectId, tasktypeId);
+		
+		this.emCreator.getEm().persist(projectTasktype);
+		assert projectTasktype != null;
+		
+		return projectTasktype;
+	}
 }

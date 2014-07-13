@@ -135,6 +135,19 @@ public class ProjectController implements Serializable{
 	}
 	
 	/**
+	 * 
+	 * @param project
+	 * @param tasktype
+	 * @return
+	 */
+	public Project removeTasktype(Project project, TaskType tasktype){
+		project.removeTasktype(tasktype);
+		this.emCreator.getEm().merge(project);
+		
+		return project;
+	}
+	
+	/**
 	 * Check project had tasktype?
 	 * @param project
 	 * @param tasktype
@@ -159,25 +172,14 @@ public class ProjectController implements Serializable{
 	 * @return
 	 */
 	public Project addTasktype(Project project, TaskType tasktype){
+		System.out.println("Project id: " + project.getId());
+		System.out.println("Tasktype id: " + tasktype.getId());
 		project.addTasktype(tasktype);
-		
 		this.emCreator.getEm().merge(project);
+		
 		return project;
 	}
 	
-	/**
-	 * 
-	 * @param project
-	 * @param tasktype
-	 * @return
-	 */
-	public Project removeTasktype(Project project, TaskType tasktype){
-		project.removeTasktype(tasktype);
-		
-		this.emCreator.getEm().merge(project);
-		
-		return project;
-	}
 	
 	/**
 	 * Add task that not have id to project
@@ -206,6 +208,4 @@ public class ProjectController implements Serializable{
 		
 		return hashmap;
 	}
-	
-	
 }

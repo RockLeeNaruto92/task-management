@@ -13,23 +13,17 @@ public class UserSkillPK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
-	@Column(insertable=false, updatable=false)
-	private String username;
-
 	@Column(name="skill_id", insertable=false, updatable=false)
 	private Integer skillId;
 
+	@Column(insertable=false, updatable=false)
+	private String username;
+
 	public UserSkillPK() {
 	}
-	public UserSkillPK(String username, Integer skillId) {
+	public UserSkillPK(Integer skillId, String username) {
 		super();
-		this.username = username;
 		this.skillId = skillId;
-	}
-	public String getUsername() {
-		return this.username;
-	}
-	public void setUsername(String username) {
 		this.username = username;
 	}
 	public Integer getSkillId() {
@@ -37,6 +31,12 @@ public class UserSkillPK implements Serializable {
 	}
 	public void setSkillId(Integer skillId) {
 		this.skillId = skillId;
+	}
+	public String getUsername() {
+		return this.username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public boolean equals(Object other) {
@@ -48,15 +48,15 @@ public class UserSkillPK implements Serializable {
 		}
 		UserSkillPK castOther = (UserSkillPK)other;
 		return 
-			this.username.equals(castOther.username)
-			&& this.skillId.equals(castOther.skillId);
+			this.skillId.equals(castOther.skillId)
+			&& this.username.equals(castOther.username);
 	}
 
 	public int hashCode() {
 		final int prime = 31;
 		int hash = 17;
-		hash = hash * prime + this.username.hashCode();
 		hash = hash * prime + this.skillId.hashCode();
+		hash = hash * prime + this.username.hashCode();
 		
 		return hash;
 	}

@@ -25,7 +25,7 @@ public class UserSkillController implements Serializable{
 	 * @return
 	 */
 	public UserSkill find(String username, int skillId){
-		UserSkillPK id = new UserSkillPK(username, skillId);
+		UserSkillPK id = new UserSkillPK(skillId, username);
 		
 		return this.emCreator.getEm().find(UserSkill.class, id);
 	}

@@ -7,10 +7,11 @@ import java.util.List;
 
 
 /**
- * The persistent class for the user database table.
+ * The persistent class for the users database table.
  * 
  */
-@Entity(name = "Users")
+@Entity(name="Users")
+@Table(name="users")
 @NamedQuery(name="User.findAll", query="SELECT u FROM Users u")
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -32,8 +33,21 @@ public class User implements Serializable {
 
 	private String position;
 
+	//bi-directional many-to-one association to UserSkill
+	@OneToMany(mappedBy="user", fetch=FetchType.EAGER)
+	private List<UserSkill> userSkills;
+
 	//bi-directional many-to-many association to Project
-	@ManyToMany(mappedBy="users", fetch=FetchType.EAGER)
+	@ManyToMany(fetch=FetchType.EAGER)
+	@JoinTable(
+		name="project_user"
+		, joinColumns={
+			@JoinColumn(name="username")
+			}
+		, inverseJoinColumns={
+			@JoinColumn(name="projectid")
+			}
+		)
 	private List<Project> projects;
 
 	//bi-directional many-to-one association to User
@@ -43,11 +57,7 @@ public class User implements Serializable {
 
 	//bi-directional many-to-one association to User
 	@OneToMany(mappedBy="manager", fetch=FetchType.EAGER)
-	private List<User> staffs;
-
-	//bi-directional many-to-one association to UserSkill
-	@OneToMany(mappedBy="user", fetch=FetchType.EAGER)
-	private List<UserSkill> userSkills;
+	private List<User> users;
 
 	public User() {
 	}
@@ -100,44 +110,6 @@ public class User implements Serializable {
 		this.position = position;
 	}
 
-	public List<Project> getProjects() {
-		return this.projects;
-	}
-
-	public void setProjects(List<Project> projects) {
-		this.projects = projects;
-	}
-
-	public User getManager() {
-		return this.manager;
-	}
-
-	public void setManager(User manager) {
-		this.manager = manager;
-	}
-
-	public List<User> getStaffs() {
-		return this.staffs;
-	}
-
-	public void setStaffs(List<User> staffs) {
-		this.staffs = staffs;
-	}
-
-	public User addStaff(User staff) {
-		getStaffs().add(staff);
-		staff.setManager(this);
-
-		return staff;
-	}
-
-	public User removeStaff(User staff) {
-		getStaffs().remove(staff);
-		staff.setManager(null);
-
-		return staff;
-	}
-
 	public List<UserSkill> getUserSkills() {
 		return this.userSkills;
 	}
@@ -158,6 +130,44 @@ public class User implements Serializable {
 		userSkill.setUser(null);
 
 		return userSkill;
+	}
+
+	public List<Project> getProjects() {
+		return this.projects;
+	}
+
+	public void setProjects(List<Project> projects) {
+		this.projects = projects;
+	}
+
+	public User getManager() {
+		return this.manager;
+	}
+
+	public void setManager(User manager) {
+		this.manager = manager;
+	}
+
+	public List<User> getUsers() {
+		return this.users;
+	}
+
+	public void setUsers(List<User> users) {
+		this.users = users;
+	}
+
+	public User addUser(User user) {
+		getUsers().add(user);
+		user.setManager(this);
+
+		return user;
+	}
+
+	public User removeUser(User user) {
+		getUsers().remove(user);
+		user.setManager(null);
+
+		return user;
 	}
 
 }

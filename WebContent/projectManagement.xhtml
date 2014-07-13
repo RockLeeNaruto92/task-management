@@ -16,11 +16,9 @@
 			listener="#{projectManagementBean.onRowSelect}"
 			update=":main_content" />
 
-		<p:column headerText="Name" class="col-md-2">#{project.name}</p:column>
-		<p:column headerText="Customer" class="col-md-2">#{project.customer}</p:column>
-		<p:column headerText="Description" class="col-md-4">#{project.description}</p:column>
-		<p:column headerText="Start date" class="col-md-2">#{project.startDate}</p:column>
-		<p:column headerText="Expected end date" class="col-md-2">#{project.expectedEndDate}</p:column>
+		<p:column headerText="Name" class="col-md-3">#{project.name}</p:column>
+		<p:column headerText="Customer" class="col-md-3">#{project.customer}</p:column>
+		<p:column headerText="Description" class="col-md-6">#{project.description}</p:column>
 	</p:dataTable>
 
 	<!-- Button add new project  -->

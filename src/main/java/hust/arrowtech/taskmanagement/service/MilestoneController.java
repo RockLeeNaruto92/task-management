@@ -43,6 +43,19 @@ public class MilestoneController implements Serializable{
 	}
 	
 	/**
+	 * Remove milestone
+	 * @param milestone
+	 * @return
+	 */
+	public Milestone remove(Milestone milestone){
+		milestone.setProject(null);
+		milestone = this.emCreator.getEm().merge(milestone);
+		this.emCreator.getEm().remove(milestone);
+		
+		return milestone;
+	}
+	
+	/**
 	 * Update existed milestone information
 	 * @param milestone
 	 * @return
