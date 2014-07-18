@@ -34,12 +34,14 @@
 
 	<h:form role="form" id="formaddskill">
 		<p:commandButton value="Add skill" class="add-new-skill-btn"
-			action="#{userManagementBean.addSkillDlgShow}" update=":tab:addSkillDlg" />
+			action="#{userManagementBean.onAddSkillBtnClick()}" update=":tab:addSkillDlg" />
+		<p:commandButton value="Export" class="add-new-skill-btn" ajax="false"
+			action="#{userManagementBean.onExportBtnClick()}"/>
 	</h:form>
 
 
 	<!-- Dialog -->
-	<p:dialog id="addSkillDlg" widgetVar="dlgAddSkill" width="40%">
+	<p:dialog id="addSkillDlg" widgetVar="dlgAddSkill" width="40%" visible="#{userManagementBean.addSkillDlgShow}">
 		<h:form role="form">
 			<div class="group-has-select-menu">
 				<p:outputLabel for="selectSkill" value="Skill"

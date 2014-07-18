@@ -35,7 +35,6 @@ public class ProjectSkillController implements Serializable{
 	 * @return
 	 */
 	public ProjectSkill add(ProjectSkill projectSkill){
-		
 		this.emCreator.getEm().persist(projectSkill);
 		assert projectSkill != null;
 		

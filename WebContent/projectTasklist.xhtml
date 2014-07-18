@@ -10,8 +10,13 @@
 	<h:form id="showTaskForm">
 		<p:dataTable id="showTasklists"
 			value="#{projectManagementBean.project.tasks}" var="task"
-			editable="true" editMode="cell">
+			editable="true" rowKey="#{task.id}" rowIndexVar="rowIndex"
+			selection="#{projectManagementBean.task}" selectionMode="single">
 			<f:facet name="header">Tasks list</f:facet>
+
+			<p:ajax event="rowEdit"
+				listener="#{projectManagementBean.onTaskRowEdit}"
+				update="showTasklists" />
 
 			<p:column headerText="Name">
 				<p:cellEditor>
@@ -25,8 +30,8 @@
 				<p:cellEditor>
 					<f:facet name="output">#{task.description}</f:facet>
 					<f:facet name="input">
-						<p:inputTextarea value="#{task.description}" rows="5"
-							autoResize="false" />
+						<p:inputTextarea class="input-text" value="#{task.description}"
+							rows="5" autoResize="false" />
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
@@ -34,7 +39,7 @@
 				<p:cellEditor>
 					<f:facet name="output">#{task.taskType.name}</f:facet>
 					<f:facet name="input">
-						<p:selectOneMenu value="#{task.taskType.id}">
+						<p:selectOneMenu value="#{task.taskType.id}" class="input-text">
 							<f:selectItems
 								value="#{tasktypeController.getHashMapTasktype(projectManagementBean.project.taskTypes)}" />
 						</p:selectOneMenu>
@@ -46,25 +51,30 @@
 					<f:facet name="output">#{task.estimatePoint}</f:facet>
 					<f:facet name="input">
 						<p:inputMask mask="9999" id="inputEstimatePoint"
-							value="#{task.estimatePoint}" />
+							class="input-text" value="#{task.estimatePoint}" />
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
 			<p:column headerText="Start date">
 				<p:cellEditor>
-					<f:facet name="output">#{task.startDate}</f:facet>
+					<f:facet name="output">#{projectManagementBean.showSqlDate(task.startDate)}</f:facet>
 					<f:facet name="input">
-						<p:calendar value="#{task.startDate}" mode="popup" />
+						<p:calendar value="#{task.startDate}" mode="popup" effect="fold"
+							pattern="dd/MM/yyyy" class="input-text" />
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
 			<p:column headerText="Due date">
 				<p:cellEditor>
-					<f:facet name="output">#{task.dueDate}</f:facet>
+					<f:facet name="output">#{projectManagementBean.showSqlDate(task.dueDate)}</f:facet>
 					<f:facet name="input">
-						<p:calendar value="#{task.dueDate}" mode="popup"></p:calendar>
+						<p:calendar value="#{task.dueDate}" mode="popup" effect="fold"
+							pattern="dd/MM/yyyy" class="input-text" />
 					</f:facet>
 				</p:cellEditor>
+			</p:column>
+			<p:column class="col-sm-1">
+				<p:rowEditor />
 			</p:column>
 		</p:dataTable>
 	</h:form>
@@ -112,7 +122,7 @@
 				<p:outputLabel for="inputEstimatePoint" value="Estimate point"
 					class="dlg-label col-sm-4 control-label" />
 				<div class="col-sm-8">
-					<p:inputMask mask="9999" id="inputEstimatePoint"
+					<p:inputMask mask="21" id="inputEstimatePoint"
 						value="#{projectManagementBean.task.estimatePoint}"
 						class="form-control" />
 				</div>
@@ -123,7 +133,7 @@
 				<div class="select-calendar-container col-sm-8">
 					<p:calendar id="inputStartDate"
 						value="#{projectManagementBean.task.startDate}" mode="popup"
-						class="select-calendar" />
+						effect="fold" pattern="dd/MM/yyyy" class="select-calendar" />
 				</div>
 			</div>
 			<div class="group-has-calendar">
@@ -132,7 +142,7 @@
 				<div class="select-calendar-container col-sm-8">
 					<p:calendar id="inputDueDate"
 						value="#{projectManagementBean.task.dueDate}" mode="popup"
-						class="select-calendar" />
+						effect="fold" pattern="dd/MM/yyyy" class="select-calendar" />
 				</div>
 			</div>
 			<div class="group-2-sm-button">

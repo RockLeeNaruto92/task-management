@@ -48,8 +48,7 @@
 			<id>business-traceability-repo</id>
 			<url>http://192.168.1.3:2222/nexus/content/groups/business_traceability</url>
 			<layout>default</layout>
-		</repository>
-
+		</repository>	
 	</repositories>
 
 	<dependencyManagement>
@@ -313,7 +312,6 @@
 			<scope>test</scope>
 		</dependency>
 
-
 		<!-- Create Mockup Context, For Unit Test Conversation Components -->
 		<dependency>
 			<groupId>pl.itcrowd.mock-contexts-extension</groupId>
@@ -328,6 +326,11 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.9</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -374,9 +377,6 @@
 		<profile>
 			<id>unit-testing</id>
 			<dependencies>
-
-
-
 			</dependencies>
 		</profile>
 	</profiles>

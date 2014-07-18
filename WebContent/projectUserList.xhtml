@@ -11,7 +11,6 @@
 		<p:dataTable id="showUsers"
 			value="#{projectManagementBean.project.users}" var="user">
 			<f:facet name="header">Users list of project</f:facet>
-
 			<p:column headerText="Username">
 				<h:form role="form">
 					<p:commandLink value="#{user.username}" />
@@ -31,6 +30,20 @@
 			class="assign-user-to-project-btn"
 			action="#{projectManagementBean.onAssignUserBtnClick()}"
 			update=":tab:assignUserDlg" />
+	</h:form>
+
+	<h:form id="suggestUsersForm" class="suggest-user-form">
+		<p:dataGrid var="i" value="#{projectManagementBean.index}"
+			id="showSuggestUsers" columns="1">
+			<h:panelGrid columns="2" class="suggest-user">
+				<p:commandLink
+					value="#{projectManagementBean.users.get(i).username}" />
+				<p:commandLink value="Assign user"
+					disabled="#{projectManagementBean.getDisable(projectManagementBean.users.get(i))}"
+					action="#{projectManagementBean.onAssignUserLinkClick(projectManagementBean.users.get(i))}"
+					update=":tab:suggestUsersForm:showSuggestUsers,:tab:showUserForm:showUsers" />
+			</h:panelGrid>
+		</p:dataGrid>
 	</h:form>
 
 	<!-- Add user dialog -->

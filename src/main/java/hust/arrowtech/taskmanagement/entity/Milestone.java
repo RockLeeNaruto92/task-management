@@ -4,13 +4,12 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
 
-
 /**
  * The persistent class for the milestone database table.
  * 
  */
 @Entity
-@NamedQuery(name="Milestone.findAll", query="SELECT m FROM Milestone m")
+@NamedQuery(name = "Milestone.findAll", query = "SELECT m FROM Milestone m")
 public class Milestone implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -18,15 +17,18 @@ public class Milestone implements Serializable {
 	private Integer id;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="\"dueDate\"")
+	@Column(name = "\"dueDate\"")
 	private Date dueDate;
 
 	private String name;
 
-	@Column(name="version_number")
+	@Column(name = "project_id", insertable = false, updatable = false)
+	private Integer projectId;
+
+	@Column(name = "version_number")
 	private String versionNumber;
 
-	//bi-directional many-to-one association to Project
+	// bi-directional many-to-one association to Project
 	@ManyToOne
 	private Project project;
 
@@ -57,6 +59,14 @@ public class Milestone implements Serializable {
 		this.name = name;
 	}
 
+	public Integer getProjectId() {
+		return this.projectId;
+	}
+
+	public void setProjectId(Integer projectId) {
+		this.projectId = projectId;
+	}
+
 	public String getVersionNumber() {
 		return this.versionNumber;
 	}
@@ -66,7 +76,7 @@ public class Milestone implements Serializable {
 	}
 
 	public Project getProject() {
-		return this.project;
+		return project;
 	}
 
 	public void setProject(Project project) {

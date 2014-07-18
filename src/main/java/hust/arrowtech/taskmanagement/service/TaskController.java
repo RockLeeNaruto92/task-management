@@ -1,6 +1,5 @@
 package hust.arrowtech.taskmanagement.service;
 
-import hust.arrowtech.taskmanagement.entity.Project;
 import hust.arrowtech.taskmanagement.entity.Task;
 import hust.arrowtech.taskmanagement.util.EmCreator;
 
@@ -45,21 +44,18 @@ public class TaskController implements Serializable{
 		
 		return task;
 	}
-
+	
 	/**
-	 * Set project for task and update task in databawe
+	 * 
 	 * @param task
-	 * @param project
 	 * @return
 	 */
-	public Task setProject(Task task, Project project){
-		task.setProject(project);
+	public Task update(Task task){
+		task = this.emCreator.getEm().merge(task);
 		
-		this.emCreator.getEm().merge(task);
 		return task;
 	}
-	
-	
+
 	/**
 	 * Get all task in database
 	 * @return

@@ -8,9 +8,11 @@
 
 	<h:form role="form" class="form-horizontal">
 		<div class="group-has-inputText">
-			<p:outputLabel for="name" value="Name" class="dlg-label col-md-4 control-label" />
+			<p:outputLabel for="name" value="Name"
+				class="dlg-label col-md-4 control-label" />
 			<div class="col-md-8">
-				<p:inputText id="name" value="#{projectManagementBean.project.name}" class="form-control" />
+				<p:inputText id="name" value="#{projectManagementBean.project.name}"
+					class="form-control" />
 			</div>
 		</div>
 		<div class="group-has-inputTextarea">
@@ -35,7 +37,7 @@
 			<div class="select-calendar-container col-md-3">
 				<p:calendar id="startDate" mode="popup"
 					value="#{projectManagementBean.project.startDate}"
-					class="select-calendar" />
+					class="select-calendar" effect="fold" pattern="dd/MM/yyyy" />
 			</div>
 		</div>
 		<div class="group-has-calendar">
@@ -44,11 +46,12 @@
 			<div class="select-calendar-container col-md-3">
 				<p:calendar id="expectedEndDate" mode="popup"
 					value="#{projectManagementBean.project.expectedEndDate}"
-					class="select-calendar" />
+					class="select-calendar" effect="fold" pattern="dd/MM/yyyy" />
 			</div>
 		</div>
 		<div class="form-group">
-			<p:commandButton value="Save" action="#{projectManagementBean.onEditFormSaveBtnClick()}"/>
+			<p:commandButton value="Save"
+				action="#{projectManagementBean.onEditFormSaveBtnClick()}" />
 		</div>
 	</h:form>
 </ui:composition>

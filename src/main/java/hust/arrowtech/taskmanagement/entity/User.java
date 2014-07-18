@@ -169,5 +169,11 @@ public class User implements Serializable {
 
 		return user;
 	}
+	
+	public Project addProject(Project project){
+		getProjects().add(project);
+		
+		return project;
+	}
 
 }

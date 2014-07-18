@@ -13,7 +13,7 @@
 				icon="ui-icon-close"
 				actionListener="#{projectManagementBean.removeMilestone}" />
 		</p:contextMenu>
-		
+
 		<p:dataTable id="showMilestones"
 			value="#{projectManagementBean.project.milestones}" var="milestone"
 			editable="true" rowKey="#{milestone.id}" rowIndexVar="rowIndex"
@@ -40,9 +40,11 @@
 			</p:column>
 			<p:column headerText="Due date" class="col-sm-3">
 				<p:cellEditor>
-					<f:facet name="output">#{milestone.dueDate}</f:facet>
+					<f:facet name="output">#{projectManagementBean.showSqlDate(milestone.dueDate)}</f:facet>
 					<f:facet name="input">
-						<p:calendar class="input-text" value="#{milestone.dueDate}" mode="popup" />
+						<p:calendar class="input-text" value="#{milestone.dueDate}"
+							mode="popup" pattern="dd/MM/yyyy" effect="fold">
+						</p:calendar>
 					</f:facet>
 				</p:cellEditor>
 			</p:column>

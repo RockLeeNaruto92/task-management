@@ -14,6 +14,8 @@ import hust.arrowtech.taskmanagement.util.Utils;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -242,9 +244,14 @@ public class UserManagementBean implements Serializable {
 	}
 	
 	/**
-	 * on add skill btn clic
+	 * on add skill btn click
 	 */
 	public void onAddSkillBtnClick(){
+		System.out.println("Usermanagement: onAddSkillBtnclick");
+		for (UserSkill us : user.getUserSkills()) {
+			System.out.println("skill.Id : " + us.getSkill().getId() + "-" + us.getSkill().getName());
+		}
+		
 		this.addSkillDlgShow = true;
 	}
 	
@@ -421,6 +428,10 @@ public class UserManagementBean implements Serializable {
 		return uController.getListUser(tag);
 	}
 	
+	/**
+	 * 
+	 * @param event
+	 */
 	public void onTabChange(TabChangeEvent event){
 		String tabTitle = event.getTab().getTitle();
 		
@@ -429,5 +440,44 @@ public class UserManagementBean implements Serializable {
 		}else {
 			onSkillSetLinkClick();
 		}
+	}
+	
+	/**
+	 * on export button click
+	 */
+	public void onExportBtnClick(){
+		String fileName = user.getUsername() + "-skills.xls";
+		String sheetName = "Skills set";
+
+		Map<String, Object[]> data = new TreeMap<String, Object[]>();
+		int i = 0;
+		
+		data.put(i++ + "", new Object[]{Utils.GROUP_HEADER, user.getUsername()});
+		data.put(i++ + "", new Object[]{Utils.GROUP_HEADER, "Name", "Level A", "Level B", "Level C", "Experience year"});
+
+		for (SkillCategory category : categories) {
+			data.put(i++ + "",new Object[] {Utils.GROUP_HEADER, category.getName()});
+
+			for (Skill skill : category.getSkills()) {
+				UserSkill us = usController.find(user.getUsername(), skill.getId());
+				Object[] objArray = new Object[6];
+				
+				objArray[0] = Utils.MEMBER;
+				objArray[1] = skill.getName();
+				
+				if (us != null){
+					objArray[2] = (us.getLevel() == 0) ? "X" : "";
+					objArray[3] = (us.getLevel() == 1) ? "X" : "";
+					objArray[4] = (us.getLevel() == 2) ? "X" : "";
+					objArray[5] = us.getYearOfExperience().toString(); 
+				}
+				
+				data.put(i++ + "", objArray);
+				
+			}
+		}
+		
+		Utils.writeToExcel(fileName, sheetName, data);
+		Utils.addMessage("Export to file!");
 	}
 }

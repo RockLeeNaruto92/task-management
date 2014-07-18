@@ -26,6 +26,8 @@
 		<p:commandButton value="Add new category" class="add-new-category-btn"
 			action="#{skillCategoryBean.onAddCategoryBtnClick()}"
 			update=":addCategoryDlg" />
+		<p:commandButton value="Export" class="add-new-category-btn" ajax="false"
+			action="#{skillCategoryBean.onExportBtnClick()}"/>
 	</h:form>
 
 	<!-- Dialog  -->

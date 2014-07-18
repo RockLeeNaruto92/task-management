@@ -116,6 +116,6 @@ public class CategoryController implements Serializable {
 		}
 		
 		return skills;
-		
 	}
+	
 }

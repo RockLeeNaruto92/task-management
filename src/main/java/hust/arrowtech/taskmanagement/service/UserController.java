@@ -1,5 +1,6 @@
 package hust.arrowtech.taskmanagement.service;
 
+import hust.arrowtech.taskmanagement.entity.Project;
 import hust.arrowtech.taskmanagement.entity.User;
 import hust.arrowtech.taskmanagement.entity.UserSkill;
 import hust.arrowtech.taskmanagement.util.EmCreator;
@@ -97,4 +98,9 @@ public class UserController implements Serializable{
 		return query.getResultList();
 	}
 	
+	public void addProject(User user, Project project){
+		user.addProject(project);
+		
+		user = this.emCreator.getEm().merge(user);
+	}
 }

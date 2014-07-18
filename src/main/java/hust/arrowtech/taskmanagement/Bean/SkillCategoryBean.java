@@ -10,6 +10,8 @@ import hust.arrowtech.taskmanagement.util.Utils;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -27,38 +29,35 @@ public class SkillCategoryBean implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 2406018016768670150L;
-	
+
 	private List<SkillCategory> categories;
 	private SkillCategory category;
 	private Skill skill;
-	
+
 	private String status;
 	private String path;
 	private boolean addCategoryDlgShow;
 	private boolean addSkillDlgShow;
 	private boolean editCategoryDlgShow;
-	
-	
+
 	@Inject
 	IndexBean indexBean;
 	@Inject
 	CategoryController cController;
 	@Inject
 	SkillController sController;
-	
-	public SkillCategoryBean(){
-	}
-	
-	/**************************************/
-	/* START GETTER AND SETTER METHOD*/
 
-	
+	public SkillCategoryBean() {
+	}
+
+	/**************************************/
+	/* START GETTER AND SETTER METHOD */
 
 	public List<SkillCategory> getCategories() {
-		if (categories == null){
+		if (categories == null) {
 			categories = cController.getAllCategories();
 		}
-		
+
 		return categories;
 	}
 
@@ -122,223 +121,253 @@ public class SkillCategoryBean implements Serializable {
 		this.addSkillDlgShow = addSkillDlgShow;
 	}
 
-	/* END GETTER AND SETTER METHOD*/
+	/* END GETTER AND SETTER METHOD */
 	/**************************************/
 	/**
 	 * Do when constructed
 	 */
 	@PostConstruct
-	public void postConstruct(){
+	public void postConstruct() {
 		this.category = new SkillCategory();
 		this.skill = new Skill();
-		
+
 		this.path = Page.SKILL_CATEGORY_BASIC_INFO;
 		this.status = "Disable";
 		this.addCategoryDlgShow = false;
 		this.addSkillDlgShow = false;
 		this.editCategoryDlgShow = false;
 	}
-	
+
 	/**
 	 * On status checkbox of add new category dialog click
 	 */
-	public void onStatusCheckboxClick(){
-		if (this.status.equals("Disable")){
+	public void onStatusCheckboxClick() {
+		if (this.status.equals("Disable")) {
 			this.status = "Enable";
 		} else {
 			this.status = "Disable";
 		}
 	}
-	
+
 	/**
 	 * On add new category button click
 	 */
-	public void onAddCategoryBtnClick(){
+	public void onAddCategoryBtnClick() {
 		this.addCategoryDlgShow = true;
 	}
-	
+
 	/**
 	 * On addCategoryDialog's add button click
 	 */
-	public void onAddCategoryDlgAddBtnClick(){
-		if (checkAddCategoryForm()){
+	public void onAddCategoryDlgAddBtnClick() {
+		if (checkAddCategoryForm()) {
 			category = cController.add(category);
-			Utils.addMessage("Added new category \"" + category.getName() +"\"");
-			
+			Utils.addMessage("Added new category \"" + category.getName()
+					+ "\"");
+
 			this.addCategoryDlgShow = false;
 			reinit();
 		}
 	}
-	
+
 	/**
 	 * On addCategoryDialog's Cancel button click
 	 */
-	public void onAddCategoryDlgCancelBtnClick(){
+	public void onAddCategoryDlgCancelBtnClick() {
 		this.addCategoryDlgShow = false;
 	}
 
 	/**
 	 * on basicInformation link click
 	 */
-	public void onBasicInformationLinkClick(){
+	public void onBasicInformationLinkClick() {
 		this.path = Page.SKILL_CATEGORY_BASIC_INFO;
 	}
-	
+
 	/**
 	 * on skills set link click
 	 */
-	public void onSkillSetLinkClick(){
+	public void onSkillSetLinkClick() {
 		this.path = Page.SKILL_CATEGORY_SKILL_SET;
 	}
-	
+
 	/**
 	 * on edit link click
 	 */
-	public void onEditLinkClick(){
+	public void onEditLinkClick() {
 		this.editCategoryDlgShow = true;
 	}
-	
+
 	/**
 	 * 
 	 */
-	public void onEditCategoryDlgAddBtnClick(){
-		if (checkAddCategoryForm()){
+	public void onEditCategoryDlgAddBtnClick() {
+		if (checkAddCategoryForm()) {
 			category = cController.update(category);
-			
+
 			Utils.addMessage("Saved");
 			this.editCategoryDlgShow = false;
 		}
 	}
-	
+
 	/**
 	 * 
 	 */
-	public void onEditCategoryDlgCancelBtnClick(){
+	public void onEditCategoryDlgCancelBtnClick() {
 		this.editCategoryDlgShow = false;
 	}
-	
+
 	/**
 	 * on add skill button click
 	 */
-	public void onAddSkillBtnClick(){
+	public void onAddSkillBtnClick() {
 		this.addSkillDlgShow = true;
 	}
-	
+
 	/**
-	 * on addSkillDialog's add button click 
+	 * on addSkillDialog's add button click
 	 */
-	public void onAddSkillDlgAddBtnClick(){
-		if (checkAddSkillForm()){
+	public void onAddSkillDlgAddBtnClick() {
+		if (checkAddSkillForm()) {
 			skill.setSkillCategory(category);
-			
+
 			category = cController.addSkill(category, skill);
-			Utils.addMessage("Added skill \"" + skill.getName() + "\" to category \"" + category.getName() + "\"");
-			
+			Utils.addMessage("Added skill \"" + skill.getName()
+					+ "\" to category \"" + category.getName() + "\"");
+
 			this.addSkillDlgShow = false;
 			skill = new Skill();
 		}
 	}
-	
+
 	/**
 	 * on addSkillDialog's cancel button click
 	 */
-	public void onAddSkillDlgCancelBtnClick(){
+	public void onAddSkillDlgCancelBtnClick() {
 		this.addSkillDlgShow = false;
 	}
-	
+
 	/**
 	 * Check inputed add skill form
+	 * 
 	 * @return
 	 */
-	public boolean checkAddSkillForm(){
+	public boolean checkAddSkillForm() {
 		// check name
-		if (skill.getName().equals("")){
+		if (skill.getName().equals("")) {
 			Utils.addMessage("Please input name field!");
 			return false;
 		}
-		
+
 		// Check description
-		if (skill.getDescription().equals("")){
+		if (skill.getDescription().equals("")) {
 			Utils.addMessage("Please input description field!");
 			return false;
 		}
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * Check inputed form
+	 * 
 	 * @return
 	 */
-	public boolean checkAddCategoryForm(){
+	public boolean checkAddCategoryForm() {
 		// Check name
-		if (category.getName().equals("")){
+		if (category.getName().equals("")) {
 			Utils.addMessage("Please input name field!");
 			return false;
 		}
-		
+
 		// Check description
-		if (category.getDescription().equals("")){
+		if (category.getDescription().equals("")) {
 			Utils.addMessage("Please input description field!");
 			return false;
 		}
-		
+
 		return true;
-		
+
 	}
-	
+
 	/**
 	 * Do when select a row
+	 * 
 	 * @param event
 	 */
-	public void onRowSelect(SelectEvent event){
-		category = (SkillCategory)event.getObject();
-		
+	public void onRowSelect(SelectEvent event) {
+		category = (SkillCategory) event.getObject();
+
 		indexBean.setPath(Page.SKILL_CATEGORY_VIEW);
 		indexBean.setTopic(Topic.SKILL_CATEGORY_INFORMATION);
 	}
-	
+
 	/**
 	 * Reinit
 	 */
-	public void reinit(){
+	public void reinit() {
 		this.categories = null;
 		this.category = new SkillCategory();
 	}
 
 	/**
 	 * Show status is enable or disable
+	 * 
 	 * @return
 	 */
-	public String showStatus(){
-		if (category == null) 
+	public String showStatus() {
+		if (category == null)
 			return "Disable";
-		
-		return (category.getStatus())? "Enable" : "Disable";
+
+		return (category.getStatus()) ? "Enable" : "Disable";
 	}
-	
+
 	/**
 	 * 
 	 * @param event
 	 */
-	public void onTabChange(TabChangeEvent event){
+	public void onTabChange(TabChangeEvent event) {
 		String tabTitle = event.getTab().getTitle();
-		
-		if (tabTitle.equals("Basic information")){
+
+		if (tabTitle.equals("Basic information")) {
 			onBasicInformationLinkClick();
-		}else {
+		} else {
 			onSkillSetLinkClick();
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param event
 	 */
-	public void onCellEdit(CellEditEvent event){
-		Skill skill = (Skill)category.getSkills().get(event.getRowIndex());
-		
+	public void onCellEdit(CellEditEvent event) {
+		Skill skill = (Skill) category.getSkills().get(event.getRowIndex());
+
 		skill = sController.update(skill);
 		Utils.addMessage("Saved!");
+	}
+
+	/**
+	 * on export button click
+	 */
+	public void onExportBtnClick() {
+		String fileName = "skill_category.xls";
+		String sheetName = "Skill category";
+
+		Map<String, Object[]> data = new TreeMap<String, Object[]>();
+		int i = 0;
+		
+		data.put(i++ + "", new Object[]{Utils.GROUP_HEADER, "Name", "Description", "Status"});
+
+		for (SkillCategory category : categories) {
+			data.put(i++ + "",new Object[] {Utils.GROUP_HEADER, category.getName(), category.getDescription(), category.getStatus() });
+
+			for (Skill skill : category.getSkills()) {
+				data.put(i++ + "", new Object[] {Utils.MEMBER, skill.getName(), skill.getDescription(), skill.getStatus() });
+			}
+		}
+		
+		Utils.writeToExcel(fileName, sheetName, data);
+		Utils.addMessage("Export to file!");
 	}
 }

@@ -6,6 +6,7 @@ import hust.arrowtech.taskmanagement.entity.Task;
 import hust.arrowtech.taskmanagement.entity.TaskType;
 import hust.arrowtech.taskmanagement.entity.User;
 import hust.arrowtech.taskmanagement.util.EmCreator;
+import hust.arrowtech.taskmanagement.util.Utils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -208,4 +209,40 @@ public class ProjectController implements Serializable{
 		
 		return hashmap;
 	}
+	
+	/**
+	 * 
+	 * @param project
+	 * @param users
+	 * @return
+	 */
+	public int[] getUserPriorityShow(Project project, List<User> users){
+		int[] sameSkillNumbers = new int[users.size()];
+		int[] index = new int[users.size()];
+		
+		int i = 0;
+		
+		// get same skill for each user
+		for (User user : users) {
+			sameSkillNumbers[i] = Utils.getPoint(project, user);
+			index[i] = i++;
+		}
+		
+		// sort index
+		for (i = 0; i < index.length; i++)
+			for (int j = 0; j < index.length; j++){
+				if (sameSkillNumbers[i] < sameSkillNumbers[j]){
+					int temp = sameSkillNumbers[i];
+					sameSkillNumbers[i] = sameSkillNumbers[j];
+					sameSkillNumbers[j] = temp;
+					
+					temp = index[i];
+					index[i] = index[j];
+					index[j] = temp;
+				}
+			}
+		
+		return index;
+	}
+	
 }
